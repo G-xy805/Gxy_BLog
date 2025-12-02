@@ -7,11 +7,13 @@
 </div>
 
 
-[**🖥️ Kael Demo**](https://demo.131714.xyz)
+[**🖥️ Kael Demo**](https://zayck-demo.pages.dev)
+[**🖥️ 我的博客**](https://zayck.pages.dev)
+
 
 ## 📷 预览
 
-![preview](https://picbed.xiaozhangya.xin/blog/preview-dark.png)
+![preview](https://s1.vika.cn/space/2025/12/02/7559170593c440c6a843cced5dd24c4a)
 
 ## ✨ 特点
 
@@ -23,6 +25,17 @@
 - ✅ RSS 订阅支持
 - 🛠️ 博客易上手
   - 只需在 `Kael.config.yaml` 配置你的博客内容
+
+## 📝 功能新增和修改
+- ✅ 新增文章详情页下方**打赏功能**
+- ✅ 新增文章详情页下方分享按钮**微信**、**QQ**、**微博**方式
+- ✅ 重构**about页面**，仿Markdown格式的页面浏览
+- ✅ 修改**导航栏背景**，由原来的毛玻璃透明效果改为纯色
+- ✅ 修改导航栏的**搜索框位置**，让其贴近右边的光暗调节按钮
+- ✅ 修改**搜索框内文字**的高对比度显示效果
+- ✅ 删除~~番组组件、樱花特效~~组件
+
+
 
 ## ✒️ 文章信息
 

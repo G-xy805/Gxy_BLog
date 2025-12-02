@@ -16,31 +16,31 @@ const socialLinks = [
     name: "Facebook",  
     icon: "ri:facebook-circle-line",  
     class: "bg-[#0866ff] hover:bg-[#0755d6]",  
-    url: `https://facebook.com/sharer/sharer.php?u=${url || ''}`,  
+    url: `https://facebook.com/sharer/sharer.php?u=${url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : ''}`,  
   }, 
   {  
     name: "微博",  
     icon: "ri:weibo-line",  
     class: "bg-[#E6162D] hover:bg-[#c5122a]",  
-    url: `https://service.weibo.com/share/share.php?title=${title}&url=${url || ''}`,  
+    url: `https://service.weibo.com/share/share.php?title=${title}&url=${url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : ''}`,  
   },  
   {  
     name: "QQ",  
     icon: "ri:qq-line",  
     class: "bg-[#12B7F5] hover:bg-[#0b9ed8]",  
-    url: `https://connect.qq.com/widget/shareqq/index.html?title=${title}&url=${url || ''}`,  
+    url: `https://connect.qq.com/widget/shareqq/index.html?title=${title}&url=${url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : ''}`,  
   },  
   {  
     name: "微信",  
     icon: "ri:wechat-line",  
     class: "bg-[#07C160] hover:bg-[#06ad57]",  
-    url: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&data=${encodeURIComponent(url || '')}`,  
+    url: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=4&data=${encodeURIComponent(url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : '')}`,  
   },  
   {  
     name: "Email",  
     icon: "ri:mail-line",  
     class: "bg-gray-600 hover:bg-gray-700",  
-    url: `mailto:?subject=${title}&body=${url || ''}`,  
+    url: `mailto:?subject=${title}&body=${url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : ''}`,  
   },  
 ];  
 ---  
@@ -105,7 +105,7 @@ const socialLinks = [
             )  
           }  
   
-          <a href={url} class="flex items-center gap-1 hover:text-primary transition-colors">  
+          <a href={url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : ''} class="flex items-center gap-1 hover:text-primary transition-colors">  
             <Icon name="ri:links-line" class="w-4 h-4" />  
           </a>  
         </div>  
@@ -241,7 +241,7 @@ const socialLinks = [
         </div>
         <div class="bg-white rounded-lg shadow-lg mb-4 mx-auto p-4" style="display: flex; justify-content: center; align-items: center; width: 204px; height: 204px;">
           <img 
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=196x196&margin=4&data=${encodeURIComponent(url || '')}`} 
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=196x196&margin=4&data=${encodeURIComponent(url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${slug}`) : '')}`} 
             alt="微信分享二维码"
             class="max-w-full h-auto"
           />

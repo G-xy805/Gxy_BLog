@@ -204,15 +204,15 @@ user:
         svg: "ri:github-line"
       - href: "https://space.bilibili.com/341981702"
         ariaLabel: BiliBili
-        title: BiliBili
+        title: Bilibili
         svg: "ri:bilibili-line"
       - href: "https://mp.weixin.qq.com/mp/homepage?__biz=MzU2MTI5MzE4OA==&hid=1&sn=356f3016aeac48fc034804fca1307349&scene=18#wechat_redirect"
         ariaLabel: wechat
-        title: wechat
+        title: Wechat
         svg: "ri:wechat-2-line"
       - href: "/rss.xml"  
         ariaLabel: Subscribe via Folo  
-        title: Folo  
+        title: Rss
         svg: "ri:rss-fill"
 
   footer:
