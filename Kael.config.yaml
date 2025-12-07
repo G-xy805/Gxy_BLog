@@ -192,10 +192,7 @@ user:
       #   ariaLabel: Support my work # 图标的可访问性标签
       #   title: Support my work # 图标的悬浮标题
       #   svg: "ri:cup-line"
-      - href: "https://zayck-firefly.pages.dev/sponsor/"
-        ariaLabel: 支持博主
-        title: 支持博主
-        svg: "line-md:coffee"
+
       - href: "https://github.com/zayck"
         ariaLabel: Github
         title: Github
@@ -219,6 +216,10 @@ user:
       #   ariaLabel: Support my work # 图标的可访问性标签
       #   title: Support my work # 图标的悬浮标题
       #   svg: "ri:cup-line"
+      - href: "https://zayck-firefly.pages.dev/sponsor/"
+        ariaLabel: 支持博主
+        title: 支持博主
+        svg: "line-md:coffee"
       - href: "https://github.com/zayck"
         ariaLabel: Github
         title: Github
