@@ -2,7 +2,7 @@
 title: 在Markdown中测试数学公式
 description: 使用 LaTeX 在 Markdown 中渲染的各种数学公式的演示
 pubDate: 2025-12-06
-image: "https://zayck-img.pages.dev/file/来自新世界/1765114691546_be047417850215b770a5b774a4825cf6.jpeg"
+image: "/image/be0cf6.jpeg"
 categories:
   - Astro魔改
 tags:

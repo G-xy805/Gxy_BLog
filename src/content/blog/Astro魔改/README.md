@@ -2,7 +2,7 @@
 title: READ ME
 description: 这是一篇关于 Kael 博客的介绍和安装使用方法
 pubDate: 2025-12-06
-image: "https://zayck-img.pages.dev/file/来自新世界/1764992494906_ef5ff2f26abd1a4d7c07dd3e24d94a91.jpeg"
+image: "/image/ef5ff4d94a91.jpeg"
 categories:
   - Astro魔改
 tags:

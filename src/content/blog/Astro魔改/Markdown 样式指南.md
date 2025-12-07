@@ -2,7 +2,7 @@
 title: Markdown 样式指南
 description: 以下是一个在Astro中编写Markdown内容时可以使用的部分基本Markdown语法示例
 pubDate: 2025-12-05
-image: https://zayck-img.pages.dev/file/来自新世界/1765117838486_20131106134527_ezEve.thumb.1000_0.jpg
+image: "/image/2013110613.jpg"
 categories:
   - Astro魔改
 tags:

@@ -2,7 +2,7 @@
 title: 为 Kael 博客添加评论插件
 description: 如何将 Waline 评论插件集成到 Kael 博客的全面指南
 pubDate: 2025-12-06
-image: "https://zayck-img.pages.dev/file/来自新世界/1765117722038_20131106134437_jrkGA.jpg"
+image: "/image/20131106134437_jrkGA.jpg"
 categories:
   - Astro魔改
 tags:

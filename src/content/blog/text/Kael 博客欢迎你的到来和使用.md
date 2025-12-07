@@ -2,7 +2,7 @@
 title: Kael 博客欢迎你的到来和使用
 description: 这是一篇测试文章
 pubDate: 2025-12-06
-image: "https://zayck-img.pages.dev/file/来自新世界/1765117732254_20131106134456_V8zJv.png"
+image: "/image/20131106134456_V8zJv.png"
 categories:
   - text
 tags:
