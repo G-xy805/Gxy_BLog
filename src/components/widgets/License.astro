@@ -16,12 +16,6 @@ const mainCategory = categories && categories.length > 0 ? categories[0].toLower
 
 const socialLinks = [  
   {  
-    name: "Facebook",  
-    icon: "ri:facebook-circle-line",  
-    class: "bg-[#0866ff] hover:bg-[#0755d6]",  
-    url: `https://facebook.com/sharer/sharer.php?u=${url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${mainCategory}/${slug}`) : ''}`,  
-  }, 
-  {  
     name: "微博",  
     icon: "ri:weibo-line",  
     class: "bg-[#E6162D] hover:bg-[#c5122a]",  
@@ -44,6 +38,12 @@ const socialLinks = [
     icon: "ri:mail-line",  
     class: "bg-gray-600 hover:bg-gray-700",  
     url: `mailto:?subject=${title}&body=${url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${mainCategory}/${slug}`) : ''}`,  
+  },  
+  {  
+    name: "链接",  
+    icon: "ri:links-line",  
+    class: "bg-blue-600 hover:bg-blue-700",  
+    type: "copy", // 添加类型标识用于特殊处理  
   },  
 ];  
 ---  
@@ -107,11 +107,19 @@ const socialLinks = [
               </div>  
             )  
           }  
-  
-          <a href={url ? (url.includes('/blog/') ? url : `https://zayck.pages.dev/blog/${mainCategory}/${slug}`) : ''} class="flex items-center gap-1 hover:text-primary transition-colors">  
-            <Icon name="ri:links-line" class="w-4 h-4" />  
-          </a>  
+
+          <button id="copy-url-button" class="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer">
+            <Icon name="ri:links-line" class="w-4 h-4" />
+          </button>
+          
+          <!-- 复制成功提示 -->
+          <div id="copy-toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg text-sm opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+            已复制链接
+          </div>
         </div>  
+
+        <!-- Categories and Tags -->  
+        <div class="mt-4">
   
         <!-- Categories and Tags -->  
         <div class="mt-4">  
@@ -183,6 +191,78 @@ const socialLinks = [
       // 只保留通过按钮点击和背景点击关闭模态框的功能
       donateModal.onmouseleave = null;
     }
+    
+    // 复制当前URL功能
+    const copyButton = document.getElementById('copy-url-button');
+    const shareCopyButton = document.getElementById('share-copy-url-button');
+    const copyToast = document.getElementById('copy-toast');
+    
+    // 复制URL的函数，供多个按钮调用
+    function copyCurrentUrl() {
+      // 获取当前页面URL
+      const currentUrl = window.location.href;
+      
+      // 复制URL到剪贴板
+      navigator.clipboard.writeText(currentUrl)
+        .then(() => {
+          // 显示复制成功提示
+          copyToast.classList.remove('opacity-0');
+          copyToast.classList.add('opacity-100');
+          
+          // 2秒后隐藏提示
+          setTimeout(() => {
+            copyToast.classList.remove('opacity-100');
+            copyToast.classList.add('opacity-0');
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('复制失败:', err);
+          // 如果剪贴板API不可用，使用备用方法
+          fallbackCopyTextToClipboard(currentUrl);
+        });
+    }
+    
+    // 原链接符号的复制事件
+    if (copyButton && copyToast) {
+      copyButton.addEventListener('click', copyCurrentUrl);
+    }
+    
+    // 分享模态框中链接按钮的复制事件
+    if (shareCopyButton && copyToast) {
+      shareCopyButton.addEventListener('click', copyCurrentUrl);
+    }
+    
+    // 剪贴板API备用方法
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          const copyToast = document.getElementById('copy-toast');
+          if (copyToast) {
+            copyToast.classList.remove('opacity-0');
+            copyToast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+              copyToast.classList.remove('opacity-100');
+              copyToast.classList.add('opacity-0');
+            }, 2000);
+          }
+        }
+      } catch (err) {
+        console.error('复制失败 (备用方法):', err);
+      }
+      
+      document.body.removeChild(textArea);
+    }
   });
 </script>  
   
@@ -194,13 +274,24 @@ const socialLinks = [
       </h3>  
       <div class="flex flex-wrap gap-4 justify-center">  
         {  
-          socialLinks.map(({ name, icon, class: bgClass, url }) => {
+          socialLinks.map(({ name, icon, class: bgClass, url, type }) => {
             if (name === "微信") {
               return (
                 <button 
                   class={`btn btn-circle btn-lg transition-transform hover:scale-110 ${bgClass}`}  
                   title={name}
                   onclick="wechat_qr_modal.showModal()"
+                >  
+                  <span class="sr-only">{name}</span>  
+                  <Icon name={icon} class="w-6 h-6 text-white" />  
+                </button>
+              );
+            } else if (type === "copy") {
+              return (
+                <button 
+                  id="share-copy-url-button"
+                  class={`btn btn-circle btn-lg transition-transform hover:scale-110 ${bgClass}`}  
+                  title={name}
                 >  
                   <span class="sr-only">{name}</span>  
                   <Icon name={icon} class="w-6 h-6 text-white" />  
