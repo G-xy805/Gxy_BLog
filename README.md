@@ -25,7 +25,7 @@
 - ✅ RSS 订阅支持
 - 🛠️ 博客易上手
   - 只需在 `Kael.config.yaml` 配置你的博客内容
-- 🛠️ 本博客在 [RyuChan](https://github.com/xz131714/RyuChan) 主题下进行修改  
+- 🛠️ 本博客基于 [RyuChan](https://github.com/xz131714/RyuChan) 主题下进行修改  
 
 ## 📝 功能新增和修改（作者：Zayck）
 - ✅ 新增文章详情页下方**打赏功能**
