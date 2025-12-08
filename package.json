@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "check": "astro check",
-    "build": "astro check && astro build && pagefind --site dist --glob 'blog/**/*.html' --exclude 'blog/category/**/*.html' --exclude 'blog/categories/**/*.html' --exclude 'blog/tags/**/*.html' --exclude 'blog/archives/**/*.html' --exclude 'blog/search/**/*.html' --exclude 'blog/index.html'",
+    "build": "astro check && astro build && pagefind --site dist --glob 'blog/**/*.html' --glob '!blog/category/**/*.html' --glob '!blog/categories/**/*.html' --glob '!blog/tags/**/*.html' --glob '!blog/archives/**/*.html' --glob '!blog/search/**/*.html' --glob '!blog/index.html'",
+
     "search:clean": "rimraf public/pagefind",
     "search:index": "npm run build && cpy 'dist/pagefind/**' public/pagefind",
     "preview": "astro preview",
