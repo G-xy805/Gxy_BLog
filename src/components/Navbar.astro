@@ -30,7 +30,7 @@ const typedMenu = SITE_MENU as MenuItem[];
 ---      
       
 <!-- 桌面端透明导航栏 -->      
-<nav class="fixed top-0 left-0 right-0 z-50 hidden md:block transition-opacity duration-500 opacity-100 pointer-events-auto" id="navbar-desktop">      
+<nav class="fixed top-0 left-0 right-0 z-50 hidden md:block transition-opacity duration-500 opacity-100 pointer-events-auto" id="navbar-desktop" data-pagefind-ignore>      
   <div class="max-w-blog mx-auto px-4">      
     <!-- 透明背景，添加毛玻璃效果 -->  
     <!-- ## <div class="bg-transparent backdrop-blur-md border-none px-6 py-3 rounded-bl-2xl rounded-br-2xl">  ##-->
@@ -108,6 +108,7 @@ const typedMenu = SITE_MENU as MenuItem[];
 <nav      
   class="navbar fixed px-2 w-full transform transition-transform transition-opacity delay-300 duration-500 ease-in-out text-center z-50 bg-transparent backdrop-blur-md shadow-lg md:hidden opacity-100 pointer-events-auto"
   id="navbar"      
+  data-pagefind-ignore
 >      
   <div class="navbar-start">      
     <label class="btn btn-circle btn-md bg-white/10 swap swap-rotate">      
