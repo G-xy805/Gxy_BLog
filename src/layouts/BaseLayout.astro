@@ -127,6 +127,8 @@ const bannerSubtitle = pageConfig?.subtitle || "";
     class="flex flex-col min-h-screen"
     {...isIndexed && isPostPage ? { "data-pagefind-body": true } : {}}
   >
+    <!-- Pagefind title metadata for search results -->
+    {isPostPage && <h1 data-pagefind-meta="title" class="sr-only">{title}</h1>}
     <Banner title={bannerTitle} subtitle={bannerSubtitle} />
     <Navbar />
     <div class="max-w-blog mx-auto w-full flex-grow">
