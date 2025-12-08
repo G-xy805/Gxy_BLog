@@ -5,7 +5,7 @@ import { Icon } from "astro-icon/components";
 const { categories = [], tags = [] } = Astro.props as PostData;
 ---
 
-<div class="flex flex-wrap items-center gap-2">
+<div class="flex flex-wrap items-center gap-2" data-pagefind-ignore>
   {
     categories.map((category) => (
       <a href={`/blog/category/${category}`} class="btn btn-sm btn-category">

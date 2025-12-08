@@ -10,7 +10,7 @@ interface Props {
 const { prevPost, nextPost } = Astro.props;    
 ---    
     
-<div class="post-navigation">    
+<div class="post-navigation" data-pagefind-ignore>    
   <!-- 上一篇 -->    
   {prevPost && (    
     <a href={`/blog/${prevPost.slug}`} class="nav-card prev">    
