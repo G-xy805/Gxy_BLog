@@ -17,9 +17,9 @@
   a img {  
     @apply my-0; // 进一步减少徽章图片的上下边距  
   }    
-    // 为Markdown中的图片添加阴影效果  
+    // 图片阴影效果已取消  
   img {  
-    @apply shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.03),0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]; // 添加中等阴影效果  
+    // @apply shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05),0_-2px_4px_-1px_rgba(0,0,0,0.03),0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]; // 添加中等阴影效果  
   }  
   // 只优化分隔线的上下边距  
   hr {  
