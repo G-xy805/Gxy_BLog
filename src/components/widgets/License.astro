@@ -93,7 +93,7 @@ const socialLinks = [
           )}  
 
           <!-- 浏览量显示 -->  
-          {slug && (  
+          {slug && umamiConfig.enable && (  
             <div class="flex items-center gap-1">  
               <Icon name="lucide:eye" class="h-4 w-4" />  
               <span id="license-page-views">加载中...</span>  
