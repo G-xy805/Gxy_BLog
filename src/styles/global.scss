@@ -32,6 +32,13 @@
   blockquote {  
     border-left-color: oklch(var(--p) / 0.7) !important; // 使用主题的primary颜色，降低不透明度使其更淡  
     background-color: oklch(var(--p) / 0.05) !important; // 添加淡淡的蓝色背景  
+    quotes: none !important; // 禁用自动添加的双引号  
+  }  
+  
+  // 确保引用块内容前后也不显示引号  
+  blockquote::before,  
+  blockquote::after {  
+    content: "" !important; // 清除默认的引号内容  
   }  
 }
 
@@ -77,6 +84,11 @@ pre code {
   padding: 0 !important;
   border-radius: 0 !important;
   color: inherit !important;
+}
+
+/* 文字加粗样式：主题蓝色 */
+strong {
+  color: oklch(var(--p)) !important; /* 使用主题primary颜色 */
 }
 
 .scrollbar-none {
