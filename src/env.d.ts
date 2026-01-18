@@ -1,36 +1,40 @@
-/// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
+/// <reference path="../.astro/types.d.ts" />
 
-interface ImportMeta {
-  env: {
-    PROD: boolean;
-    DEV: boolean;
-  };
+declare global {
+	interface ImportMetaEnv {
+		readonly MEILI_MASTER_KEY: string;
+	}
+
+	interface ITOCManager {
+		init: () => void;
+		cleanup: () => void;
+	}
+
+	interface Window {
+		SidebarTOC: {
+			manager: ITOCManager | null;
+		};
+		FloatingTOC: {
+			btn: HTMLElement | null;
+			panel: HTMLElement | null;
+			manager: ITOCManager | null;
+			isPostPage: () => boolean;
+		};
+		toggleFloatingTOC: () => void;
+		tocInternalNavigation: boolean;
+		iconifyLoaded: boolean;
+		// swup is defined in global.d.ts
+		// biome-ignore lint/suspicious/noExplicitAny: External library without types
+		spine: any;
+
+		// biome-ignore lint/suspicious/noExplicitAny: External library without types
+		__iconifyLoader: any;
+		__iconifyLoaderInitialized: boolean;
+		loadIconify: () => Promise<void>;
+		preloadIcons: (icons: string | string[]) => void;
+		onIconifyReady: (callback: () => void) => void;
+	}
 }
 
-declare module "dayjs" {
-  interface Dayjs {
-    format: (template?: string) => string;
-    locale: {
-      (): string;
-      (preset: string, object?: Partial<ILocale>): Dayjs;
-    };
-  }
-
-  interface ILocale {
-    name: string;
-    weekdays?: string[];
-    months?: string[];
-    [key: string]: any;
-  }
-
-  export default function dayjs(date?: any): Dayjs;
-  namespace dayjs {
-    export const locale: (preset: string | ILocale, object?: Partial<ILocale>, isLocal?: boolean) => string;
-  }
-}
-
-declare module "dayjs/locale/*" {
-  const locale: any;
-  export default locale;
-}
+export {};
