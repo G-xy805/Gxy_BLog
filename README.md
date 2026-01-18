@@ -130,7 +130,6 @@ src/
 │   ├── profileConfig.ts      # 用户资料配置
 │   ├── commentConfig.ts      # 评论系统配置
 │   ├── licenseConfig.ts      # 许可证配置
-│   ├── footerConfig.ts       # 页脚配置
 │   ├── expressiveCodeConfig.ts # 代码高亮配置
 │   ├── fontConfig.ts         # 字体配置
 │   ├── sidebarConfig.ts      # 侧边栏布局配置
