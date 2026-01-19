@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 import type { Post, Page } from "@interfaces/data";
 import PostCard from "@components/PostCard.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
@@ -9,28 +8,16 @@ import { Icon } from "astro-icon/components";
 import { t } from "@config";
 import { generatePageLinks } from "@utils/blogUtils";
 import { getMainBlogPaginationPaths } from "@utils/paginationUtils";
-=======
-import type { GetStaticPaths } from "astro";
-import Pagination from "@/components/common/controls/Pagination.astro";
-import PostPage from "@/components/layout/PostPage.astro";
-import { siteConfig } from "@/config";
-import MainGridLayout from "@/layouts/MainGridLayout.astro";
-import { getSortedPosts } from "@/utils/content-utils";
-export const getStaticPaths = (async ({ paginate }) => {
-	const allBlogPosts = await getSortedPosts();
-	// 使用配置中的文章数量
-	const pageSize = siteConfig.pagination.postsPerPage;
-	return paginate(allBlogPosts, { pageSize });
-}) satisfies GetStaticPaths;
-// https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
 
-const { page } = Astro.props;
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  return getMainBlogPaginationPaths({ paginate });
+}
 
-const len = page.data.length;
+const { page }: { page: Page } = Astro.props;
+const totalPages = Math.ceil(page.total / page.size);
+const pageLinks = generatePageLinks(totalPages);
 ---
 
-<<<<<<< HEAD
 <BaseLayout title="Blog" isIndexed={false}>
   <!-- Blog Navigation Cards -->
   <CardGroup cols="2" class="grid-cols-2">
@@ -104,55 +91,7 @@ const len = page.data.length;
           time={blog.remarkPluginFrontmatter.readingTime}
         />
       ))
-=======
-<MainGridLayout>
-  <PostPage page={page} />
-  {
-    page.total > page.size && (
-      <Pagination
-        class="mx-auto onload-animation"
-        page={page}
-        style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}
-      />
-    )
-  }
-</MainGridLayout>
-
-<script>
-  // 响应式分页处理脚本
-  document.addEventListener("DOMContentLoaded", function () {
-    // 如果启用了响应式分页，添加相应的CSS类
-    const responsiveEnabled = true; // ${siteConfig.pagination.responsive}
-    if (responsiveEnabled) {
-      const deviceType = getDeviceType();
-      document.body.classList.add(`device-${deviceType}`);
-
-      // 监听窗口大小变化
-      let resizeTimeout: any;
-      window.addEventListener("resize", function () {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function () {
-          const newDeviceType = getDeviceType();
-          const currentDeviceType = document.body.className.match(
-            /device-(mobile|tablet|desktop)/
-          )?.[1];
-
-          if (currentDeviceType !== newDeviceType) {
-            document.body.classList.remove(`device-${currentDeviceType}`);
-            document.body.classList.add(`device-${newDeviceType}`);
-          }
-        }, 250);
-      });
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     }
-  });
-
-  function getDeviceType() {
-    if (typeof window === "undefined") return "desktop";
-
-    const width = window.innerWidth;
-    if (width < 768) return "mobile";
-    if (width < 1024) return "tablet";
-    return "desktop";
-  }
-</script>
+  </CardGroup>
+  <Pagination page={page} totalPages={totalPages} pageLinks={pageLinks} baseUrl={``} />
+</BaseLayout>

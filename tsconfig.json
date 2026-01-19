@@ -1,45 +1,19 @@
 {
-  "extends": "astro/tsconfigs/base",
-  "compilerOptions": {
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": { // 或 "module": "ES6"
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
     "baseUrl": ".",
-    "strictNullChecks": true,
-    "allowJs": false,
-    "declaration": true,
-    "plugins": [
-      {
-        "name": "@astrojs/ts-plugin"
-      }
-    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "paths": {
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@constants/*": [
-        "src/constants/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@i18n/*": [
-        "src/i18n/*"
-      ],
-      "@layouts/*": [
-        "src/layouts/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
-    }
-  },
-  "include": [
-    "src/**/*"
-  ]
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@config": ["src/config.ts"],
+      "@interfaces/*": ["src/interface/*"],
+      "@utils/*": ["src/utils/*"]
+    },
+    "strict": true, // 或 "target": "ES6"
+    "esModuleInterop": true
+  }
 }

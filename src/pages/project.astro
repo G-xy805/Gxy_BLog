@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Icon } from "astro-icon/components";
 import ProjectCard from "@/components/mdx/ProjectCard.astro";
@@ -9,38 +8,20 @@ const projects = [
   {
     name: "HomePage",
     avatar: "/home.svg",
-=======
-import Icon from "@/components/misc/Icon.astro";
-import MainGridLayout from "@/layouts/MainGridLayout.astro";
-
-// 项目数据，与Kael-blog-demo保持一致
-const projects = [
-  {
-    name: "HomePage",
-    avatar: "/assets/images/home.svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "一个毛玻璃透明风格的简约个人主页 / 导航页",
     url: "https://zayck-top.pages.dev",
     type: "主页"
   },
   {
     name: "Hexo",
-<<<<<<< HEAD
     avatar: "/hexo.svg",
-=======
-    avatar: "/assets/images/hexo.svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "Hexo 框架 Butterfly 主题博客。我的第一个博客版本",
     url: "https://zayck.netlify.app",
     type: "博客"
   },
   {
     name: "Hugo",
-<<<<<<< HEAD
     avatar: "/hugo.svg",
-=======
-    avatar: "/assets/images/hugo.svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "Hugo 框架 Stack 主题博客。简洁的卡片式布局风格",
     url: "https://zayck-teek.pages.dev",
     type: "博客"
@@ -61,11 +42,7 @@ const projects = [
   },
   {
     name: "Kael",
-<<<<<<< HEAD
     avatar: "/goat.png",
-=======
-    avatar: "/assets/images/goat.png",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "一款简洁大气的 Astro 框架博客主题，目前正在使用的博客",
     url: "/",
     type: "博客"
@@ -79,11 +56,7 @@ const projects = [
   },
   {
     name: "Telegraph-Img",
-<<<<<<< HEAD
     avatar: "/图片 (3).svg",
-=======
-    avatar: "/assets/images/图片 (3).svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "Cloudflare + Telegram 实现的免费图床。网站刚刚打开时很慢",
     url: "https://zayck-image.pages.dev",
     type: "图床"
@@ -97,39 +70,26 @@ const projects = [
   },
   {
     name: "MoonTV",
-<<<<<<< HEAD
     avatar: "/TV1.svg",
-=======
-    avatar: "/assets/images/TV1.svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "MoonTV - 个人视频点播站，支持多种格式",
     url: "https://zayck-tv.pages.dev",
     type: "视频"
   },
   {
     name: "moemail",
-<<<<<<< HEAD
     avatar: "/邮箱.svg",
-=======
-    avatar: "/assets/images/邮箱.svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "一个像素风格的无限临时 / 永久邮箱服务。目前自用中……",
     url: "https://zayck34.dpdns.org/zh-CN",
     type: "邮箱"
   },
   {
     name: "News Now",
-<<<<<<< HEAD
     avatar: "/新闻.svg",
-=======
-    avatar: "/assets/images/新闻.svg",
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
     description: "一个卡片布局风格的新闻热搜聚合站",
     url: "https://zayck-hot.pages.dev",
     type: "热点"
   }
 ];
-<<<<<<< HEAD
 ---
 
 <BaseLayout title="Projects">
@@ -153,80 +113,12 @@ const projects = [
   </div>
 
       <div class="flex justify-center mt-14">
-=======
-
-// 页面标题
-const title = "项目";
----
-
-<MainGridLayout title={title}>
-  <div
-    class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
-  >
-    <div class="card-base z-10 px-8 py-6 relative w-full">
-      <!-- 页面标题和描述 -->
-      <div class="mb-8">
-        <div class="flex items-center gap-2 mb-3">
-          <Icon icon="feather:folder" size="2xl" class="text-primary dark:text-[var(--primary)]"></Icon>
-          <h2 class="text-2xl font-bold text-[#394E6A] dark:text-neutral-100">
-            {title}
-          </h2>
-        </div>
-      </div>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-4">
-        {
-          projects.map((project) => (
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="group relative block h-full rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-xl"
-            >
-              <div class="flex flex-col h-full">
-                <!-- 头部：图标 + 标题 -->
-                <div class="flex items-start gap-3 mb-2">
-                  <div class="shrink-0">
-                    <div class="w-14 h-14 rounded-lg bg-zinc-200/50 dark:bg-zinc-800/50 p-1 group-hover:bg-[var(--primary)]/10 transition-colors duration-300">
-                      <div class="w-full h-full rounded-md overflow-hidden">
-                        <img
-                          src={project.avatar}
-                          alt={project.name}
-                          class="w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="flex-1 min-w-0 pt-0.5">
-                    <h3 class="font-bold text-base text-[#394E6A] dark:text-neutral-100 group-hover:text-[var(--primary)] transition-colors truncate mb-1">
-                      {project.name}
-                    </h3>
-                    <div class="inline-block px-2 py-0.5 text-sm rounded-full font-normal text-black dark:text-white">
-                      {project.type}
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 描述 -->
-                <p class="text-sm text-[#566880] dark:text-[#D9DAD6] line-clamp-2 leading-relaxed mb-2 flex-grow">
-                  {project.description}
-                </p>
-              </div>
-            </a>
-          ))
-        }
-      </div>
-      
-      <div class="flex justify-center mt-8">
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
         <a
           href="https://github.com/zayck?tab=repositories"
           target="_blank"
           rel="noopener noreferrer"
-          class="transition-all duration-300 inline-flex items-center justify-center gap-1 px-3 py-3 border border-[#394E6A] text-[#394E6A] text-sm rounded-md hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
+          class="btn btn-outline gap-2"
         >
-<<<<<<< HEAD
           <Icon name="feather:github" class="w-5 h-5" />
           <span>View More on GitHub</span>
         </a>
@@ -235,14 +127,3 @@ const title = "项目";
   
   </Card>
 </BaseLayout>
-=======
-          <Icon icon="feather:github" size="xl" />
-          <span class="mr-1">View More on GitHub</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-
-</MainGridLayout>
->>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
