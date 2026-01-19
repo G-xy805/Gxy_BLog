@@ -1,0 +1,209 @@
+---
+<<<<<<< HEAD
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import Card from "@/components/temple/Card.astro";
+import Info from "@/components/mdx/Info.astro";
+---
+
+<BaseLayout title="赞助支持">
+  <Card>
+    <div class="space-y-10 container mx-auto p-6">
+      <h2 class="text-2xl font-bold flex items-center gap-2">
+        <Icon name="feather:heart" size={24} class="text-primary" />
+        <span>赞助支持</span>
+      </h2>
+      <p class="mb-8">
+        如果我的内容对你有帮助，欢迎通过以下方式赞助我，你的支持是我持续创作的动力！
+      </p>
+      
+      <Info>您的赞助将用于服务器维护、内容创作和功能开发，帮助我持续提供优质内容。</Info>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 支付宝 -->
+        <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+          <h2 class="text-xl font-semibold mb-4 flex items-center justify-center gap-2 text-black">
+            <Icon name="ri:alipay-line" size={24} class="text-blue-500" />
+            支付宝
+          </h2>
+          <p class="text-gray-600 mb-4 text-center">使用 支付宝 扫码赞助</p>
+          <div class="flex justify-center mb-4">
+            <div class="border border-gray-200 rounded-lg p-2 bg-white w-48 h-48 flex items-center justify-center">
+              <img src="/支付宝.jpg" alt="支付宝赞助二维码" class="w-full h-full object-contain">
+            </div>
+          </div>
+        </div>
+        
+        <!-- 微信 -->
+        <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+          <h2 class="text-xl font-semibold mb-4 flex items-center justify-center gap-2 text-black">
+            <Icon name="ri:wechat-2-line" size={24} class="text-green-500" />
+            微信
+          </h2>
+          <p class="text-gray-600 mb-4 text-center">使用 微信 扫码赞助</p>
+          <div class="flex justify-center mb-4">
+            <div class="border border-gray-200 rounded-lg p-2 bg-white w-48 h-48 flex items-center justify-center">
+              <img src="/微信.jpg" alt="微信赞助二维码" class="w-full h-full object-contain">
+            </div>
+          </div>
+        </div>
+        
+        <!-- 公众号 -->
+        <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+          <h2 class="text-xl font-semibold mb-4 flex items-center justify-center gap-2 text-black">
+            <Icon name="feather:user" size={24} class="text-green-600" />
+            公众号
+          </h2>
+          <p class="text-gray-600 mb-4 text-center">免费三连就是最大的支持</p>
+          <div class="flex justify-center">
+            <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzU2MTI5MzE4OA==&hid=1&sn=356f3016aeac48fc034804fca1307349&scene=18#wechat_redirect" class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-6 rounded-lg flex items-center gap-2 transition-colors" target="_blank" rel="noopener noreferrer">
+              前往赞助 <span>→</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Bilibili -->
+        <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+          <h2 class="text-xl font-semibold mb-4 flex items-center justify-center gap-2 text-black">
+            <Icon name="ri:bilibili-line" size={24} class="text-pink-500" />
+            Bilibili
+          </h2>
+          <p class="text-gray-600 mb-4 text-center">免费三连就是最大的支持</p>
+          <div class="flex justify-center">
+            <a href="https://space.bilibili.com/341981702" class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-6 rounded-lg flex items-center gap-2 transition-colors" target="_blank" rel="noopener noreferrer">
+              前往赞助 <span>→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider my-8">
+        <Icon name="feather:heart" class="w-10 h-10 text-primary" />
+      </div>
+    </div>
+  </Card>
+</BaseLayout>
+=======
+import Icon from "@/components/misc/Icon.astro";
+import { siteConfig, sponsorConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { url } from "@/utils/url-utils";
+
+// 检查页面是否启用
+if (!siteConfig.pages.sponsor) {
+	return Astro.redirect("/404/");
+}
+
+const title = sponsorConfig.title || i18n(I18nKey.sponsorTitle);
+const description =
+	sponsorConfig.description || i18n(I18nKey.sponsorDescription);
+const enabledMethods = sponsorConfig.methods.filter((method) => method.enabled);
+---
+
+<MainGridLayout title={title}>
+  <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+    <div class="card-base z-10 px-8 py-6 relative w-full">
+      <!-- 页面标题和描述 -->
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-3">
+          <Icon icon="feather:heart" size="2xl" class="text-primary dark:text-[var(--primary)]"></Icon>
+          <h2 class="text-2xl font-bold text-[#394E6A] dark:text-neutral-100">
+            {title}
+          </h2>
+        </div>
+        {description && (
+          <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mt-6 mb-6">
+            {description}
+          </p>
+        )}
+        {sponsorConfig.usage && (
+          <div class="mb-8 p-4 rounded-lg bg-[#93E7FB] dark:bg-[#7FBFFB] border border-[#93E7FB] dark:border-none backdrop-blur-sm shadow-sm usage-info-box">
+            <div class="flex items-start gap-2">
+              <Icon icon="feather:info" class="text-black text-xl flex-shrink-0 mt-0.5" />
+              <p class="text-base text-black leading-relaxed">
+                <span class="font-semibold text-black"></span>
+                {sponsorConfig.usage}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <!-- 赞助方式 -->
+      <div class="mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {enabledMethods.map((method) => (
+                      <div class="flex flex-col items-center p-6 rounded-xl bg-white dark:bg-[#1A1B26] shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- 图标和名称 -->
+                        <div class="flex items-center gap-3 mb-4">
+                          {method.icon && (
+                            <Icon 
+                              icon={method.icon} 
+                              size="2xl" 
+                              class={`transition-colors ${
+                                method.name === '支付宝' ? 'text-blue-500' :
+                                method.name === '微信' ? 'text-green-500' :
+                                method.name === '公众号' ? 'text-green-600' :
+                                method.name === 'Bilibili' ? 'text-pink-500' :
+                                'text-[#394E6A]'
+                              }`} 
+                            />
+                          )}
+                          <h3 class="text-lg font-semibold text-[#394E6A] dark:text-white">
+                            {method.name}
+                          </h3>
+                        </div>
+          
+                        <!-- 描述 -->
+                        {method.description && (
+                          <p class="text-sm text-[#566880] dark:text-[#D9DAD6] mb-4 text-center">
+                            {method.description}
+                          </p>
+                        )}
+          
+                        <!-- 二维码或链接 -->
+                        {method.qrCode && (
+                          <div class="relative w-full max-w-[200px] aspect-square bg-white rounded-lg p-4 shadow-md mb-4">
+                            <img
+                              src={url(method.qrCode)}
+                              alt={`${method.name} ${i18n(I18nKey.scanToSponsor)}`}
+                              class="w-full h-full object-contain"
+                              loading="lazy"
+                            />
+                          </div>
+                        )}
+                        
+                        {method.link && (
+                          <a
+                            href={method.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white dark:text-black/70 rounded-lg font-medium hover:bg-[var(--primary)]/90 active:scale-95 transition-all"
+                          >
+                            <span>{i18n(I18nKey.sponsorGoTo)}</span>
+                          </a>
+                        )}
+                      </div>
+                    ))}
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</MainGridLayout>
+
+<style>
+  /* 透明模式下使用半透明背景 */
+  :global(body.wallpaper-transparent .usage-info-box) {
+    background-color: rgba(147, 231, 251, 0.15) !important;
+  }
+  
+  :global(:root.dark body.wallpaper-transparent .usage-info-box) {
+    background-color: rgba(127, 191, 251, 0.15) !important;
+  }
+</style>
+
+>>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b

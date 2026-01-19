@@ -1,0 +1,98 @@
+/**
+ * 统一导航栏样式
+ * 简化版：只使用黑白纯色，无透明效果和阴影，保留底部圆角
+ */
+
+/* 基础导航栏样式 - 适用所有设备和主题 */
+#navbar > div {
+    background: var(--card-bg); /* 依赖主题的黑白纯色背景 */
+    border: none; /* 移除边框 */
+    border-radius: 0 0 1rem 1rem; /* 保留底部圆角 */
+    transition: none; /* 消除过渡动画，避免主题切换卡顿 */
+}
+
+/* 导航栏链接和图标样式 */
+#navbar a,
+#navbar button,
+#navbar .btn-plain {
+    color: #394E6A; /* 白天模式颜色 */
+    font-size: 1.25rem; /* 进一步增大导航栏字号 */
+}
+
+/* 黑暗模式下的导航栏颜色 */
+.dark #navbar a,
+.dark #navbar button,
+.dark #navbar .btn-plain {
+    color: white; /* 黑暗模式颜色 */
+}
+
+/* 增大主题切换按钮大小 */
+#navbar .btn-plain {
+    padding: 0.5rem 0.75rem; /* 增大按钮内边距 */
+}
+
+/* 针对所有导航栏中的btn-plain元素的悬停效果 */
+#navbar a.btn-plain:hover,
+#navbar button.btn-plain:hover,
+#navbar .btn-plain.scale-animation:hover,
+#navbar .dropdown-container:hover > a.btn-plain,
+#navbar .dropdown-container:hover > button.btn-plain {
+    color: var(--text-color); /* 悬停时保持原文本色，不显示主题色 */
+    background-color: transparent; /* 确保没有背景色 */
+}
+
+/* 覆盖expand-animation和scale-animation的伪元素效果 */
+#navbar .btn-plain::before,
+#navbar .scale-animation::before {
+    display: none; /* 完全隐藏所有伪元素 */
+    content: none; /* 确保没有内容 */
+}
+
+/* 确保下拉菜单的hover效果不受影响 */
+#navbar .dropdown-content .dropdown-item:hover {
+    color: var(--primary); /* 下拉菜单项悬停时显示主题色 */
+    background-color: var(--btn-plain-bg-hover); /* 保持下拉菜单项的背景色 */
+}
+
+/* 减小下拉菜单文字大小 */
+#navbar .dropdown-content .dropdown-item {
+    font-size: 1rem; /* 减小下拉菜单项的字体大小 */
+    font-weight: 700; /* 增加下拉菜单项的字重为 font-bold */
+}
+
+/* 设置导航栏菜单字重 */
+#navbar .dropdown-container > a.btn-plain,
+#navbar .dropdown-container > button.btn-plain {
+    font-weight: 600; /* 设置导航栏菜单项为 font-semibold */
+}
+
+/* 显示菜单文字和箭头图标，隐藏其他非必要图标 */
+/* 隐藏导航栏链接中的图标（除了箭头） */
+#navbar .navbar-icon {
+    display: none;
+}
+
+/* 保留箭头图标 */
+#navbar .dropdown-arrow {
+    display: block;
+}
+
+/* 禁用下拉箭头的旋转动画 */
+#navbar .dropdown-container:hover .dropdown-arrow,
+#navbar .dropdown-container:focus-within .dropdown-arrow {
+    transform: none; /* 阻止箭头旋转 */
+    transition: none; /* 确保没有过渡效果 */
+}
+
+/* 隐藏外部链接图标 */
+#navbar a [name="feather:external-link"] {
+    display: none;
+}
+
+/* 移动端适配 */
+@media (max-width: 1023px) {
+    #navbar > div {
+        padding: 0.5rem 1rem; /* 简化移动端内边距 */
+    }
+}
+

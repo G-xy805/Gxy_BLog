@@ -1,0 +1,127 @@
+---
+import { getCollection } from "astro:content";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import PostCard from "@components/content/PostCard.astro";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import Icon from "@components/misc/Icon.astro";
+
+// 获取所有分类列表
+export async function getStaticPaths() {
+  const allPosts = await getCollection("posts", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+
+  // 提取所有唯一分类
+  const categoryMap = new Map<string, number>();
+  allPosts.forEach((post) => {
+    let category = post.data.category;
+    if (!category) {
+      category = i18n(I18nKey.uncategorized);
+    }
+    if (typeof category !== "string") {
+      category = String(category);
+    }
+    category = category.trim();
+    categoryMap.set(category, (categoryMap.get(category) || 0) + 1);
+  });
+
+  // 转换为路由参数
+  return Array.from(categoryMap.entries()).map(([name, count]) => ({
+    params: { slug: name },
+    props: { categoryName: name, postCount: count },
+  }));
+}
+
+// 获取当前分类的参数和属性
+const { slug } = Astro.params;
+const { categoryName, postCount } = Astro.props;
+
+// 获取当前分类下的所有文章
+const categoryPosts = await getCollection("posts", ({ data }) => {
+  const isVisible = import.meta.env.PROD ? data.draft !== true : true;
+  let category = data.category;
+  if (!category) {
+    category = i18n(I18nKey.uncategorized);
+  }
+  if (typeof category !== "string") {
+    category = String(category);
+  }
+  category = category.trim();
+  return isVisible && category === slug;
+});
+
+// 按发布日期排序（最新的在前）
+categoryPosts.sort(
+  (a, b) => new Date(b.data.published).getTime() - new Date(a.data.published).getTime()
+);
+
+// 页面标题
+const pageTitle = `${i18n(I18nKey.categories)}: ${categoryName}`;
+---
+
+<MainGridLayout title={pageTitle}>
+  <!-- 分类信息卡片 -->
+  <div class="card-base mb-4">
+    <div class="px-6 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <!-- 分类标题和文章数量 -->
+        <div class="flex items-center gap-2">
+          <Icon icon="feather:folder" class="text-[var(--primary)]" size="2xl" />
+          <h1 class="text-3xl font-bold text-[#394E6A] dark:text-[#F8F8F2]">{categoryName}</h1>
+          <div class="badge rounded-full bg-[var(--primary)] text-white dark:text-black text-[0.8rem] px-4 py-0.4">{postCount} {i18n(postCount === 1 ? I18nKey.postCount : I18nKey.postsCount)}</div>
+        </div>
+        <!-- 所有分类链接 -->
+        <a href="/categories/" class="transition-all duration-300 inline-flex items-center justify-center gap-1 px-4 py-1.5 border border-[#394E6A] text-[#394E6A] text-sm font-bold rounded-lg hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
+          <Icon icon="feather:list" class="w-4 h-4" />
+          <span class="mr-1">{i18n(I18nKey.allCategories)}</span>
+        </a>
+      </div>
+      <div class="divider my-6"></div>
+      <div class="border-t border-[1.5px] border-[#EBEDF0] dark:border-[rgba(255,255,255,0.2)] mt-4 mb-6"></div>
+      <div class="text-sm text-[#6B7A8F] dark:text-[#C5C5C3]">{i18n(I18nKey.browseAllPostsInCategory)}</div>
+    </div>
+  </div>
+
+  <!-- 文章列表 -->
+  <div class="flex flex-col gap-4 mt-4">
+    {categoryPosts.length > 0 ? (
+      categoryPosts.map((post, index) => (
+        <PostCard
+          entry={post}
+          title={post.data.title}
+          url={getPostUrlBySlug(post.id)}
+          published={post.data.published}
+          image={post.data.image}
+          description={post.data.description}
+          style={`animation-delay: calc(var(--content-delay) + ${index * 50}ms);`}
+          class:list="onload-animation"
+        />
+      ))
+    ) : (
+      <div class="text-center py-12">
+        <Icon icon="feather:frown" class="mx-auto text-4xl text-gray-400 mb-4" />
+        <p class="text-gray-600 dark:text-gray-300">{i18n(I18nKey.noPostsInCategory)}</p>
+      </div>
+    )}
+  </div>
+</MainGridLayout>
+
+<style>
+/* 确保分类卡片样式与首页一致 */
+.onload-animation {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

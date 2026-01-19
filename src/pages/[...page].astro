@@ -1,0 +1,158 @@
+---
+<<<<<<< HEAD
+import type { Post, Page } from "@interfaces/data";
+import PostCard from "@components/PostCard.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Pagination from "@components/widgets/Pagination.astro";
+import CardGroup from "@components/temple/CardGroup.astro";
+import { Icon } from "astro-icon/components";
+import { t } from "@config";
+import { generatePageLinks } from "@utils/blogUtils";
+import { getMainBlogPaginationPaths } from "@utils/paginationUtils";
+=======
+import type { GetStaticPaths } from "astro";
+import Pagination from "@/components/common/controls/Pagination.astro";
+import PostPage from "@/components/layout/PostPage.astro";
+import { siteConfig } from "@/config";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@/utils/content-utils";
+export const getStaticPaths = (async ({ paginate }) => {
+	const allBlogPosts = await getSortedPosts();
+	// 使用配置中的文章数量
+	const pageSize = siteConfig.pagination.postsPerPage;
+	return paginate(allBlogPosts, { pageSize });
+}) satisfies GetStaticPaths;
+// https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
+>>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+---
+
+<<<<<<< HEAD
+<BaseLayout title="Blog" isIndexed={false}>
+  <!-- Blog Navigation Cards -->
+  <CardGroup cols="2" class="grid-cols-2">
+    <!-- Archives Card -->
+    <a href="/blog/archives" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full rounded-lg sm:rounded-2xl">
+      <div class="card-body p-2 sm:p-4 flex flex-row items-center gap-2 sm:gap-3">
+        <div class="rounded-full bg-accent/10 p-2 sm:p-3 flex-shrink-0">
+          <Icon name="feather:archive" class="w-4 h-4 sm:w-6 sm:h-6 text-accent" />
+        </div>
+        <div class="min-w-0 flex-1">
+          <h2 class="card-title text-xs sm:text-lg leading-tight mb-0.5">{t("label.archivePage")}</h2>
+          <p class="text-[10px] sm:text-sm opacity-75 truncate">{t("label.archivesPageDescription")}</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Categories Card -->
+    <a href="/blog/categories" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full rounded-lg sm:rounded-2xl">
+      <div class="card-body p-2 sm:p-4 flex flex-row items-center gap-2 sm:gap-3">
+        <div class="rounded-full bg-primary/10 p-2 sm:p-3 flex-shrink-0">
+          <Icon name="feather:folder" class="w-4 h-4 sm:w-6 sm:h-6 text-primary" />
+        </div>
+        <div class="min-w-0 flex-1">
+          <h2 class="card-title text-xs sm:text-lg leading-tight mb-0.5">{t("label.categoryPage")}</h2>
+          <p class="text-[10px] sm:text-sm opacity-75 truncate">{t("label.categoriesPageDescription")}</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Tags Card -->
+    <a href="/blog/tags" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full rounded-lg sm:rounded-2xl">
+      <div class="card-body p-2 sm:p-4 flex flex-row items-center gap-2 sm:gap-3">
+        <div class="rounded-full bg-secondary/10 p-2 sm:p-3 flex-shrink-0">
+          <Icon name="feather:tag" class="w-4 h-4 sm:w-6 sm:h-6 text-secondary" />
+        </div>
+        <div class="min-w-0 flex-1">
+          <h2 class="card-title text-xs sm:text-lg leading-tight mb-0.5">{t("label.tagPage")}</h2>
+          <p class="text-[10px] sm:text-sm opacity-75 truncate">{t("label.tagsPageDescription")}</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Search Card -->
+    <a href="/blog/search" class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full rounded-lg sm:rounded-2xl">
+      <div class="card-body p-2 sm:p-4 flex flex-row items-center gap-2 sm:gap-3">
+        <div class="rounded-full bg-info/10 p-2 sm:p-3 flex-shrink-0">
+          <Icon name="feather:search" class="w-4 h-4 sm:w-6 sm:h-6 text-info" />
+        </div>
+        <div class="min-w-0 flex-1">
+          <h2 class="card-title text-xs sm:text-lg leading-tight mb-0.5">{t("label.searchPage")}</h2>
+          <p class="text-[10px] sm:text-sm opacity-75 truncate">{t("label.searchPageDescription")}</p>
+        </div>
+      </div>
+    </a>
+  </CardGroup>
+
+  <!-- Blog Post List -->
+  <CardGroup cols="1">
+    {
+      page.data.map((blog: Post) => (
+        <PostCard
+          title={blog.data.title}
+          image={blog.data.image}
+          description={blog.data.description}
+          url={"/blog/" + blog.slug}
+          pubDate={blog.data.pubDate}
+          badge={blog.data.badge}
+          categories={blog.data.categories}
+          tags={blog.data.tags}
+          word={blog.remarkPluginFrontmatter.totalCharCount}
+          time={blog.remarkPluginFrontmatter.readingTime}
+        />
+      ))
+=======
+<MainGridLayout>
+  <PostPage page={page} />
+  {
+    page.total > page.size && (
+      <Pagination
+        class="mx-auto onload-animation"
+        page={page}
+        style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}
+      />
+    )
+  }
+</MainGridLayout>
+
+<script>
+  // 响应式分页处理脚本
+  document.addEventListener("DOMContentLoaded", function () {
+    // 如果启用了响应式分页，添加相应的CSS类
+    const responsiveEnabled = true; // ${siteConfig.pagination.responsive}
+    if (responsiveEnabled) {
+      const deviceType = getDeviceType();
+      document.body.classList.add(`device-${deviceType}`);
+
+      // 监听窗口大小变化
+      let resizeTimeout: any;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+          const newDeviceType = getDeviceType();
+          const currentDeviceType = document.body.className.match(
+            /device-(mobile|tablet|desktop)/
+          )?.[1];
+
+          if (currentDeviceType !== newDeviceType) {
+            document.body.classList.remove(`device-${currentDeviceType}`);
+            document.body.classList.add(`device-${newDeviceType}`);
+          }
+        }, 250);
+      });
+>>>>>>> 7049e02b4fb3113b4c46ed87c680b2a2cf84d75b
+    }
+  });
+
+  function getDeviceType() {
+    if (typeof window === "undefined") return "desktop";
+
+    const width = window.innerWidth;
+    if (width < 768) return "mobile";
+    if (width < 1024) return "tablet";
+    return "desktop";
+  }
+</script>

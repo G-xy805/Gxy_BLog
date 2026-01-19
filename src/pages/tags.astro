@@ -1,0 +1,205 @@
+---
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getTagList, getTagColorClass, getTagFontSize } from "@/utils/content-utils";
+import Icon from "@components/misc/Icon.astro";
+
+const tagList = await getTagList();
+
+// 转换为数组并按计数排序（降序）
+const tagEntries = tagList.sort((a, b) => b.count - a.count);
+
+// 找到最大和最小计数，用于缩放
+const maxCount = tagEntries.length > 0 ? Math.max(...tagEntries.map(tag => tag.count)) : 0;
+const minCount = tagEntries.length > 0 ? Math.min(...tagEntries.map(tag => tag.count)) : 0;
+
+// 统计总标签数
+const totalTags = tagList.length;
+---
+
+<MainGridLayout title={i18n(I18nKey.tags)}>
+  <div class="card-base mb-0">
+    <div class="px-6 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div class="flex items-center gap-2">
+          <Icon icon="feather:tag" class="text-[#463AA2] dark:text-[#BD93F9]" size="2xl" />
+          <h1 class="text-3xl font-bold text-[#394E6A] dark:text-[#F8F8F2]">{i18n(I18nKey.tags)}</h1>
+          <div class="badge rounded-full bg-[#463AA2] text-white dark:bg-[#BD93F9] dark:text-black text-[0.8rem] px-4 py-0.4">{totalTags} {i18n(totalTags === 1 ? I18nKey.tagCount : I18nKey.tagsCount)}</div>
+        </div>
+        <a href="/" class="transition-all duration-300 inline-flex items-center justify-center gap-1 px-3 py-1.5 border border-[#394E6A] text-[#394E6A] text-sm font-bold rounded-lg hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
+          <Icon icon="feather:book-open" class="w-4 h-4" />
+          <span class="mr-1">{i18n(I18nKey.backToBlog)}</span>
+        </a>
+      </div>
+      <div class="divider my-6"></div>
+      <div class="border-t border-[1.5px] border-[#EBEDF0] dark:border-[rgba(255,255,255,0.2)] mt-4 mb-6"></div>
+      <div class="text-sm text-[#6B7A8F] dark:text-[#C5C5C3]">探索博客的所有标签</div>
+    </div>
+  </div>
+  <div class="card-base mt-4">
+    <div class="px-6 py-6">
+      <div class="tags-container">
+        {tagEntries.length > 0 ? (
+          <div class="tags-cloud">
+            {tagEntries.map((tag, index) => (
+              <a
+                href={`/tags/${encodeURIComponent(tag.name)}/`}
+                class={`tags-item ${getTagColorClass(tag.count, maxCount)}`}
+                style={`font-size: ${getTagFontSize(tag.count, maxCount, minCount)}rem;`}
+                data-count={tag.count}
+                data-index={index}
+              >
+                <span class="tags-content">
+                  <Icon icon="feather:tag" class="tags-icon" />
+                  <span class="tags-text">{tag.name}</span>
+                  <span class="tags-count">{tag.count}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-state">
+            <Icon icon="feather:frown" class="empty-icon" />
+            <p class="empty-text">{i18n(I18nKey.noTags)}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</MainGridLayout>
+
+<style>
+.tags-container {
+  @extend .blog-container;
+}
+
+.tags-cloud {
+  @apply flex flex-wrap justify-center gap-3 min-h-[200px];
+}
+
+.tags-item {
+  @apply relative opacity-0 translate-y-2 inline-flex items-center gap-2 rounded-full;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.tags-content {
+  @apply flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-transparent dark:bg-gray-800;
+}
+
+.tags-icon {
+  @apply w-4 h-4 flex-shrink-0;
+}
+
+.tags-count {
+  @apply inline-flex items-center justify-center min-w-6 h-6 px-2 text-xs font-bold rounded-full bg-gray-100 text-gray-600 duration-300 dark:bg-gray-700 dark:text-gray-300;
+}
+
+/* Tag color variants */
+.tag-high .tags-content {
+  @apply border-[var(--primary)] border-opacity-20 bg-white text-[var(--primary)] dark:border-[#FE7AC7] dark:border-opacity-20 dark:bg-gray-800 dark:text-[#FE7AC7];
+}
+
+.tag-high .tags-icon {
+  @apply text-[var(--primary)] dark:text-[#FE7AC7];
+}
+
+.tag-medium-high .tags-content {
+  @apply border-[var(--accent)] border-opacity-20 bg-white text-[var(--accent)] dark:border-[#FFB86C] dark:border-opacity-20 dark:bg-gray-800 dark:text-[#FFB86C];
+}
+
+.tag-medium-high .tags-icon {
+  @apply text-[var(--accent)] dark:text-[#FFB86C];
+}
+
+.tag-medium .tags-content {
+  @apply border-[#4ECDC4] border-opacity-20 bg-white text-[#4ECDC4] dark:border-[#89DDFF] dark:border-opacity-20 dark:bg-gray-800 dark:text-[#89DDFF];
+}
+
+.tag-medium .tags-icon {
+  @apply text-[#4ECDC4] dark:text-[#89DDFF];
+}
+
+.tag-medium-low .tags-content {
+  @apply border-gray-200 bg-white text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300;
+}
+
+.tag-medium-low .tags-icon {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.tag-low .tags-content {
+  @apply border-gray-100 bg-white text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400;
+}
+
+.tag-low .tags-icon {
+  @apply text-gray-400 dark:text-gray-500;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply staggered animation */
+.tags-item[data-index="0"] { animation-delay: 0.05s; }
+.tags-item[data-index="1"] { animation-delay: 0.07s; }
+.tags-item[data-index="2"] { animation-delay: 0.09s; }
+.tags-item[data-index="3"] { animation-delay: 0.11s; }
+.tags-item[data-index="4"] { animation-delay: 0.13s; }
+.tags-item[data-index="5"] { animation-delay: 0.15s; }
+.tags-item[data-index="6"] { animation-delay: 0.17s; }
+.tags-item[data-index="7"] { animation-delay: 0.19s; }
+.tags-item[data-index="8"] { animation-delay: 0.21s; }
+.tags-item[data-index="9"] { animation-delay: 0.23s; }
+.tags-item[data-index="10"] { animation-delay: 0.25s; }
+.tags-item[data-index="11"] { animation-delay: 0.27s; }
+.tags-item[data-index="12"] { animation-delay: 0.29s; }
+.tags-item[data-index="13"] { animation-delay: 0.31s; }
+.tags-item[data-index="14"] { animation-delay: 0.33s; }
+.tags-item[data-index="15"] { animation-delay: 0.35s; }
+.tags-item[data-index="16"] { animation-delay: 0.37s; }
+.tags-item[data-index="17"] { animation-delay: 0.39s; }
+.tags-item[data-index="18"] { animation-delay: 0.41s; }
+.tags-item[data-index="19"] { animation-delay: 0.43s; }
+.tags-item[data-index="20"] { animation-delay: 0.45s; }
+
+/* Empty state */
+.empty-state {
+  @apply flex flex-col items-center justify-center min-h-[200px] p-8 text-center text-gray-600 bg-white/50 rounded-2xl border border-dashed border-gray-200 dark:text-gray-300 dark:bg-gray-800/50 dark:border-gray-600;
+}
+
+.empty-icon {
+  @apply w-12 h-12 opacity-60 mb-4;
+}
+
+.empty-text {
+  @apply text-lg;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .tags-cloud {
+    @apply gap-2;
+  }
+  
+  .tags-content {
+    @apply px-3 py-1.5;
+  }
+  
+  .tags-item {
+    font-size: 0.9rem !important;
+  }
+  
+  .tags-icon {
+    @apply w-3.5 h-3.5;
+  }
+  
+  .tags-count {
+    @apply min-w-5 h-5 text-[0.65rem];
+  }
+}
+</style>
