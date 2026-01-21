@@ -14,15 +14,7 @@ async function getRawSortedPosts() {
 		if (a.data.pinned && !b.data.pinned) return -1;
 		if (!a.data.pinned && b.data.pinned) return 1;
 
-		// 然后按order字段排序
-		const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
-		const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
-		
-		if (orderA !== Number.MAX_SAFE_INTEGER || orderB !== Number.MAX_SAFE_INTEGER) {
-			return orderA - orderB; // 按order升序（数字小的在前）
-		}
-
-		// 如果没有order字段，则按发布日期排序
+		// 如果置顶状态相同，则按发布日期排序
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;

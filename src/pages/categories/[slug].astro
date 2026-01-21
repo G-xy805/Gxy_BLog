@@ -52,10 +52,23 @@ const categoryPosts = await getCollection("posts", ({ data }) => {
   return isVisible && category === slug;
 });
 
-// 按发布日期排序（最新的在前）
-categoryPosts.sort(
-  (a, b) => new Date(b.data.published).getTime() - new Date(a.data.published).getTime()
-);
+// 按order字段排序（如果有），否则按发布日期排序
+categoryPosts.sort((a, b) => {
+  // 首先按置顶状态排序
+  if (a.data.pinned && !b.data.pinned) return -1;
+  if (!a.data.pinned && b.data.pinned) return 1;
+
+  // 然后按order字段排序
+  const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
+  const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
+  
+  if (orderA !== Number.MAX_SAFE_INTEGER || orderB !== Number.MAX_SAFE_INTEGER) {
+    return orderA - orderB; // 按order升序（数字小的在前）
+  }
+
+  // 如果没有order字段，则按发布日期排序
+  return new Date(b.data.published).getTime() - new Date(a.data.published).getTime();
+});
 
 // 页面标题
 const pageTitle = `${i18n(I18nKey.categories)}: ${categoryName}`;
