@@ -44,4 +44,5 @@ c-cpp-tests/
 
 # VSCode
 .vscode/
-project-analysis.md
+
+files/
