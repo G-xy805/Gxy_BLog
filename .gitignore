@@ -35,3 +35,13 @@ Docs-Firefly/
 
 cache/
 package/
+
+# Trae
+.trae/
+
+# C/C++ test codes
+c-cpp-tests/
+
+# VSCode
+.vscode/
+project-analysis.md
