@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getPostUrlBySlug } from "@utils/url-utils";
 import PostCard from "@/components/content/PostCard.astro";
+import DynamicWelcome from "@/components/content/DynamicWelcome.astro";
 import { siteConfig } from "@/config";
 import { Icon } from "astro-icon/components";
 import { i18n } from "@i18n/translation";
@@ -24,6 +25,9 @@ const initialLayoutClass =
 		? "grid grid-cols-1 md:grid-cols-2 gap-4 grid-mode"
 		: "flex flex-col gap-4 md:gap-4 list-mode";
 ---
+
+<!-- 动态欢迎语 -->
+<DynamicWelcome />
 
 <!-- 导航卡片部分 -->
 <div class="grid grid-cols-2 gap-4 mb-4 onload-animation">

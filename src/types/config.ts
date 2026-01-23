@@ -218,6 +218,15 @@ export type ExpressiveCodeConfig = {
 	darkTheme: string;
 	/** 亮色主题名称（用于亮色模式） */
 	lightTheme: string;
+	/** 复制按钮配置 */
+	copy?: {
+		/** 是否启用复制按钮 */
+		enabled?: boolean;
+		/** 复制按钮的提示文本 */
+		tooltip?: string;
+		/** 复制成功后的提示文本 */
+		successText?: string;
+	};
 };
 
 // 单个字体配置

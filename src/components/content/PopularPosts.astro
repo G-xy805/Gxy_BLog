@@ -1,0 +1,99 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrlBySlug } from "@utils/url-utils";
+import { getSortedPosts } from "@/utils/content-utils";
+
+const allPosts = await getSortedPosts();
+// 取前5篇文章作为热门文章（基于置顶状态和发布日期）
+const popularPosts = allPosts.slice(0, 5);
+
+// 类型别名避免Fragment语法问题
+type PostEntry = CollectionEntry<"posts">;
+---
+
+<div class="popular-posts onload-animation mb-6">
+  <h2 class="section-title text-xl font-bold mb-3 flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+    </svg>
+    热门文章
+  </h2>
+  
+  <div class="posts-list bg-card rounded-lg shadow-sm p-4">
+    {popularPosts.length > 0 ? (
+      <ul class="space-y-3">
+        {popularPosts.map((post: PostEntry, index: number) => (
+          <li key={post.id} class="popular-post-item flex items-start gap-3">
+            <span class="popular-rank flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary font-bold text-sm shrink-0">
+              {index + 1}
+            </span>
+            <div class="popular-post-content flex-1 min-w-0">
+              <a 
+                href={getPostUrlBySlug(post.id)} 
+                class="popular-post-title text-sm font-medium hover:text-primary line-clamp-1"
+                title={post.data.title}
+              >
+                {post.data.title}
+              </a>
+              <p class="popular-post-meta text-xs text-gray-500 dark:text-gray-400 mt-1">
+                {post.data.published}
+                {post.data.category && (
+                  <span class="mx-2">•</span>
+                )}
+                {post.data.category}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="text-sm text-gray-500 dark:text-gray-400">暂无文章</p>
+    )}
+  </div>
+</div>
+
+<style>
+  .popular-posts {
+    animation-delay: var(--content-delay);
+  }
+  
+  .section-title {
+    color: var(--text-primary);
+  }
+  
+  .posts-list {
+    background: var(--card-bg);
+  }
+  
+  .popular-post-item {
+    transition: all 0.2s ease;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .popular-post-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .popular-post-item:hover {
+    transform: translateX(4px);
+  }
+  
+  .popular-rank {
+    font-weight: 600;
+  }
+  
+  .popular-post-title {
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+  }
+  
+  .popular-post-title:hover {
+    color: var(--theme-color);
+  }
+  
+  .popular-post-meta {
+    color: var(--text-secondary);
+  }
+</style>

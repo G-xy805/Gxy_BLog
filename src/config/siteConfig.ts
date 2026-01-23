@@ -7,29 +7,28 @@ const SITE_LANG = "zh_CN";
 
 export const siteConfig: SiteConfig = {
 	title: "Gxy' Blog",
-	subtitle: "系统 · 高效 · 实用",
+	subtitle: "系统 · 高效 · 实用的技术分享",
 	site_url: "https://gstudycodes.pages.dev",
-	description: "系统 · 高效 · 实用",
+	description: "专注于C++、Astro和技术分享的博客，系统、高效、实用地记录和分享技术知识。",
 	keywords: [
 		"Gxy",
-		"宇",
-		"宇手记",
-		"宇研究所",
-		"传统文化",
-		"资源",
-		"软件",
-		"网站",
-		"个人网站",
-		"obsidian",
-		"博客",
 		"技术博客",
+		"C++",
+		"Astro",
+		"编程",
+		"技术分享",
+		"软件开发",
+		"前端开发",
+		"后端开发",
 		"静态博客",
+		"博客",
+		"技术",
 	],
 
 	lang: SITE_LANG,
 
 	themeColor: {
-		hue: 260, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 200, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 		defaultMode: "light", // 默认模式："light" 亮色，"dark" 暗色，"system" 跟随系统
 	},
@@ -127,21 +126,19 @@ export const siteConfig: SiteConfig = {
 				},
 			},
 			credit: {
-				enable: {
-					desktop: true, // 桌面端显示横幅图片来源文本
-					mobile: true, // 移动端显示横幅图片来源文本
-				},
-				text: {
-					desktop: "WeChat - 宇手记", // 桌面端要显示的来源文本
-					mobile: "WeChat - 宇手记", // 移动端要显示的来源文本
-				},
-				url: {
-					desktop:
-						"https://mp.weixin.qq.com/mp/homepage?__biz=MzU2MTI5MzE4OA==&hid=1&sn=356f3016aeac48fc034804fca1307349&scene=18#wechat_redirect", // 桌面端原始艺术品或艺术家页面的 URL 链接
-					mobile:
-						"https://mp.weixin.qq.com/mp/homepage?__biz=MzU2MTI5MzE4OA==&hid=1&sn=356f3016aeac48fc034804fca1307349&scene=18#wechat_redirect", // 移动端原始艺术品或艺术家页面的 URL 链接
-				},
-			},
+		enable: {
+			desktop: false, // 桌面端显示横幅图片来源文本
+			mobile: false, // 移动端显示横幅图片来源文本
+		},
+		text: {
+			desktop: "", // 桌面端要显示的来源文本
+			mobile: "", // 移动端要显示的来源文本
+		},
+		url: {
+			desktop: "", // 桌面端原始艺术品或艺术家页面的 URL 链接
+			mobile: "", // 移动端原始艺术品或艺术家页面的 URL 链接
+		},
+	},
 			navbar: {
 				transparentMode: "semifull", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
 			},

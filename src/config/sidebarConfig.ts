@@ -78,6 +78,27 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			},
 		},
 		{
+			// 组件类型：热门文章组件
+			type: "popularPosts",
+			// 是否启用该组件
+			enable: true,
+			// 组件显示顺序
+			order: 6,
+			// 组件位置
+			position: "sticky",
+			// 是否在文章详情页显示
+			showOnPostPage: true,
+			// CSS 类名
+			class: "onload-animation",
+			// 动画延迟时间
+			animationDelay: 300,
+			// 响应式配置
+			responsive: {
+				// 在移动端隐藏
+				hidden: ["mobile"],
+			},
+		},
+		{
 			// 组件类型：侧边栏目录组件（只在文章详情页显示）
 			type: "sidebarToc",
 			// 是否启用该组件

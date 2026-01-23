@@ -29,6 +29,7 @@ const componentTypeToId = {
 
 	categories: "categories",
 	tags: "tags",
+	popularPosts: "popular-posts",
 };
 
 // 提取客户端需要的数据
@@ -62,6 +63,7 @@ const componentMap = {
 	tags: Tags,
 	sidebarToc: SidebarTOC,
 	stats: SiteStats,
+	popularPosts: (await import("@/components/content/PopularPosts.astro")).default,
 };
 
 // 渲染组件的辅助函数

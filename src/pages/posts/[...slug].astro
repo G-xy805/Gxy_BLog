@@ -17,6 +17,7 @@ import { Icon } from "astro-icon/components";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import PostMetadata from "@/components/content/PostMeta.astro";
+import ReadingProgress from "@/components/content/ReadingProgress.astro";
 
 import { licenseConfig } from "@/config/licenseConfig";
 import { profileConfig } from "@/config/profileConfig";
@@ -73,6 +74,7 @@ const jsonLd = {
   postSlug={entry.id}
   headings={headings}
 >
+  <ReadingProgress />
   <script
     is:inline
     slot="head"

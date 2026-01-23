@@ -1,0 +1,65 @@
+---
+import { siteConfig } from "@/config";
+---
+
+<div class="dynamic-welcome onload-animation mb-6">
+  <h2 class="welcome-title text-2xl font-bold mb-2">
+    {getWelcomeMessage()}
+  </h2>
+  <p class="welcome-subtitle text-gray-600 dark:text-gray-300">
+    专注于C++、Astro和技术分享的博客，系统、高效、实用地记录和分享技术知识。
+  </p>
+</div>
+
+<script>
+  function getWelcomeMessage() {
+    const now = new Date();
+    const hour = now.getHours();
+    
+    if (hour < 6) {
+      return "🌙 深夜了，注意休息！";
+    } else if (hour < 9) {
+      return "🌅 早上好，开启美好的一天！";
+    } else if (hour < 12) {
+      return "☀️ 上午好，今天也要加油！";
+    } else if (hour < 14) {
+      return "🍱 中午好，记得吃午饭！";
+    } else if (hour < 18) {
+      return "🌤️ 下午好，保持专注！";
+    } else if (hour < 22) {
+      return "🌆 晚上好，回顾一天的收获！";
+    } else {
+      return "🌙 夜深了，早点休息！";
+    }
+  }
+  
+  // 更新欢迎语
+  document.addEventListener('DOMContentLoaded', () => {
+    const titleElement = document.querySelector('.welcome-title');
+    if (titleElement) {
+      titleElement.textContent = getWelcomeMessage();
+    }
+  });
+</script>
+
+<style>
+  .dynamic-welcome {
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-bg-secondary) 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .dynamic-welcome:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .welcome-title {
+    background: linear-gradient(135deg, var(--theme-color) 0%, var(--theme-color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
