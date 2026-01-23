@@ -11,14 +11,15 @@
 
 /* ===== 主题相关变量 ===== */
 :root {
-  --primary: #4F46E5; /* 现代靛蓝色，作为主色调 */
+  --primary: #4338CA; /* 更深的靛蓝色，作为主色调，增强对比度 */
   --secondary: #6366F1; /* 淡靛蓝色，作为辅助色 */
-  --accent: #8B5CF6; /* 紫色，作为强调色 */
-  --page-bg: #F8FAFC;
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --card-bg-transparent: rgba(255, 255, 255, 0.6);
-  --text-color: #1E293B; /* 浅色模式文本色，提高对比度 */
-  --text-secondary: #64748B; /* 浅色模式辅助文本色 */
+  --accent: #A855F7; /* 更鲜艳的紫色，作为强调色 */
+  --tertiary: #EC4899; /* 粉色，作为第三强调色，增加色彩丰富度 */
+  --page-bg: #F1F5F9;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-bg-transparent: rgba(255, 255, 255, 0.7);
+  --text-color: #0F172A; /* 浅色模式文本色，提高对比度 */
+  --text-secondary: #475569; /* 浅色模式辅助文本色 */
   --text-muted: #94A3B8; /* 浅色模式次要文本色 */
   
   --btn-content: oklch(0.55 0.12 var(--hue));
@@ -107,15 +108,16 @@
 
 /* 暗色主题变量 */
 :root.dark {
-  --primary: #818CF8; /* 靛蓝色变体，适合暗色模式 */
-  --secondary: #6366F1; /* 淡靛蓝色，与浅色模式保持一致 */
-  --accent: #A78BFA; /* 紫色变体，适合暗色模式 */
+  --primary: #A5B4FC; /* 更明亮的靛蓝色变体，适合暗色模式 */
+  --secondary: #818CF8; /* 淡靛蓝色，与浅色模式协调 */
+  --accent: #C084FC; /* 更明亮的紫色变体，适合暗色模式 */
+  --tertiary: #F472B6; /* 粉色变体，作为第三强调色 */
   --page-bg: #0F172A;
-  --card-bg: rgba(30, 41, 59, 0.8);
-  --card-bg-transparent: rgba(30, 41, 59, 0.6);
-  --text-color: #F1F5F9; /* 暗色模式文本色，提高对比度 */
-  --text-secondary: #94A3B8; /* 暗色模式辅助文本色 */
-  --text-muted: #64748B; /* 暗色模式次要文本色 */
+  --card-bg: rgba(30, 41, 59, 0.9);
+  --card-bg-transparent: rgba(30, 41, 59, 0.75);
+  --text-color: #F8FAFC; /* 暗色模式文本色，提高对比度 */
+  --text-secondary: #CBD5E1; /* 暗色模式辅助文本色，提高可读性 */
+  --text-muted: #94A3B8; /* 暗色模式次要文本色 */
   
   --btn-content: oklch(0.75 0.1 var(--hue));
   --btn-regular-bg: oklch(0.33 0.035 var(--hue));

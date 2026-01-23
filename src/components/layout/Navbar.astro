@@ -30,30 +30,31 @@ let links: NavBarLink[] = navBarConfig.links.map(
 	},
 );
 ---
-<div id="navbar" class="z-50 onload-animation" data-is-home={isHomePageCheck}>
+<div id="navbar" class="z-50 onload-animation navbar-animate" data-is-home={isHomePageCheck}>
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
         "!overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center justify-between px-4"]} style="background: var(--card-bg) !important; backdrop-filter: none; border: none; box-shadow: none;">
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[2.5rem] px-4 font-bold active:scale-95">
-            <div class="flex flex-row text-[var(--primary)] items-center text-[1.75rem] leading-[1]">
+        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3rem] px-5 font-bold active:scale-95 relative group">
+            <div class="flex flex-row text-[var(--primary)] items-center text-[1.85rem] leading-[1]">
                 <span class="navbar-title-text">{navbarTitle}</span>
             </div>
+            <div class="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
         </a>
-        <div class="hidden md:flex items-center space-x-4">
+        <div class="hidden md:flex items-center space-x-1">
             {links.map((l) => {
-                return <DropdownMenu link={l} />;
+                return <DropdownMenu link={l} class="group" />;
             })}
         </div>
-        <div class="flex space-x-3">
+        <div class="flex space-x-2">
             <!-- 直接添加搜索图标链接 -->
-            <a href="/search/" aria-label="Search" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90">
-                <Icon name="feather:search" class="text-[1.25rem] text-[var(--primary)]"></Icon>
+            <a href="/search/" aria-label="Search" class="btn-plain scale-animation rounded-full w-12 h-12 active:scale-95 group">
+                <Icon name="feather:search" class="text-[1.35rem] text-[var(--primary)] transition-transform duration-300 group-hover:scale-110"></Icon>
             </a>
 
-            <LightDarkSwitch client:load></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden ml-3" id="nav-menu-switch">
-                <Icon name="feather:menu" class="text-[1.25rem] text-[var(--primary)]"></Icon>
+            <LightDarkSwitch client:load class="group"></LightDarkSwitch>
+            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-full w-12 h-12 active:scale-95 md:!hidden ml-1 group" id="nav-menu-switch">
+                <Icon name="feather:menu" class="text-[1.35rem] text-[var(--primary)] transition-all duration-400 group-hover:rotate-90"></Icon>
             </button>
         </div>
         <NavMenuPanel links={links}></NavMenuPanel>
@@ -92,5 +93,64 @@ loadButtonScript();
     display: inline-block;
     transform-origin: top;
     vertical-align: middle;
+    transition: all 0.3s ease-in-out;
+}
+
+#navbar {
+    backdrop-filter: blur(12px) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+}
+
+:root.dark #navbar {
+    background: rgba(30, 41, 59, 0.8) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#navbar:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.btn-plain {
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-plain::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.btn-plain:hover::before {
+    left: 100%;
+}
+
+.btn-plain:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.navbar-title-text:hover {
+    transform: scale(1.05);
+    color: #4338CA;
+}
+
+/* 移动端菜单按钮优化 */
+#nav-menu-switch {
+    transition: all 0.3s ease-in-out;
+}
+
+#nav-menu-switch:hover {
+    transform: rotate(90deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 </style>

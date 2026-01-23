@@ -21,14 +21,15 @@ html.is-entering .transition-main {
 /* 滚动触发动画 */
 .scroll-animation {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(40px) scale(0.98);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
+    transition-delay: 0.1s;
 }
 
 .scroll-animation.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 /* 为不同元素设置不同的动画延迟 */
@@ -37,11 +38,447 @@ html.is-entering .transition-main {
 }
 
 .scroll-animation:nth-child(2) {
-    transition-delay: 0.2s;
+    transition-delay: 0.15s;
 }
 
 .scroll-animation:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.scroll-animation:nth-child(4) {
+    transition-delay: 0.25s;
+}
+
+.scroll-animation:nth-child(5) {
     transition-delay: 0.3s;
+}
+
+.scroll-animation:nth-child(6) {
+    transition-delay: 0.35s;
+}
+
+.scroll-animation:nth-child(7) {
+    transition-delay: 0.4s;
+}
+
+.scroll-animation:nth-child(8) {
+    transition-delay: 0.45s;
+}
+
+/* 页面加载动画 */
+.page-load-animation {
+    opacity: 0;
+    animation: pageLoad 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(15px) scale(0.99);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 文字淡入动画 */
+@keyframes textFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.text-fade-in {
+    opacity: 0;
+    animation: textFadeIn 0.8s ease-out forwards;
+}
+
+/* 为不同段落设置不同的动画延迟 */
+.text-fade-in:nth-of-type(1) { animation-delay: 0.1s; }
+.text-fade-in:nth-of-type(2) { animation-delay: 0.2s; }
+.text-fade-in:nth-of-type(3) { animation-delay: 0.3s; }
+.text-fade-in:nth-of-type(4) { animation-delay: 0.4s; }
+.text-fade-in:nth-of-type(5) { animation-delay: 0.5s; }
+
+/* 元素出现动画 */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up-animation {
+    opacity: 0;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 元素缩放出现动画 */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.scale-in-animation {
+    opacity: 0;
+    animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 悬停上浮效果 */
+.hover-float {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-float:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* 悬停旋转效果 */
+.hover-rotate {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-rotate:hover {
+    transform: rotate(5deg);
+}
+
+/* 按钮脉冲效果 */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(67, 56, 202, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(67, 56, 202, 0);
+    }
+}
+
+.pulse-button {
+    animation: pulse 2s infinite;
+}
+
+/* 背景波纹效果 */
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.ripple-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-effect::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple-effect:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* 渐变文字动画 */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient-text {
+    background-size: 200% auto;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+/* 滚动指示器动画 */
+@keyframes scrollIndicator {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(10px);
+    }
+}
+
+.scroll-indicator {
+    animation: scrollIndicator 2s infinite;
+}
+
+/* 标签云动画 */
+@keyframes tagCloudFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.tag-cloud-item {
+    transition: all 0.3s ease;
+}
+
+.tag-cloud-item:hover {
+    animation: tagCloudFloat 0.6s ease-in-out;
+}
+
+/* 图片悬停放大效果 */
+.hover-zoom {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-zoom:hover {
+    transform: scale(1.05);
+}
+
+/* 卡片悬停发光效果 */
+@keyframes cardGlow {
+    0%, 100% {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+    50% {
+        box-shadow: 0 16px 50px rgba(67, 56, 202, 0.15), 0 4px 12px rgba(67, 56, 202, 0.1);
+    }
+}
+
+.card-glow:hover {
+    animation: cardGlow 1.5s ease-in-out infinite;
+}
+
+/* 骨架屏动画 */
+@keyframes skeletonLoading {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: skeletonLoading 1.5s infinite;
+}
+
+/* 导航链接下划线动画 */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* 元素淡入动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 元素滑入动画 */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 元素缩放动画 */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 悬停缩放效果 */
+.hover-scale {
+    transition: transform 0.3s ease-in-out;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* 悬停上移效果 */
+.hover-lift {
+    transition: transform 0.3s ease-in-out;
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+}
+
+/* 脉冲动画 */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* 旋转动画 */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate-animation {
+    animation: rotate 20s linear infinite;
+}
+
+/* 波浪动画 */
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.wave-animation {
+    animation: wave 3s ease-in-out infinite;
+}
+
+/* 主题切换动画 */
+.theme-transition {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    background-opacity: 0.5;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+    transform: scale(1.1);
+}
+
+/* 页面过渡效果 */
+.page-transition {
+    transition: all 0.3s ease-in-out;
+}
+
+/* 链接悬停效果 */
+.link-hover {
+    position: relative;
+    overflow: hidden;
+}
+
+.link-hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease-in-out;
+}
+
+.link-hover:hover::after {
+    width: 100%;
 }
 
 /* 增强的组件动画 */
@@ -266,14 +703,15 @@ html.is-entering .transition-main {
 /* 滚动触发动画 */
 .scroll-trigger {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(40px) scale(0.98);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
+    transition-delay: 0.1s;
 }
 
 .scroll-trigger.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 /* 交错动画延迟 */
@@ -282,19 +720,166 @@ html.is-entering .transition-main {
 }
 
 .scroll-trigger:nth-child(2) {
-    transition-delay: 0.2s;
+    transition-delay: 0.15s;
 }
 
 .scroll-trigger:nth-child(3) {
-    transition-delay: 0.3s;
+    transition-delay: 0.2s;
 }
 
 .scroll-trigger:nth-child(4) {
-    transition-delay: 0.4s;
+    transition-delay: 0.25s;
 }
 
 .scroll-trigger:nth-child(5) {
-    transition-delay: 0.5s;
+    transition-delay: 0.3s;
+}
+
+.scroll-trigger:nth-child(6) {
+    transition-delay: 0.35s;
+}
+
+.scroll-trigger:nth-child(7) {
+    transition-delay: 0.4s;
+}
+
+.scroll-trigger:nth-child(8) {
+    transition-delay: 0.45s;
+}
+
+/* 统一的滚动触发动画类 */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+    transition-delay: 0.1s;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* 不同类型的滚动动画 */
+/* 淡入动画 */
+.fade-in-on-scroll {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity;
+}
+
+.fade-in-on-scroll.visible {
+    opacity: 1;
+}
+
+/* 滑入动画 - 从左侧 */
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 滑入动画 - 从右侧 */
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.slide-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 缩放动画 */
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 交错动画容器 */
+.stagger-container > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.stagger-container.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stagger-container.visible > :nth-child(1) { transition-delay: 0.1s; }
+.stagger-container.visible > :nth-child(2) { transition-delay: 0.2s; }
+.stagger-container.visible > :nth-child(3) { transition-delay: 0.3s; }
+.stagger-container.visible > :nth-child(4) { transition-delay: 0.4s; }
+.stagger-container.visible > :nth-child(5) { transition-delay: 0.5s; }
+.stagger-container.visible > :nth-child(6) { transition-delay: 0.6s; }
+
+/* 滚动进度指示器 */
+.progress-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    z-index: 9999;
+    width: 0%;
+    transition: width 0.1s ease-out;
+    will-change: width;
+}
+
+/* 滚动到顶部按钮动画 */
+#back-to-top-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+#back-to-top-btn:not(.hide) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 导航栏滚动效果 */
+#navbar {
+    transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+#navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+:root.dark #navbar.scrolled {
+    background: rgba(30, 41, 59, 0.95) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* 平滑滚动到锚点 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 为锚点链接添加偏移量，避免被固定导航栏遮挡 */
+:target {
+    scroll-margin-top: 80px;
 }
 
 /* 悬停缩放效果 */
