@@ -169,6 +169,44 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${slug}`;
   )}
 </MainGridLayout>
 
+<script>
+  // 响应式分页处理脚本
+  document.addEventListener("DOMContentLoaded", function () {
+    // 如果启用了响应式分页，添加相应的CSS类
+    const responsiveEnabled = true; // ${siteConfig.pagination.responsive}
+    if (responsiveEnabled) {
+      const deviceType = getDeviceType();
+      document.body.classList.add(`device-${deviceType}`);
+
+      // 监听窗口大小变化
+      let resizeTimeout;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+          const newDeviceType = getDeviceType();
+          const currentDeviceType = document.body.className.match(
+            /device-(mobile|tablet|desktop)/
+          )?.[1];
+
+          if (currentDeviceType !== newDeviceType) {
+            document.body.classList.remove(`device-${currentDeviceType}`);
+            document.body.classList.add(`device-${newDeviceType}`);
+          }
+        }, 250);
+      });
+    }
+  });
+
+  function getDeviceType() {
+    if (typeof window === "undefined") return "desktop";
+
+    const width = window.innerWidth;
+    if (width < 768) return "mobile";
+    if (width < 1024) return "tablet";
+    return "desktop";
+  }
+</script>
+
 <style>
 /* 确保分类卡片样式与首页一致 */
 .onload-animation {
