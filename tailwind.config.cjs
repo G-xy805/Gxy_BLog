@@ -8,6 +8,9 @@ module.exports = {
       fontFamily: {
         sans: defaultTheme.fontFamily.sans,
       },
+      transitionDuration: {
+        '400': '400ms',
+      },
       colors: {
         // Winter theme colors with dark mode support
         primary: {
