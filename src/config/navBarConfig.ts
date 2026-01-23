@@ -14,18 +14,18 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		{
 			name: "首页",
 			url: "/",
-			icon: "feather:home",
+			icon: "ri:home-2-line",
 		},
 		// 分类
 		{
 			name: "分类",
 			url: "/categories/",
-			icon: "feather:grid",
+			icon: "ri:grid-line",
 			children: [
 				{
 					name: "C++",
 					url: "/categories/C++/",
-					icon: "feather:code",
+					icon: "ri:code-box-line",
 				},
 				{
 					name: "Astro",
@@ -43,13 +43,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		{
 			name: "归档",
 			url: "/archives/",
-			icon: "feather:calendar",
+			icon: "ri:calendar-line",
 		},
 		// 关于
 		{
 			name: "关于",
 			url: "/about/",
-			icon: "feather:info",
+			icon: "ri:information-line",
 			children: [
 				LinkPreset.About,
 				{

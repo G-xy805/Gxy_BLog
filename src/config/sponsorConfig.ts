@@ -28,7 +28,7 @@ export const sponsorConfig: SponsorConfig = {
 		},
 		{
 			name: "公众号",
-			icon: "feather:user",
+			icon: "ri:user-line",
 			qrCode: "",
 			link: "https://mp.weixin.qq.com/mp/homepage?__biz=MzU2MTI5MzE4OA==&hid=1&sn=356f3016aeac48fc034804fca1307349&scene=18#wechat_redirect",
 			description: "免费三连就是最大的支持",

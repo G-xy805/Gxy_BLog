@@ -12,7 +12,7 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "Rss",
-			icon: "feather:rss",
+			icon: "ri:rss-line",
 			url: "/rss/",
 		},
 	],
