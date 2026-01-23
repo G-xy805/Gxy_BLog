@@ -10,14 +10,14 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { siteConfig } from "@/config";
 
-export async function getStaticPaths() {
+export async function getStaticPaths({ paginate }) {
   // 获取所有文章
   const allPosts = await getCollection("posts", ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
   });
 
   // 提取所有唯一分类
-  const categoryMap = new Map<string, Array<any>>();
+  const categories = new Set<string>();
   allPosts.forEach((post) => {
     let category = post.data.category;
     if (!category) {
@@ -27,93 +27,69 @@ export async function getStaticPaths() {
       category = String(category);
     }
     category = category.trim();
-    
-    if (!categoryMap.has(category)) {
-      categoryMap.set(category, []);
-    }
-    categoryMap.get(category)!.push(post);
+    categories.add(category);
   });
 
-  // 对每个分类的文章进行排序
-  const sortedCategoryMap = new Map<string, Array<any>>();
-  categoryMap.forEach((posts, category) => {
-    const sortedPosts = posts.sort((a, b) => {
-      // 首先按置顶状态排序
-      if (a.data.pinned && !b.data.pinned) return -1;
-      if (!a.data.pinned && b.data.pinned) return 1;
-
-      // 如果置顶状态相同，则按发布日期排序（最新的在前）
-      const dateA = new Date(a.data.published);
-      const dateB = new Date(b.data.published);
-      
-      // 如果发布日期不同，则按日期排序
-      if (dateA.getTime() !== dateB.getTime()) {
-        return dateA > dateB ? -1 : 1;
-      }
-      
-      // 如果发布日期相同，则按order字段排序（数字小的在前）
-      const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
-      const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
-      
-      return orderA - orderB; // 按order升序（数字小的在前）
-    });
-    sortedCategoryMap.set(category, sortedPosts);
-  });
-
-  // 生成所有分类的分页路由
+  // 为每个分类生成路由
   const paths = [];
   const pageSize = siteConfig.pagination.postsPerPage;
-  
-  for (const [category, posts] of sortedCategoryMap.entries()) {
-    // 为每个分类生成分页路由
-    for (let page = 0; page < Math.ceil(posts.length / pageSize); page++) {
-      const start = page * pageSize;
-      const end = start + pageSize;
-      const pagePosts = posts.slice(start, end);
-      
-      paths.push({
-        params: { slug: category, page: (page + 1).toString() },
-        props: {
-          categoryName: category,
-          posts: pagePosts,
-          totalPosts: posts.length,
-          currentPage: page + 1,
-          pageSize: pageSize
-        },
+
+  for (const category of categories) {
+    // 获取当前分类下的所有文章
+    const categoryPosts = allPosts
+      .filter((post) => {
+        let postCategory = post.data.category;
+        if (!postCategory) {
+          postCategory = i18n(I18nKey.uncategorized);
+        }
+        if (typeof postCategory !== "string") {
+          postCategory = String(postCategory);
+        }
+        postCategory = postCategory.trim();
+        return postCategory === category;
+      })
+      .sort((a, b) => {
+        // 首先按置顶状态排序
+        if (a.data.pinned && !b.data.pinned) return -1;
+        if (!a.data.pinned && b.data.pinned) return 1;
+
+        // 如果置顶状态相同，则按发布日期排序（最新的在前）
+        const dateA = new Date(a.data.published);
+        const dateB = new Date(b.data.published);
+        
+        // 如果发布日期不同，则按日期排序
+        if (dateA.getTime() !== dateB.getTime()) {
+          return dateA > dateB ? -1 : 1;
+        }
+        
+        // 如果发布日期相同，则按order字段排序（数字小的在前）
+        const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
+        const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
+        
+        return orderA - orderB; // 按order升序（数字小的在前）
       });
-    }
-    
-    // 确保生成第一页的默认路由（不带page参数）
-    const firstPagePosts = posts.slice(0, pageSize);
-    paths.push({
+
+    // 使用Astro的paginate函数生成分页路由
+    const categoryPaths = paginate(categoryPosts, {
       params: { slug: category },
-      props: {
-        categoryName: category,
-        posts: firstPagePosts,
-        totalPosts: posts.length,
-        currentPage: 1,
-        pageSize: pageSize
-      },
+      pageSize,
+      // 确保生成的路径格式为 /categories/[slug]/[page]/
+      path: ({ params }) => `/categories/${params.slug}/`,
     });
+
+    // 添加到路径列表中
+    paths.push(...categoryPaths);
   }
 
   return paths;
 }
 
 // 获取当前分类的参数和属性
-const { slug, page: pageParam } = Astro.params;
-const { categoryName, posts, totalPosts, currentPage, pageSize } = Astro.props;
-
-// 计算分页数据
-const page = {
-  data: posts,
-  total: totalPosts,
-  size: pageSize,
-  currentPage: currentPage,
-  totalPages: Math.ceil(totalPosts / pageSize),
-};
+const { page } = Astro.props;
+const { slug } = Astro.params;
 
 // 页面标题
+const categoryName = slug;
 const pageTitle = `${i18n(I18nKey.categories)}: ${categoryName}`;
 ---
 
@@ -126,7 +102,7 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${categoryName}`;
         <div class="flex items-center gap-2">
           <Icon icon="feather:folder" class="text-[var(--primary)]" size="2xl" />
           <h1 class="text-3xl font-bold text-[#394E6A] dark:text-[#F8F8F2]">{categoryName}</h1>
-          <div class="badge rounded-full bg-[var(--primary)] text-white dark:text-black text-[0.8rem] px-4 py-0.4">{totalPosts} {i18n(totalPosts === 1 ? I18nKey.postCount : I18nKey.postsCount)}</div>
+          <div class="badge rounded-full bg-[var(--primary)] text-white dark:text-black text-[0.8rem] px-4 py-0.4">{page.total} {i18n(page.total === 1 ? I18nKey.postCount : I18nKey.postsCount)}</div>
         </div>
         <!-- 所有分类链接 -->
         <a href="/categories/" class="transition-all duration-300 inline-flex items-center justify-center gap-1 px-4 py-1.5 border border-[#394E6A] text-[#394E6A] text-sm font-bold rounded-lg hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
@@ -142,8 +118,8 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${categoryName}`;
 
   <!-- 文章列表 -->
   <div class="flex flex-col gap-4 mt-4">
-    {posts.length > 0 ? (
-      posts.map((post, index) => (
+    {page.data.length > 0 ? (
+      page.data.map((post, index) => (
         <PostCard
           entry={post}
           title={post.data.title}
@@ -164,11 +140,12 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${categoryName}`;
   </div>
 
   <!-- 分页组件 -->
-  {totalPosts > pageSize && (
+  {page.total > page.size && (
     <Pagination
       class="mx-auto onload-animation"
       page={page}
-      style={`animation-delay: calc(var(--content-delay) + ${posts.length * 50}ms)`}
+      basePath={`/categories/${slug}/`}
+      style={`animation-delay: calc(var(--content-delay) + ${page.data.length * 50}ms)`}
     />
   )}
 </MainGridLayout>
