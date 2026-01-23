@@ -83,7 +83,7 @@ export async function getStaticPaths() {
         const pagePosts = categoryPosts.slice(startIndex, endIndex);
         
         paths.push({
-          params: { slug: category, page: [String(pageNum)] },
+          params: { slug: category, page: String(pageNum) },
           props: { 
             page: {
               data: pagePosts,
