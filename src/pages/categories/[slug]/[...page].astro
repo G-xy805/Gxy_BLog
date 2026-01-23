@@ -69,16 +69,19 @@ export async function getStaticPaths({ paginate }) {
         return orderA - orderB; // 按order升序（数字小的在前）
       });
 
-    // 使用Astro的paginate函数生成分页路由
-    const paginatedPaths = paginate(categoryPosts, {
-      params: { slug: category },
-      pageSize,
-      // 跳过第一页，因为它由 [slug].astro 处理
-      startPage: 2,
-    });
+    // 只有当文章数量超过每页限制时才生成分页路由
+    if (categoryPosts.length > pageSize) {
+      // 使用Astro的paginate函数生成分页路由
+      const paginatedPaths = paginate(categoryPosts, {
+        params: { slug: category },
+        pageSize,
+        // 跳过第一页，因为它由 [slug].astro 处理
+        startPage: 2,
+      });
 
-    // 添加到路径列表中
-    paths.push(...paginatedPaths);
+      // 添加到路径列表中
+      paths.push(...paginatedPaths);
+    }
   }
 
   return paths;
