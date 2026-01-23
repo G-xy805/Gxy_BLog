@@ -21,6 +21,6 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 	[LinkPreset.Sponsor]: {
 		name: i18n(I18nKey.sponsor),
 		url: "/sponsor/",
-		icon: "ri:coffee-cup-line",
+		icon: "ri:coffee-line",
 	},
 };
