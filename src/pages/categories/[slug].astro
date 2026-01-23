@@ -1,7 +1,5 @@
 ---
-import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import Pagination from "@/components/common/controls/Pagination.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import PostCard from "@components/content/PostCard.astro";
 import { getPostUrlBySlug } from "@utils/url-utils";
@@ -10,81 +8,53 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { siteConfig } from "@/config";
 
-export async function getStaticPaths({ paginate }) {
-  // 获取所有文章
-  const allPosts = await getCollection("posts", ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
-  });
-
-  // 提取所有唯一分类
-  const categorySet = new Set<string>();
-  allPosts.forEach((post) => {
-    let category = post.data.category;
-    if (!category) {
-      category = i18n(I18nKey.uncategorized);
-    }
-    if (typeof category !== "string") {
-      category = String(category);
-    }
-    category = category.trim();
-    categorySet.add(category);
-  });
-
-  // 为每个分类生成路由
-  const paths = [];
-  const pageSize = siteConfig.pagination.postsPerPage;
-
-  for (const category of categorySet) {
-    // 获取当前分类下的所有文章
-    const categoryPosts = allPosts
-      .filter((post) => {
-        let postCategory = post.data.category;
-        if (!postCategory) {
-          postCategory = i18n(I18nKey.uncategorized);
-        }
-        if (typeof postCategory !== "string") {
-          postCategory = String(postCategory);
-        }
-        postCategory = postCategory.trim();
-        return postCategory === category;
-      })
-      .sort((a, b) => {
-        // 首先按置顶状态排序
-        if (a.data.pinned && !b.data.pinned) return -1;
-        if (!a.data.pinned && b.data.pinned) return 1;
-
-        // 如果置顶状态相同，则按发布日期排序（最新的在前）
-        const dateA = new Date(a.data.published);
-        const dateB = new Date(b.data.published);
-        
-        // 如果发布日期不同，则按日期排序
-        if (dateA.getTime() !== dateB.getTime()) {
-          return dateA > dateB ? -1 : 1;
-        }
-        
-        // 如果发布日期相同，则按order字段排序（数字小的在前）
-        const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
-        const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
-        
-        return orderA - orderB; // 按order升序（数字小的在前）
-      });
-
-    // 使用Astro的paginate函数生成分页路由
-    const paginatedPaths = paginate(categoryPosts, {
-      params: { slug: category },
-      pageSize,
-    });
-
-    // 添加到路径列表中
-    paths.push(...paginatedPaths);
-  }
-
-  return paths;
-}
-
-// 获取当前分类的参数和属性
+// 获取当前分类的参数
 const { slug } = Astro.params;
-const { page } = Astro.props;
+
+// 获取当前分类下的所有文章
+const allPosts = await getCollection("posts", ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+// 过滤当前分类的文章
+const categoryPosts = allPosts
+  .filter((post) => {
+    let postCategory = post.data.category;
+    if (!postCategory) {
+      postCategory = i18n(I18nKey.uncategorized);
+    }
+    if (typeof postCategory !== "string") {
+      postCategory = String(postCategory);
+    }
+    postCategory = postCategory.trim();
+    return postCategory === slug;
+  })
+  .sort((a, b) => {
+    // 首先按置顶状态排序
+    if (a.data.pinned && !b.data.pinned) return -1;
+    if (!a.data.pinned && b.data.pinned) return 1;
+
+    // 如果置顶状态相同，则按发布日期排序（最新的在前）
+    const dateA = new Date(a.data.published);
+    const dateB = new Date(b.data.published);
+    
+    // 如果发布日期不同，则按日期排序
+    if (dateA.getTime() !== dateB.getTime()) {
+      return dateA > dateB ? -1 : 1;
+    }
+    
+    // 如果发布日期相同，则按order字段排序（数字小的在前）
+    const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
+    const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
+    
+    return orderA - orderB; // 按order升序（数字小的在前）
+  });
+
+// 获取第一页的文章
+const pageSize = siteConfig.pagination.postsPerPage;
+const posts = categoryPosts.slice(0, pageSize);
+const totalPosts = categoryPosts.length;
+const hasMore = totalPosts > pageSize;
 
 // 页面标题
 const pageTitle = `${i18n(I18nKey.categories)}: ${slug}`;
@@ -99,7 +69,7 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${slug}`;
         <div class="flex items-center gap-2">
           <Icon icon="feather:folder" class="text-[var(--primary)]" size="2xl" />
           <h1 class="text-3xl font-bold text-[#394E6A] dark:text-[#F8F8F2]">{slug}</h1>
-          <div class="badge rounded-full bg-[var(--primary)] text-white dark:text-black text-[0.8rem] px-4 py-0.4">{page.total} {i18n(page.total === 1 ? I18nKey.postCount : I18nKey.postsCount)}</div>
+          <div class="badge rounded-full bg-[var(--primary)] text-white dark:text-black text-[0.8rem] px-4 py-0.4">{totalPosts} {i18n(totalPosts === 1 ? I18nKey.postCount : I18nKey.postsCount)}</div>
         </div>
         <!-- 所有分类链接 -->
         <a href="/categories/" class="transition-all duration-300 inline-flex items-center justify-center gap-1 px-4 py-1.5 border border-[#394E6A] text-[#394E6A] text-sm font-bold rounded-lg hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
@@ -115,8 +85,8 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${slug}`;
 
   <!-- 文章列表 -->
   <div class="flex flex-col gap-4 mt-4">
-    {page.data.length > 0 ? (
-      page.data.map((post, index) => (
+    {posts.length > 0 ? (
+      posts.map((post, index) => (
         <PostCard
           entry={post}
           title={post.data.title}
@@ -136,13 +106,17 @@ const pageTitle = `${i18n(I18nKey.categories)}: ${slug}`;
     )}
   </div>
 
-  <!-- 分页组件 -->
-  {page.total > page.size && (
-    <Pagination
-      class="mx-auto onload-animation"
-      page={page}
-      style={`animation-delay: calc(var(--content-delay) + ${page.data.length * 50}ms)`}
-    />
+  <!-- 分页链接 -->
+  {hasMore && (
+    <div class="flex justify-center mt-8">
+      <a 
+        href={`/categories/${slug}/2/`} 
+        class="btn-card transition-all duration-300 inline-flex items-center justify-center gap-2 px-6 py-2 border border-[#394E6A] text-[#394E6A] text-sm font-bold rounded-lg hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
+      >
+        <span>{i18n(I18nKey.nextPage)}</span>
+        <Icon icon="feather:chevron-right" class="w-4 h-4" />
+      </a>
+    </div>
   )}
 </MainGridLayout>
 

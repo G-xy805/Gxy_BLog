@@ -1,4 +1,6 @@
 ---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
 import Pagination from "@/components/common/controls/Pagination.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import PostCard from "@components/content/PostCard.astro";
@@ -6,6 +8,81 @@ import { getPostUrlBySlug } from "@utils/url-utils";
 import Icon from "@components/misc/Icon.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
+import { siteConfig } from "@/config";
+
+export async function getStaticPaths({ paginate }) {
+  // 获取所有文章
+  const allPosts = await getCollection("posts", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+
+  // 提取所有唯一分类
+  const categorySet = new Set<string>();
+  allPosts.forEach((post) => {
+    let category = post.data.category;
+    if (!category) {
+      category = i18n(I18nKey.uncategorized);
+    }
+    if (typeof category !== "string") {
+      category = String(category);
+    }
+    category = category.trim();
+    categorySet.add(category);
+  });
+
+  // 为每个分类生成路由
+  const paths = [];
+  const pageSize = siteConfig.pagination.postsPerPage;
+
+  for (const category of categorySet) {
+    // 获取当前分类下的所有文章
+    const categoryPosts = allPosts
+      .filter((post) => {
+        let postCategory = post.data.category;
+        if (!postCategory) {
+          postCategory = i18n(I18nKey.uncategorized);
+        }
+        if (typeof postCategory !== "string") {
+          postCategory = String(postCategory);
+        }
+        postCategory = postCategory.trim();
+        return postCategory === category;
+      })
+      .sort((a, b) => {
+        // 首先按置顶状态排序
+        if (a.data.pinned && !b.data.pinned) return -1;
+        if (!a.data.pinned && b.data.pinned) return 1;
+
+        // 如果置顶状态相同，则按发布日期排序（最新的在前）
+        const dateA = new Date(a.data.published);
+        const dateB = new Date(b.data.published);
+        
+        // 如果发布日期不同，则按日期排序
+        if (dateA.getTime() !== dateB.getTime()) {
+          return dateA > dateB ? -1 : 1;
+        }
+        
+        // 如果发布日期相同，则按order字段排序（数字小的在前）
+        const orderA = typeof a.data.order !== 'undefined' ? a.data.order : Number.MAX_SAFE_INTEGER;
+        const orderB = typeof b.data.order !== 'undefined' ? b.data.order : Number.MAX_SAFE_INTEGER;
+        
+        return orderA - orderB; // 按order升序（数字小的在前）
+      });
+
+    // 使用Astro的paginate函数生成分页路由
+    const paginatedPaths = paginate(categoryPosts, {
+      params: { slug: category },
+      pageSize,
+      // 跳过第一页，因为它由 [slug].astro 处理
+      startPage: 2,
+    });
+
+    // 添加到路径列表中
+    paths.push(...paginatedPaths);
+  }
+
+  return paths;
+}
 
 // 获取当前分类和页码参数
 const { slug } = Astro.params;
