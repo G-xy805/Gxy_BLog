@@ -70,9 +70,10 @@ let links: NavBarLink[] = navBarConfig.links.map(
         
         <!-- 导航栏右侧装饰 -->
         <div class="absolute right-0 top-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-l from-[var(--secondary)]/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <NavMenuPanel links={links}></NavMenuPanel>
     </div>
 </div>
+
+<NavMenuPanel links={links}></NavMenuPanel>
 
 <script>
 function loadButtonScript() {
