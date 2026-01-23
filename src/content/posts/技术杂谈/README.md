@@ -3,7 +3,7 @@ title: 技术杂谈
 order: 0
 description: 分享开发经验、工具推荐和技术思考
 published: 2026-01-24
-image: /assets/images/tech-talk.webp
+image: /assets/images/cpp-logo.webp
 tags:
 - 技术杂谈
 - 开发经验

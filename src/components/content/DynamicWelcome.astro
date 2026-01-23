@@ -24,11 +24,11 @@ function getWelcomeMessage() {
 }
 ---
 
-<div class="dynamic-welcome onload-animation mb-6" style="display: block !important; opacity: 1 !important; visibility: visible !important;">
-  <h2 class="welcome-title text-2xl font-bold mb-2">
+<div class="dynamic-welcome onload-animation mb-6" style="display: block !important; opacity: 1 !important; visibility: visible !important; background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; z-index: 10;">
+  <h2 class="welcome-title text-2xl font-bold mb-2" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: #007bff !important;">
     {getWelcomeMessage()}
   </h2>
-  <p class="welcome-subtitle text-gray-600 dark:text-gray-300">
+  <p class="welcome-subtitle" style="color: #394E6A !important; opacity: 0.75 !important;">
     专注于C++、Astro和技术分享的博客，系统、高效、实用地记录和分享技术知识。
   </p>
 </div>
@@ -63,25 +63,3 @@ function getWelcomeMessage() {
     }
   });
 </script>
-
-<style>
-  .dynamic-welcome {
-    background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-bg-secondary) 100%);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .dynamic-welcome:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
-  
-  .welcome-title {
-    background: linear-gradient(135deg, var(--theme-color) 0%, var(--theme-color-accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-</style>
