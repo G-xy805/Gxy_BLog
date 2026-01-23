@@ -1,5 +1,27 @@
 ---
 import { siteConfig } from "@/config";
+
+// 在组件顶部定义函数，以便在模板中调用
+function getWelcomeMessage() {
+  const now = new Date();
+  const hour = now.getHours();
+  
+  if (hour < 6) {
+    return "🌙 深夜了，注意休息！";
+  } else if (hour < 9) {
+    return "🌅 早上好，开启美好的一天！";
+  } else if (hour < 12) {
+    return "☀️ 上午好，今天也要加油！";
+  } else if (hour < 14) {
+    return "🍱 中午好，记得吃午饭！";
+  } else if (hour < 18) {
+    return "🌤️ 下午好，保持专注！";
+  } else if (hour < 22) {
+    return "🌆 晚上好，回顾一天的收获！";
+  } else {
+    return "🌙 夜深了，早点休息！";
+  }
+}
 ---
 
 <div class="dynamic-welcome onload-animation mb-6">
@@ -12,6 +34,7 @@ import { siteConfig } from "@/config";
 </div>
 
 <script>
+  // 更新欢迎语
   function getWelcomeMessage() {
     const now = new Date();
     const hour = now.getHours();
@@ -33,7 +56,6 @@ import { siteConfig } from "@/config";
     }
   }
   
-  // 更新欢迎语
   document.addEventListener('DOMContentLoaded', () => {
     const titleElement = document.querySelector('.welcome-title');
     if (titleElement) {
