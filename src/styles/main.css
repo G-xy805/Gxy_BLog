@@ -45,7 +45,7 @@ body {
     background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
-    opacity: 0.1;
+    opacity: 0.08;
 }
 
 /* 背景纹理 */
@@ -99,7 +99,7 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
 
 /* 暗色主题下的渐变背景透明度 */
 :root.dark .gradient-bg {
-    opacity: 0.15;
+    opacity: 0.12;
 }
 
 @layer components {
@@ -342,7 +342,7 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
     }
     .btn-regular {
         @apply transition-all duration-300 ease-in-out flex items-center justify-center rounded-full px-4 py-2 font-medium text-sm relative overflow-hidden;
-        background: linear-gradient(135deg, var(--primary), #4338CA);
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white;
         box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
         border: none;
@@ -456,7 +456,7 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
     }
 
     .dropdown-menu {
-        @apply absolute top-full left-0 pt-0 opacity-0 invisible transition-all duration-200 ease-out transform translate-y-0 z-50;
+        @apply absolute top-full left-0 pt-0 opacity-0 invisible transition-all duration-200 ease-out transform translate-y-2 z-50;
     }
 
     .dropdown-container:hover .dropdown-menu,
@@ -515,9 +515,27 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
     .dropdown-item:focus {
         @apply outline-none;
     }
+    .dropdown-item:focus-visible {
+        box-shadow: 0 0 0 3px var(--primary);
+        border-radius: calc(var(--radius-large) - 0.5rem);
+    }
 
     .mobile-dropdown button:focus {
         @apply outline-none;
+    }
+    .mobile-dropdown button:focus-visible {
+        box-shadow: 0 0 0 3px var(--primary);
+        border-radius: var(--radius-md);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    .btn-plain:focus-visible,
+    .btn-regular:focus-visible,
+    .btn-outline:focus-visible,
+    .btn-card:focus-visible {
+        box-shadow: 0 0 0 3px var(--primary);
+        border-radius: var(--radius-md);
     }
 
     .meta-icon {
