@@ -650,75 +650,75 @@ function disableAnimation() {
     }
 
     function showBanner() {
-    const isBannerMode = siteConfig.backgroundWallpaper.mode === "banner";
-    if (!isBannerMode) return;
+      const isBannerMode = siteConfig.backgroundWallpaper.mode === "banner";
+      if (!isBannerMode) return;
 
-    // 使用requestAnimationFrame优化DOM操作
-    requestAnimationFrame(() => {
-      // Handle single image banner (desktop)
-      const banner = document.getElementById("banner");
-      if (banner) {
-        banner.classList.remove("opacity-0", "scale-105");
-      }
+      // 使用requestAnimationFrame优化DOM操作
+      requestAnimationFrame(() => {
+        // Handle single image banner (desktop)
+        const banner = document.getElementById("banner");
+        if (banner) {
+          banner.classList.remove("opacity-0", "scale-105");
+        }
 
-      // Handle mobile single image banner - 使用与电脑端相同的逻辑
-      const mobileBanner = document.querySelector(
-        '.block.lg\\:hidden[alt="Mobile banner image of the blog"]'
-      );
-      if (mobileBanner) {
-        // 移动端使用与电脑端相同的初始化逻辑
-        mobileBanner.classList.remove("opacity-0", "scale-105");
-        mobileBanner.classList.add("opacity-100");
-      }
-    });
-  }
+        // Handle mobile single image banner - 使用与电脑端相同的逻辑
+        const mobileBanner = document.querySelector(
+          '.block.lg\\:hidden[alt="Mobile banner image of the blog"]'
+        );
+        if (mobileBanner) {
+          // 移动端使用与电脑端相同的初始化逻辑
+          mobileBanner.classList.remove("opacity-0", "scale-105");
+          mobileBanner.classList.add("opacity-100");
+        }
+      });
+    }
 
-  const setup = () => {
-    // TODO: temp solution to change the height of the banner
-    /*
-	window.swup.hooks.on('animation:out:start', () => {
-		const path = window.location.pathname
-		const body = document.querySelector('body')
-		if (path[path.length - 1] === '/' && !body.classList.contains('is-home')) {
-			body.classList.add('is-home')
-		} else if (path[path.length - 1] !== '/' && body.classList.contains('is-home')) {
-			body.classList.remove('is-home')
-		}
-	})
-*/
-    window.swup.hooks.on("link:click", () => {
-      // Remove the delay for the first time page load
-      document.documentElement.style.setProperty("--content-delay", "0ms");
+    const setup = () => {
+      // TODO: temp solution to change the height of the banner
+      /*
+      window.swup.hooks.on('animation:out:start', () => {
+        const path = window.location.pathname
+        const body = document.querySelector('body')
+        if (path[path.length - 1] === '/' && !body.classList.contains('is-home')) {
+          body.classList.add('is-home')
+        } else if (path[path.length - 1] !== '/' && body.classList.contains('is-home')) {
+          body.classList.remove('is-home')
+        }
+      })
+      */
+      window.swup.hooks.on("link:click", () => {
+        // Remove the delay for the first time page load
+        document.documentElement.style.setProperty("--content-delay", "0ms");
 
-      // 添加页面切换保护，防止导航栏闪烁
-      document.documentElement.classList.add("is-page-transitioning");
+        // 添加页面切换保护，防止导航栏闪烁
+        document.documentElement.classList.add("is-page-transitioning");
 
-      // 简化navbar处理逻辑
-      if (bannerEnabled) {
-        const navbar = document.getElementById("navbar-wrapper");
-        if (navbar && document.body.classList.contains("lg:is-home")) {
-          const threshold = window.innerHeight * (BANNER_HEIGHT / 100) - 88;
-          if (document.documentElement.scrollTop >= threshold) {
-            navbar.classList.add("navbar-hidden");
+        // 简化navbar处理逻辑
+        if (bannerEnabled) {
+          const navbar = document.getElementById("navbar-wrapper");
+          if (navbar && document.body.classList.contains("lg:is-home")) {
+            const threshold = window.innerHeight * (BANNER_HEIGHT / 100) - 88;
+            if (document.documentElement.scrollTop >= threshold) {
+              navbar.classList.add("navbar-hidden");
+            }
           }
         }
-      }
-    });
-    window.swup.hooks.on("content:replace", () => {
-      // 重新初始化图标加载器
-      import("@/utils/icon-loader").then(({ initIconLoader }) => {
-        initIconLoader();
       });
-      
-      // 重新初始化导航栏JavaScript功能
-      if (typeof loadButtonScript === 'function') {
-        setTimeout(loadButtonScript, 100); // 延迟执行确保DOM已更新
-      }
-      
-      // 重新初始化移动端下拉菜单
-      if (typeof window !== 'undefined' && (window as any).initMobileDropdowns) {
-        setTimeout((window as any).initMobileDropdowns, 150); // 稍晚一点执行
-      }
+      window.swup.hooks.on("content:replace", () => {
+        // 重新初始化图标加载器
+        import("@/utils/icon-loader").then(({ initIconLoader }) => {
+          initIconLoader();
+        });
+        
+        // 重新初始化导航栏JavaScript功能
+        if (typeof loadButtonScript === 'function') {
+          setTimeout(loadButtonScript, 100); // 延迟执行确保DOM已更新
+        }
+        
+        // 重新初始化移动端下拉菜单
+        if (typeof window !== 'undefined' && (window as any).initMobileDropdowns) {
+          setTimeout((window as any).initMobileDropdowns, 150); // 稍晚一点执行
+        }
 
       // 只在文章页面处理数学公式滚动条和TOC组件
       // 客户端重新计算是否为文章页面
@@ -976,95 +976,104 @@ function disableAnimation() {
         }
       }
     });
-  };
-  if (window?.swup?.hooks) {
-    setup();
-  } else {
-    document.addEventListener("swup:enable", setup);
-  }
 
-  let backToTopBtn = document.getElementById("back-to-top-btn");
-  let toc = document.getElementById("toc-wrapper");
-  let navbar = document.getElementById("navbar-wrapper");
-
-  // 优化的滚动处理函数
-  function scrollFunction() {
-    const scrollTop = document.documentElement.scrollTop;
-    const bannerHeight = window.innerHeight * (BANNER_HEIGHT / 100);
-
-    // 使用批量DOM操作优化性能
-    const operations: (() => void)[] = [];
-
-    if (backToTopBtn) {
-      operations.push(() => {
-        if (scrollTop > bannerHeight) {
-          backToTopBtn.classList.remove("hide");
-        } else {
-          backToTopBtn.classList.add("hide");
-        }
-      });
+    if (window?.swup?.hooks) {
+      setup();
+    } else {
+      document.addEventListener("swup:enable", setup);
     }
 
-    if (bannerEnabled && toc) {
-      operations.push(() => {
-        if (scrollTop > bannerHeight) {
-          toc.classList.remove("toc-hide");
-        } else {
-          toc.classList.add("toc-hide");
-        }
-      });
-    }
+    let backToTopBtn = document.getElementById("back-to-top-btn");
+    let toc = document.getElementById("toc-wrapper");
+    let navbar = document.getElementById("navbar-wrapper");
 
-    if (bannerEnabled && navbar) {
-      operations.push(() => {
-        const isHome =
-          document.body.classList.contains("lg:is-home") &&
-          window.innerWidth >= 1024;
-        const currentBannerHeight = isHome ? BANNER_HEIGHT_HOME : BANNER_HEIGHT;
-        const threshold = window.innerHeight * (currentBannerHeight / 100) - 88;
+    // 优化的滚动处理函数
+    function scrollFunction() {
+      const scrollTop = document.documentElement.scrollTop;
+      const bannerHeight = window.innerHeight * (BANNER_HEIGHT / 100);
 
-        if (scrollTop >= threshold) {
-          navbar.classList.add("navbar-hidden");
-        } else {
-          navbar.classList.remove("navbar-hidden");
-        }
-      });
-    }
+      // 使用批量DOM操作优化性能
+      const operations: (() => void)[] = [];
 
-    // 批量执行DOM操作
-    if (operations.length > 0) {
-      requestAnimationFrame(() => {
-        operations.forEach((op) => op());
-      });
-    }
-  }
-
-  // 使用优化的滚动性能处理
-  let scrollTimeout: number;
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (scrollTimeout) {
-        cancelAnimationFrame(scrollTimeout);
+      if (backToTopBtn) {
+        operations.push(() => {
+          if (scrollTop > bannerHeight) {
+            backToTopBtn.classList.remove("hide");
+          } else {
+            backToTopBtn.classList.add("hide");
+          }
+        });
       }
-      scrollTimeout = requestAnimationFrame(scrollFunction);
-    },
-    { passive: true }
-  );
 
-  window.onresize = () => {
-    // calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
-    let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
-    offset = offset - (offset % 4);
-    document.documentElement.style.setProperty(
-      "--banner-height-extend",
-      `${offset}px`
+      if (bannerEnabled && toc) {
+        operations.push(() => {
+          if (scrollTop > bannerHeight) {
+            toc.classList.remove("toc-hide");
+          } else {
+            toc.classList.add("toc-hide");
+          }
+        });
+      }
+
+      if (bannerEnabled && navbar) {
+        operations.push(() => {
+          const isHome =
+            document.body.classList.contains("lg:is-home") &&
+            window.innerWidth >= 1024;
+          const currentBannerHeight = isHome ? BANNER_HEIGHT_HOME : BANNER_HEIGHT;
+          const threshold = window.innerHeight * (currentBannerHeight / 100) - 88;
+
+          if (scrollTop >= threshold) {
+            navbar.classList.add("navbar-hidden");
+          } else {
+            navbar.classList.remove("navbar-hidden");
+          }
+        });
+      }
+
+      // 批量执行DOM操作
+      if (operations.length > 0) {
+        requestAnimationFrame(() => {
+          operations.forEach((op) => op());
+        });
+      }
+    }
+
+    // 使用优化的滚动性能处理
+    let scrollTimeout: number;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (scrollTimeout) {
+          cancelAnimationFrame(scrollTimeout);
+        }
+        scrollTimeout = requestAnimationFrame(scrollFunction);
+      },
+      { passive: true }
     );
-  };
 
-  // 页面加载完成后初始化banner和katex容器
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
+    window.onresize = () => {
+      // calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+      let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
+      offset = offset - (offset % 4);
+      document.documentElement.style.setProperty(
+        "--banner-height-extend",
+        `${offset}px`
+      );
+    };
+
+    // 页面加载完成后初始化banner和katex容器
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
+        showBanner();
+        // 只在文章页面初始化数学公式容器
+        // 客户端重新计算是否为文章页面
+        const isArticlePage = document.querySelector(".post-container") !== null;
+        if (isArticlePage) {
+          initCustomScrollbar();
+        }
+      });
+    } else {
       showBanner();
       // 只在文章页面初始化数学公式容器
       // 客户端重新计算是否为文章页面
@@ -1072,25 +1081,17 @@ function disableAnimation() {
       if (isArticlePage) {
         initCustomScrollbar();
       }
-    });
-  } else {
-    showBanner();
-    // 只在文章页面初始化数学公式容器
-    // 客户端重新计算是否为文章页面
-    const isArticlePage = document.querySelector(".post-container") !== null;
-    if (isArticlePage) {
-      initCustomScrollbar();
-    }
 
-    // Initialize wallpaper mode
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => {
+      // Initialize wallpaper mode
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          initWallpaperMode();
+          initIconLoader();
+        });
+      } else {
         initWallpaperMode();
         initIconLoader();
-      });
-    } else {
-      initWallpaperMode();
-      initIconLoader();
+      }
     }
   }
 </script>
