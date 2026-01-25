@@ -1083,15 +1083,14 @@ function disableAnimation() {
       }
 
       // Initialize wallpaper mode
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", () => {
-          initWallpaperMode();
-          initIconLoader();
-        });
-      } else {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
         initWallpaperMode();
         initIconLoader();
-      }
+      });
+    } else {
+      initWallpaperMode();
+      initIconLoader();
     }
   }
 </script>
