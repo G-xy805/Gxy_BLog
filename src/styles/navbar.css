@@ -9,6 +9,9 @@
     border: none; /* 移除边框 */
     border-radius: 0 0 1rem 1rem; /* 保留底部圆角 */
     transition: none; /* 消除过渡动画，避免主题切换卡顿 */
+    height: 4rem; /* 减小导航栏高度，使其更紧凑 */
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* 导航栏链接和图标样式 */
