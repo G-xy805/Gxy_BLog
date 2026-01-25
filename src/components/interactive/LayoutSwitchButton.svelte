@@ -7,7 +7,7 @@ import { useSwitchAnimation } from "@/hooks/useSwitchAnimation";
 
 let mounted = false;
 let isSmallScreen = false;
-const { switch: switchLayout, isSwitching } = useSwitchAnimation(() => {
+const { toggle: toggleLayout, isSwitching } = useSwitchAnimation(() => {
 	if (!mounted || isSmallScreen) return;
 	
 	const newMode = $layoutMode === 'list' ? 'grid' : 'list';
@@ -23,7 +23,7 @@ function checkScreenSize() {
 
 function handleKeyboardEvent(event: KeyboardEvent) {
 	if (event.key === 'Enter' || event.key === ' ') {
-		switchLayout();
+		toggleLayout();
 	}
 }
 

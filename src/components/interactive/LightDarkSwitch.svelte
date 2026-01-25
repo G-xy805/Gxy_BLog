@@ -8,7 +8,7 @@ import { theme } from "@/stores/settingsStore";
 import { applyThemeToDocument } from "@/utils/setting-utils";
 import { useSwitchAnimation } from "@/hooks/useSwitchAnimation";
 
-const { switch: switchTheme, isSwitching } = useSwitchAnimation(() => {
+const { toggle: toggleTheme, isSwitching } = useSwitchAnimation(() => {
 	const newMode = $theme === LIGHT_MODE ? DARK_MODE : LIGHT_MODE;
 	theme.set(newMode);
 	applyThemeToDocument(newMode);
@@ -16,7 +16,7 @@ const { switch: switchTheme, isSwitching } = useSwitchAnimation(() => {
 
 function handleKeyboardEvent(event: KeyboardEvent) {
 	if (event.key === 'Enter' || event.key === ' ') {
-		switchTheme();
+		toggleTheme();
 	}
 }
 

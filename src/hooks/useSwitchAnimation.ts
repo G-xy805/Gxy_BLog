@@ -11,11 +11,10 @@ export function useSwitchAnimation(
 ) {
 	let isSwitching = false;
 
-	function switch() {
+	function toggle() {
 		if (isSwitching) return;
 		isSwitching = true;
 		callback();
-
 		setTimeout(() => {
 			isSwitching = false;
 		}, duration);
@@ -26,7 +25,7 @@ export function useSwitchAnimation(
 	});
 
 	return {
-		switch,
+		toggle,
 		get isSwitching() {
 			return isSwitching;
 		}
