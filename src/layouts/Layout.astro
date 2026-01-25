@@ -583,7 +583,9 @@ function disableAnimation() {
 }
 */
 
-  const bannerEnabled = !!document.getElementById("banner-wrapper");
+  // 确保所有代码只在客户端执行
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    const bannerEnabled = !!document.getElementById("banner-wrapper");
 
   function setClickOutsideToClose(panel: string, ignores: string[]) {
     document.addEventListener("click", (event) => {
@@ -1090,5 +1092,6 @@ function disableAnimation() {
   } else {
     initWallpaperMode();
     initIconLoader();
+  }
   }
 </script>
