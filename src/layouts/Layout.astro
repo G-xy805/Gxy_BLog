@@ -524,7 +524,7 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
   }
 </style>
 
-<script>
+<script define:lang="ts">
   import { pathsEqual, url } from "@/utils/url-utils";
   import {
     BANNER_HEIGHT,
@@ -535,6 +535,7 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
   import { siteConfig, expressiveCodeConfig } from "@/config";
   import { initWallpaperMode } from "@/utils/setting-utils";
   import { initIconLoader } from "@/utils/icon-loader";
+  import { logger } from "@/utils/logger";
 
   /* Preload fonts */
   // (async function() {
