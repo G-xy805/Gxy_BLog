@@ -377,5 +377,8 @@ export class TOCManager {
  * 检查是否为文章页面
  */
 export function isPostPage(): boolean {
+	if (typeof window === "undefined") {
+		return false;
+	}
 	return window.location.pathname.includes("/posts/");
 }
