@@ -88,6 +88,11 @@ export function getStoredTheme(): LIGHT_DARK_MODE {
 
 // Wallpaper mode functions
 export function applyWallpaperModeToDocument(mode: WALLPAPER_MODE) {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined" || typeof window === "undefined") {
+		return;
+	}
+
 	// 检查是否允许切换壁纸模式
 	const isSwitchable = siteConfig.backgroundWallpaper.switchable ?? true;
 	if (!isSwitchable) {
@@ -150,6 +155,11 @@ export function applyWallpaperModeToDocument(mode: WALLPAPER_MODE) {
 
 // 确保壁纸状态正确
 function ensureWallpaperState(mode: WALLPAPER_MODE) {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined" || typeof window === "undefined") {
+		return;
+	}
+
 	const body = document.body;
 
 	// 移除所有壁纸相关的CSS类
@@ -169,11 +179,14 @@ function ensureWallpaperState(mode: WALLPAPER_MODE) {
 			hideAllWallpapers();
 			break;
 	}
-
-
 }
 
 function showBannerMode() {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined" || typeof window === "undefined") {
+		return;
+	}
+
 	const fullscreenContainer = domCache.get("[data-fullscreen-wallpaper]");
 	if (fullscreenContainer) {
 		fullscreenContainer.style.display = "none";
@@ -228,6 +241,11 @@ function showBannerMode() {
 }
 
 function showOverlayMode() {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined" || typeof window === "undefined") {
+		return;
+	}
+
 	const fullscreenContainer = domCache.get("[data-fullscreen-wallpaper]");
 	if (fullscreenContainer) {
 		fullscreenContainer.style.display = "block";
@@ -262,6 +280,11 @@ function showOverlayMode() {
 }
 
 function hideAllWallpapers() {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined" || typeof window === "undefined") {
+		return;
+	}
+
 	const bannerWrapper = domCache.get("banner-wrapper");
 	const fullscreenContainer = domCache.get("[data-fullscreen-wallpaper]");
 
@@ -292,11 +315,14 @@ function hideAllWallpapers() {
 	adjustMainContentTransparency(false);
 }
 
-
-
 function adjustMainContentPosition(
 	mode: WALLPAPER_MODE | "banner" | "none" | "overlay",
 ) {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined") {
+		return;
+	}
+
 	const mainContent = domCache.get(".absolute.w-full.z-30");
 	if (!mainContent) return;
 
@@ -321,6 +347,11 @@ function adjustMainContentPosition(
 }
 
 function adjustMainContentTransparency(enable: boolean) {
+	// 检查是否在浏览器环境中
+	if (typeof document === "undefined") {
+		return;
+	}
+
 	const mainContent = domCache.get(".absolute.w-full.z-30");
 	const body = document.body;
 
