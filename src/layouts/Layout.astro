@@ -533,6 +533,8 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
     // MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
   } from "@/constants/constants";
   import { siteConfig, expressiveCodeConfig } from "@/config";
+  import { initWallpaperMode } from "@/utils/setting-utils";
+  import { initIconLoader } from "@/utils/icon-loader";
 
   /* Preload fonts */
   // (async function() {
@@ -587,67 +589,67 @@ function disableAnimation() {
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     const bannerEnabled = !!document.getElementById("banner-wrapper");
 
-  function setClickOutsideToClose(panel: string, ignores: string[]) {
-    document.addEventListener("click", (event) => {
-      let panelDom = document.getElementById(panel);
-      let tDom = event.target;
-      if (!(tDom instanceof Node)) return; // Ensure the event target is an HTML Node
-      for (let ig of ignores) {
-        let ie = document.getElementById(ig);
-        if (ie == tDom || ie?.contains(tDom)) {
-          return;
+    function setClickOutsideToClose(panel: string, ignores: string[]) {
+      document.addEventListener("click", (event) => {
+        let panelDom = document.getElementById(panel);
+        let tDom = event.target;
+        if (!(tDom instanceof Node)) return; // Ensure the event target is an HTML Node
+        for (let ig of ignores) {
+          let ie = document.getElementById(ig);
+          if (ie == tDom || ie?.contains(tDom)) {
+            return;
+          }
         }
-      }
-      if (panelDom) {
-        panelDom.classList.add("float-panel-closed");
-      }
-    });
-  }
-  setClickOutsideToClose("display-setting", [
-    "display-setting",
-    "display-settings-switch",
-  ]);
-  setClickOutsideToClose("nav-menu-panel", [
-    "nav-menu-panel",
-    "nav-menu-switch",
-  ]);
-  setClickOutsideToClose("search-panel", [
-    "search-panel",
-    "search-bar",
-    "search-switch",
-  ]);
-  setClickOutsideToClose("wallpaper-mode-panel", [
-    "wallpaper-mode-panel",
-    "wallpaper-mode-switch",
-  ]);
-  setClickOutsideToClose("theme-mode-panel", [
-    "theme-mode-panel",
-    "scheme-switch",
-  ]);
+        if (panelDom) {
+          panelDom.classList.add("float-panel-closed");
+        }
+      });
+    }
+    setClickOutsideToClose("display-setting", [
+      "display-setting",
+      "display-settings-switch",
+    ]);
+    setClickOutsideToClose("nav-menu-panel", [
+      "nav-menu-panel",
+      "nav-menu-switch",
+    ]);
+    setClickOutsideToClose("search-panel", [
+      "search-panel",
+      "search-bar",
+      "search-switch",
+    ]);
+    setClickOutsideToClose("wallpaper-mode-panel", [
+      "wallpaper-mode-panel",
+      "wallpaper-mode-switch",
+    ]);
+    setClickOutsideToClose("theme-mode-panel", [
+      "theme-mode-panel",
+      "scheme-switch",
+    ]);
 
-  function initCustomScrollbar() {
-    // 只处理katex元素的滚动条，使用浏览器原生滚动条
-    const katexElements = document.querySelectorAll(
-      ".katex-display:not([data-scrollbar-initialized])"
-    ) as NodeListOf<HTMLElement>;
-    katexElements.forEach((element) => {
-      if (!element.parentNode) return;
+    function initCustomScrollbar() {
+      // 只处理katex元素的滚动条，使用浏览器原生滚动条
+      const katexElements = document.querySelectorAll(
+        ".katex-display:not([data-scrollbar-initialized])"
+      ) as NodeListOf<HTMLElement>;
+      katexElements.forEach((element) => {
+        if (!element.parentNode) return;
 
-      const container = document.createElement("div");
-      container.className = "katex-display-container";
-      element.parentNode.insertBefore(container, element);
-      container.appendChild(element);
+        const container = document.createElement("div");
+        container.className = "katex-display-container";
+        element.parentNode.insertBefore(container, element);
+        container.appendChild(element);
 
-      // 使用浏览器原生滚动条，无自定义样式
-      container.style.cssText = `
+        // 使用浏览器原生滚动条，无自定义样式
+        container.style.cssText = `
 			overflow-x: auto;
 		`;
 
-      element.setAttribute("data-scrollbar-initialized", "true");
-    });
-  }
+        element.setAttribute("data-scrollbar-initialized", "true");
+      });
+    }
 
-  function showBanner() {
+    function showBanner() {
     const isBannerMode = siteConfig.backgroundWallpaper.mode === "banner";
     if (!isBannerMode) return;
 
@@ -1082,8 +1084,6 @@ function disableAnimation() {
   }
 
   // Initialize wallpaper mode
-  import { initWallpaperMode } from "@/utils/setting-utils";
-  import { initIconLoader } from "@/utils/icon-loader";
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
       initWallpaperMode();
@@ -1092,6 +1092,5 @@ function disableAnimation() {
   } else {
     initWallpaperMode();
     initIconLoader();
-  }
   }
 </script>
