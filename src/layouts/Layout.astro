@@ -569,7 +569,11 @@ function disableAnimation() {
 
 	return () => {
 		// Force restyle
-		;(() => window.getComputedStyle(document.body))()
+				;(() => {
+					if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+						window.getComputedStyle(document.body);
+					}
+				})()
 
 		// Wait for next tick before removing
 		setTimeout(() => {
