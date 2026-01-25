@@ -1063,17 +1063,15 @@ function disableAnimation() {
   }
 
   // Initialize wallpaper mode
-  import { initWallpaperMode, initThemeListener } from "@/utils/setting-utils";
+  import { initWallpaperMode } from "@/utils/setting-utils";
   import { initIconLoader } from "@/utils/icon-loader";
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
       initWallpaperMode();
-      initThemeListener();
       initIconLoader();
     });
   } else {
     initWallpaperMode();
-    initThemeListener();
     initIconLoader();
   }
 </script>
