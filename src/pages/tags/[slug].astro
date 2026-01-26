@@ -65,24 +65,34 @@ const pageTitle = `${i18n(I18nKey.tags)}: ${tagName}`;
 
 <MainGridLayout title={pageTitle}>
   <!-- 标签信息卡片 -->
-  <div class="card-base mb-4">
-    <div class="px-6 py-6">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <!-- 标签标题和文章数量 -->
-        <div class="flex items-center gap-2">
-          <Icon icon="ri:price-tag-3-line" class="text-[#463AA2] dark:text-[#BD93F9]" size="3xl" />
-          <h1 class="text-3xl font-bold text-[#394E6A] dark:text-[#F8F8F2]">{tagName}</h1>
-          <div class="badge rounded-full bg-[#463AA2] text-white dark:bg-[#BD93F9] dark:text-black text-[0.8rem] px-4 py-0.4">{postCount} {i18n(postCount === 1 ? I18nKey.postCount : I18nKey.postsCount)}</div>
+  <div class="card-base mb-4 px-6 py-6">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <!-- 左侧信息 -->
+      <div class="flex items-center gap-4 w-full md:w-auto">
+        <!-- 图标容器 -->
+        <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)]">
+          <Icon icon="ri:price-tag-3-line" class="w-8 h-8" />
         </div>
-        <!-- 所有标签链接 -->
-        <a href="/tags/" class="transition-all duration-300 inline-flex items-center justify-center gap-1 px-4 py-1.5 border border-[#394E6A] text-[#394E6A] text-sm font-bold rounded-lg hover:bg-[#394E6A] hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
-          <Icon icon="ri:list-check-2" class="w-4 h-4" />
-          <span class="mr-1">{i18n(I18nKey.allTags)}</span>
-        </a>
+        
+        <!-- 文字信息 -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-3">
+              <h1 class="text-2xl font-bold text-black/90 dark:text-white/90">{tagName}</h1>
+              <div class="badge rounded-md bg-[var(--primary)] text-white dark:text-black/90 text-xs px-2 py-0.5 border-none">
+                  {postCount} {i18n(postCount === 1 ? I18nKey.postCount : I18nKey.postsCount)}
+              </div>
+          </div>
+          <div class="text-sm text-black/50 dark:text-white/50 mt-1">
+              {i18n(I18nKey.browseAllPostsInTag)}
+          </div>
+        </div>
       </div>
-      <div class="divider my-6"></div>
-      <div class="border-t border-[1.5px] border-[#EBEDF0] dark:border-[rgba(255,255,255,0.2)] mt-4 mb-6"></div>
-      <div class="text-sm text-[#6B7A8F] dark:text-[#C5C5C3]">{i18n(I18nKey.browseAllPostsInTag)}</div>
+
+      <!-- 右侧按钮 -->
+      <a href="/tags/" class="w-full md:w-auto transition-all duration-300 flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-[var(--primary)]/5 hover:bg-[var(--primary)]/10 text-[var(--primary)] group">
+        <Icon icon="ri:list-check-2" class="w-5 h-5" />
+        <span class="text-sm font-bold">{i18n(I18nKey.allTags)}</span>
+      </a>
     </div>
   </div>
 
