@@ -556,13 +556,13 @@ function updateBackgroundImages() {
 		
 		// 定义背景图片路径 - 与siteConfig中的配置一致
 		const lightImages = {
-			desktop: '/assets/images/banner-light.jpg',
-			mobile: '/assets/images/banner-light.jpg'
+			desktop: '/assets/images/banner-light.webp',
+			mobile: '/assets/images/banner-light.webp'
 		};
 		
 		const darkImages = {
-			desktop: '/assets/images/banner-dark.jpg',
-			mobile: '/assets/images/banner-dark.jpg'
+			desktop: '/assets/images/banner-dark.webp',
+			mobile: '/assets/images/banner-dark.webp'
 		};
 		
 		// 根据主题选择图片

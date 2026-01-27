@@ -95,13 +95,13 @@ export const siteConfig: SiteConfig = {
 		src: {
 			// 桌面背景图片 - 使用高质量本地图片
 			desktop: [
-				"/assets/images/banner-light.jpg", // 亮色主题：简约科技渐变
-				"/assets/images/banner-dark.jpg"   // 暗色主题：自然简约风格
+				"/assets/images/banner-light.webp", // 亮色主题：简约科技渐变
+				"/assets/images/banner-dark.webp"   // 暗色主题：自然简约风格
 			],
 			// 移动背景图片 - 使用相同的高质量图片
 			mobile: [
-				"/assets/images/banner-light.jpg",
-				"/assets/images/banner-dark.jpg"
+				"/assets/images/banner-light.webp",
+				"/assets/images/banner-dark.webp"
 			],
 		},
 
