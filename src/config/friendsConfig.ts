@@ -32,9 +32,9 @@ export const friendsConfig: FriendLink[] = [
 		enabled: true, // 是否启用
 	},
 	{
-		title: "Firefly Docs",
+		title: "GuoXY Docs",
 		imgurl: "/assets/images/friends/firefly.webp",
-		desc: "Firefly主题模板文档",
+		desc: "GuoXY主题模板文档",
 		siteurl: "https://docs-firefly.cuteleaf.cn",
 		tags: ["Docs"],
 		weight: 9,

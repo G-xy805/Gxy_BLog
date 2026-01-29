@@ -66,11 +66,7 @@ const configHue = siteConfig.themeColor.hue;
 // 导航栏透明模式已被禁用，直接设置为不显示顶部高光效果
 const shouldShowTopHighlight = false;
 
-if (!banner || typeof banner !== "string" || banner.trim() === "") {
-	banner = getDefaultBackground();
-}
-
-banner = getDefaultBackground();
+// 移除服务端设置 banner 的逻辑，改为在客户端动态设置
 
 const enableBanner =
 	enableBannerProp ?? siteConfig.backgroundWallpaper.mode === "banner";
@@ -254,6 +250,52 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         isDark ? darkTheme : lightTheme
       );
 
+      // 根据主题设置正确的背景图片
+      (function setThemeBackground() {
+        // 检查是否在浏览器环境中
+        if (typeof window === "undefined" || typeof document === "undefined") {
+          return;
+        }
+
+        // 获取背景图片配置
+        const bgSrc = siteConfig.backgroundWallpaper.src;
+
+        // 选择与当前主题匹配的背景图片
+        function getThemeBackground() {
+          if (typeof bgSrc === "object" && bgSrc !== null && !Array.isArray(bgSrc)) {
+            // 处理对象形式的配置
+            const desktopSrc = bgSrc.desktop;
+            const mobileSrc = bgSrc.mobile;
+            
+            // 获取当前设备类型
+            const isMobile = window.innerWidth < 1024;
+            const srcToUse = isMobile ? mobileSrc : desktopSrc;
+            
+            if (Array.isArray(srcToUse) && srcToUse.length > 1) {
+              // 如果是数组，根据主题选择
+              return isDark ? srcToUse[1] : srcToUse[0];
+            } else if (typeof srcToUse === "string") {
+              // 如果是字符串，直接使用
+              return srcToUse;
+            }
+          } else if (typeof bgSrc === "string") {
+            // 如果是字符串，直接使用
+            return bgSrc;
+          }
+          return "";
+        }
+
+        // 设置背景图片
+        const backgroundImage = getThemeBackground();
+        if (backgroundImage) {
+          // 找到banner元素并设置背景图片
+          const banner = document.getElementById("banner");
+          if (banner) {
+            banner.style.backgroundImage = `url(${backgroundImage})`;
+          }
+        }
+      })();
+
       // Load the hue from local storage
       const hue = localStorage.getItem("hue") || configHue;
       document.documentElement.style.setProperty("--hue", hue);
@@ -369,6 +411,40 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
           const fullscreenWallpaper = document.querySelector(
             "[data-fullscreen-wallpaper]"
           );
+
+          // 根据主题更新背景图片
+          function updateBackgroundImage() {
+            const bgSrc = siteConfig.backgroundWallpaper.src;
+            
+            function getThemeBackground() {
+              if (typeof bgSrc === "object" && bgSrc !== null && !Array.isArray(bgSrc)) {
+                const desktopSrc = bgSrc.desktop;
+                const mobileSrc = bgSrc.mobile;
+                const isMobile = window.innerWidth < 1024;
+                const srcToUse = isMobile ? mobileSrc : desktopSrc;
+                
+                if (Array.isArray(srcToUse) && srcToUse.length > 1) {
+                  return isDark ? srcToUse[1] : srcToUse[0];
+                } else if (typeof srcToUse === "string") {
+                  return srcToUse;
+                }
+              } else if (typeof bgSrc === "string") {
+                return bgSrc;
+              }
+              return "";
+            }
+
+            const backgroundImage = getThemeBackground();
+            if (backgroundImage && bannerWrapper) {
+              const banner = bannerWrapper.querySelector("#banner");
+              if (banner) {
+                banner.style.backgroundImage = `url(${backgroundImage})`;
+              }
+            }
+          }
+
+          // 调用更新背景图片函数
+          updateBackgroundImage();
 
           // 检查当前是否为首页
           const isHomePage =

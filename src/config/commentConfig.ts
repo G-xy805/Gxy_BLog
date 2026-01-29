@@ -31,7 +31,7 @@ export const commentConfig: CommentConfig = {
 
 	//giscus评论系统配置（还未测试）
 	giscus: {
-		repo: "CuteLeaf/Firefly", // 设置 Giscus 评论系统仓库
+		repo: "CuteLeaf/GuoXY", // 设置 Giscus 评论系统仓库
 		repoId: "R_kgD2gfdFGd", // 设置 Giscus 评论系统仓库ID
 		category: "General", // 设置 Giscus 评论系统分类
 		categoryId: "DIC_kwDOKy9HOc4CegmW", // 设置 Giscus 评论系统分类ID
