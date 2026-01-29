@@ -97,6 +97,7 @@ export const iconSizes = {
   lg: "w-6 h-6",
   xl: "w-8 h-8",
   "2xl": "w-10 h-10",
+  "2xl-md": "w-14 h-14 md:w-16 md:h-16",
   "3xl": "w-12 h-12",
   "4xl": "w-16 h-16",
   "5xl": "w-20 h-20",
