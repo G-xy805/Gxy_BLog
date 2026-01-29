@@ -6,6 +6,13 @@
 /* 导入统一导航栏样式 */
 @import './navbar.css';
 
+/* 导入归档页面样式 */
+@import './archive.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #navbar {
     position: fixed;
     top: 0;
@@ -32,12 +39,7 @@
         position: sticky;
     }
 }
-/* 导入归档页面样式 */
-@import './archive.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* 确保平滑滚动 */
 html {
@@ -531,6 +533,76 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
         transform: translateY(0) scale(0.98);
     }
 
+    /* 语义化按钮样式 */
+    .btn-success {
+        @apply transition-all duration-300 ease-in-out flex items-center justify-center rounded-full px-4 py-2 font-medium text-sm relative overflow-hidden;
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        border: none;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-warning {
+        @apply transition-all duration-300 ease-in-out flex items-center justify-center rounded-full px-4 py-2 font-medium text-sm relative overflow-hidden;
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        border: none;
+    }
+
+    .btn-warning:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-danger {
+        @apply transition-all duration-300 ease-in-out flex items-center justify-center rounded-full px-4 py-2 font-medium text-sm relative overflow-hidden;
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        border: none;
+    }
+
+    .btn-danger:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-info {
+        @apply transition-all duration-300 ease-in-out flex items-center justify-center rounded-full px-4 py-2 font-medium text-sm relative overflow-hidden;
+        background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        border: none;
+    }
+
+    .btn-info:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    /* 暗色模式语义化按钮 */
+    :root.dark .btn-success {
+        background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+    }
+
+    :root.dark .btn-warning {
+        background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    }
+
+    :root.dark .btn-danger {
+        background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+    }
+
+    :root.dark .btn-info {
+        background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+    }
+
     /* Badge 组件优化 */
     .badge {
         background: var(--primary-gradient);
@@ -545,6 +617,165 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
         display: inline-flex;
         align-items: center;
         gap: 0.25rem;
+    }
+
+    /* 语义化徽章样式 */
+    .badge-success {
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: var(--text-xs);
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .badge-warning {
+        background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: var(--text-xs);
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .badge-danger {
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: var(--text-xs);
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .badge-info {
+        background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: var(--text-xs);
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    /* 暗色模式语义化徽章 */
+    :root.dark .badge-success {
+        background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+    }
+
+    :root.dark .badge-warning {
+        background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    }
+
+    :root.dark .badge-danger {
+        background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+    }
+
+    :root.dark .badge-info {
+        background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+    }
+
+    /* 提示框样式 */
+    .alert {
+        @apply rounded-lg p-4 mb-4 border-l-4 relative overflow-hidden;
+        transition: all 0.3s ease;
+    }
+
+    .alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10B981;
+        color: #065F46;
+    }
+
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border-color: #F59E0B;
+        color: #92400E;
+    }
+
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #EF4444;
+        color: #991B1B;
+    }
+
+    .alert-info {
+        background: rgba(59, 130, 246, 0.1);
+        border-color: #3B82F6;
+        color: #1E40AF;
+    }
+
+    /* 暗色模式提示框 */
+    :root.dark .alert-success {
+        background: rgba(52, 211, 153, 0.15);
+        color: #34D399;
+    }
+
+    :root.dark .alert-warning {
+        background: rgba(251, 191, 36, 0.15);
+        color: #FBBF24;
+    }
+
+    :root.dark .alert-danger {
+        background: rgba(248, 113, 113, 0.15);
+        color: #F87171;
+    }
+
+    :root.dark .alert-info {
+        background: rgba(96, 165, 250, 0.15);
+        color: #60A5FA;
+    }
+
+    /* 提示框图标样式 */
+    .alert-icon {
+        @apply mr-3 text-xl;
+    }
+
+    .alert-success .alert-icon {
+        color: #10B981;
+    }
+
+    .alert-warning .alert-icon {
+        color: #F59E0B;
+    }
+
+    .alert-danger .alert-icon {
+        color: #EF4444;
+    }
+
+    .alert-info .alert-icon {
+        color: #3B82F6;
+    }
+
+    /* 暗色模式提示框图标 */
+    :root.dark .alert-success .alert-icon {
+        color: #34D399;
+    }
+
+    :root.dark .alert-warning .alert-icon {
+        color: #FBBF24;
+    }
+
+    :root.dark .alert-danger .alert-icon {
+        color: #F87171;
+    }
+
+    :root.dark .alert-info .alert-icon {
+        color: #60A5FA;
     }
 
     .badge::before {

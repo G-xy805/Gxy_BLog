@@ -27,6 +27,92 @@ export function initThemeManager() {
 		return themeValue;
 	}
 
+	// WCAG contrast ratio calculation
+	function getContrastRatio(foreground, background) {
+		const getLuminance = (color) => {
+			const rgb = color.match(/\d+/g);
+			if (!rgb) return 0;
+			const [r, g, b] = rgb.map(Number);
+			const [rs, gs, bs] = [r, g, b].map(v => {
+				v /= 255;
+				return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+			});
+			return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+		};
+		
+		const l1 = getLuminance(foreground);
+		const l2 = getLuminance(background);
+		const lighter = Math.max(l1, l2);
+		const darker = Math.min(l1, l2);
+		return (lighter + 0.05) / (darker + 0.05);
+	}
+
+	// Dynamic color adjustment for WCAG compliance
+	function adjustColorsForAccessibility(isDarkMode) {
+		const root = document.documentElement;
+		
+		if (isDarkMode) {
+			// Dark mode adjustments
+			root.style.setProperty('--text-color', '#F8FAFC');
+			root.style.setProperty('--text-secondary', '#CBD5E1');
+			root.style.setProperty('--text-muted', '#94A3B8');
+			root.style.setProperty('--page-bg', '#0F172A');
+			root.style.setProperty('--card-bg', 'rgba(30, 41, 59, 0.9)');
+			
+			// Ensure WCAG AA compliance (4.5:1 for normal text, 3:1 for large text)
+			const textColor = '#F8FAFC';
+			const bgColor = '#0F172A';
+			const contrast = getContrastRatio(textColor, bgColor);
+			
+			if (contrast < 4.5) {
+				console.warn('Dark mode contrast ratio below WCAG AA standard:', contrast);
+			}
+		} else {
+			// Light mode adjustments
+			root.style.setProperty('--text-color', '#0F172A');
+			root.style.setProperty('--text-secondary', '#475569');
+			root.style.setProperty('--text-muted', '#64748B');
+			root.style.setProperty('--page-bg', '#F8FAFC');
+			root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.92)');
+			
+			// Ensure WCAG AA compliance
+			const textColor = '#0F172A';
+			const bgColor = '#F8FAFC';
+			const contrast = getContrastRatio(textColor, bgColor);
+			
+			if (contrast < 4.5) {
+				console.warn('Light mode contrast ratio below WCAG AA standard:', contrast);
+			}
+		}
+	}
+
+	// Apply semantic colors based on theme
+	function applySemanticColors(isDarkMode) {
+		const root = document.documentElement;
+		
+		if (isDarkMode) {
+			// Dark mode semantic colors (brighter for better contrast)
+			root.style.setProperty('--color-success', '#34D399');
+			root.style.setProperty('--color-info', '#60A5FA');
+			root.style.setProperty('--color-warning', '#FBBF24');
+			root.style.setProperty('--color-danger', '#F87171');
+			root.style.setProperty('--color-primary', '#A5B4FC');
+			root.style.setProperty('--color-secondary', '#818CF8');
+			root.style.setProperty('--color-accent', '#C084FC');
+			root.style.setProperty('--color-tertiary', '#F472B6');
+		} else {
+			// Light mode semantic colors
+			root.style.setProperty('--color-success', '#10B981');
+			root.style.setProperty('--color-info', '#3B82F6');
+			root.style.setProperty('--color-warning', '#F59E0B');
+			root.style.setProperty('--color-danger', '#EF4444');
+			root.style.setProperty('--color-primary', '#5B4FE4');
+			root.style.setProperty('--color-secondary', '#7B8FF6');
+			root.style.setProperty('--color-accent', '#A855F7');
+			root.style.setProperty('--color-tertiary', '#EC4899');
+		}
+	}
+
 	const resolvedTheme = resolveTheme(theme);
 	let isDark = false;
 
@@ -40,6 +126,10 @@ export function initThemeManager() {
 			isDark = true;
 			break;
 	}
+
+	// Apply dynamic color adjustments
+	adjustColorsForAccessibility(isDark);
+	applySemanticColors(isDark);
 
 	// Setup system theme change listener if using system mode
 	if (theme === SYSTEM_MODE) {
@@ -58,6 +148,10 @@ export function initThemeManager() {
 
 				const expressiveTheme = newIsDark ? "github-dark" : "github-light";
 				document.documentElement.setAttribute("data-theme", expressiveTheme);
+				
+				// Apply dynamic color adjustments on theme change
+				adjustColorsForAccessibility(newIsDark);
+				applySemanticColors(newIsDark);
 			}
 		};
 
