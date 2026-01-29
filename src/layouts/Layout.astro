@@ -179,6 +179,13 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#F1F5F9" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
+
+    <!-- 图片预加载 -->
+    <!-- 预加载关键图片资源 -->
+    <link rel="preload" href="/assets/images/logo.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/assets/images/avatar.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/assets/images/banner-light.webp" as="image" type="image/webp" media="(prefers-color-scheme: light)" />
+    <link rel="preload" href="/assets/images/banner-dark.webp" as="image" type="image/webp" media="(prefers-color-scheme: dark)" />
     {
       favicons.map((favicon) => (
         <link
@@ -455,6 +462,115 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         // 启动尝试
         requestAnimationFrame(tryApply);
       })();
+
+      // 图片预加载功能
+      (function initImagePreloading() {
+        // 检查是否在浏览器环境中
+        if (typeof window === "undefined" || typeof document === "undefined") {
+          return;
+        }
+
+        // 需要预加载的图片列表
+        const imagesToPreload = [
+          "/assets/images/logo.webp",
+          "/assets/images/avatar.webp",
+          "/assets/images/banner-light.webp",
+          "/assets/images/banner-dark.webp"
+        ];
+
+        // 图片加载状态管理
+        const imageLoadStatus = {
+          loaded: [],
+          failed: [],
+          loading: []
+        };
+
+        // 预加载单个图片
+        function preloadImage(src) {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            
+            // 添加到加载中列表
+            imageLoadStatus.loading.push(src);
+            
+            img.onload = function() {
+              // 从加载中列表移除，添加到已加载列表
+              imageLoadStatus.loading = imageLoadStatus.loading.filter(item => item !== src);
+              imageLoadStatus.loaded.push(src);
+              resolve(src);
+            };
+            
+            img.onerror = function() {
+              // 从加载中列表移除，添加到加载失败列表
+              imageLoadStatus.loading = imageLoadStatus.loading.filter(item => item !== src);
+              imageLoadStatus.failed.push(src);
+              reject(src);
+            };
+            
+            img.src = src;
+          });
+        }
+
+        // 批量预加载图片
+        async function preloadImages() {
+          console.log("开始预加载图片...");
+          
+          const promises = imagesToPreload.map(src => preloadImage(src));
+          
+          try {
+            const results = await Promise.allSettled(promises);
+            
+            const successCount = results.filter(result => result.status === "fulfilled").length;
+            const failureCount = results.filter(result => result.status === "rejected").length;
+            
+            console.log(`图片预加载完成: ${successCount} 成功, ${failureCount} 失败`);
+            console.log(`已加载: ${imageLoadStatus.loaded.length} 张图片`);
+            
+            if (failureCount > 0) {
+              console.warn(`加载失败的图片: ${imageLoadStatus.failed.join(", ")}`);
+            }
+          } catch (error) {
+            console.error("图片预加载过程中发生错误:", error);
+          }
+        }
+
+        // 为图片添加加载状态管理
+        function addImageLoadListeners() {
+          // 监听页面中的图片加载
+          document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            
+            images.forEach(img => {
+              // 检查图片是否已经加载完成
+              if (img.complete) {
+                // 图片已经加载完成，直接添加加载完成类
+                img.classList.add('image-loaded');
+              } else {
+                // 图片还未加载完成，添加加载中类
+                img.classList.add('image-loading');
+                
+                img.onload = function() {
+                  // 移除加载中类，添加加载完成类
+                  img.classList.remove('image-loading');
+                  img.classList.add('image-loaded');
+                };
+                
+                img.onerror = function() {
+                  // 移除加载中类，添加加载失败类
+                  img.classList.remove('image-loading');
+                  img.classList.add('image-error');
+                  // 可以添加错误占位图
+                  img.alt = img.alt || '图片加载失败';
+                };
+              }
+            });
+          });
+        }
+
+        // 运行预加载
+        preloadImages();
+        addImageLoadListeners();
+      })();
     </script>
     <style
       define:vars={{
@@ -559,6 +675,19 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
 
     .navbar-hidden {
       @apply opacity-0 -translate-y-16;
+    }
+
+    /* 图片加载状态样式 */
+    img.image-loading {
+      @apply opacity-100 transition-opacity duration-300;
+    }
+
+    img.image-loaded {
+      @apply opacity-100 transition-opacity duration-300;
+    }
+
+    img.image-error {
+      @apply opacity-100 bg-gray-100 dark:bg-gray-800;
     }
   }
 </style>

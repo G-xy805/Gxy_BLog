@@ -2,7 +2,7 @@
 title: Astro | Markdown 扩展功能
 published: 2025-12-06
 description: 了解 Kael 中的 Markdown 功能
-image: https://zayck-img.pages.dev/file/玄黄/1766372767056_xh.webp
+image: /assets/images/posts/code-block-xh.webp
 tags: [博客, Markdown, Astro]
 category: Astro魔改
 ---

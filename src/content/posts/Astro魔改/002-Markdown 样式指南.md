@@ -35,12 +35,12 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
 
 
 ```markdown
-![Alt text](https://zayck-img.pages.dev/file/来自新世界/1764985164363_BandiView_background-light.webp)
+![Alt text](/assets/images/posts/bandi-view-bg-light.webp)
 ```
 
 #### 输出
 
-![Alt text](https://zayck-img.pages.dev/file/来自新世界/1764985164363_BandiView_background-light.webp)
+![Alt text](/assets/images/posts/bandi-view-bg-light.webp)
 
 ## 4.块引用
 

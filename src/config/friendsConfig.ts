@@ -6,7 +6,7 @@ import type { FriendLink } from "../types/config";
 export const friendsConfig: FriendLink[] = [
 	{
 		title: "Hexo Demo",
-		imgurl: "https://zayck-img.pages.dev/file/1765187664452_hexo.webp",
+		imgurl: "/assets/images/friends/hexo.webp",
 		desc: "Hexo主题模板",
 		siteurl: "https://zayck.netlify.app",
 		tags: ["Blog"],
@@ -15,7 +15,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
 		title: "Hugo Demo",
-		imgurl: "https://zayck-img.pages.dev/file/1765007987280_BandiView_R.jpg",
+		imgurl: "/assets/images/friends/bandi-view.webp",
 		desc: "Hugo主题模板",
 		siteurl: "https://zayck-teek.pages.dev",
 		tags: ["Blog"],
@@ -24,7 +24,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
 		title: "Kael Demo",
-		imgurl: "https://zayck-img.pages.dev/file/1764984969206_logo.png",
+		imgurl: "/assets/images/friends/logo.webp",
 		desc: "Kael主题模板",
 		siteurl: "https://zayck.pages.dev",
 		tags: ["Blog"],
@@ -33,7 +33,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
 		title: "Firefly Docs",
-		imgurl: "https://docs-firefly.cuteleaf.cn/logo.png",
+		imgurl: "/assets/images/friends/firefly.webp",
 		desc: "Firefly主题模板文档",
 		siteurl: "https://docs-firefly.cuteleaf.cn",
 		tags: ["Docs"],

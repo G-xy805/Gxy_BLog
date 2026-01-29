@@ -2,7 +2,7 @@
 title: WAC | 把 Gemini 3 Pro 生成的博客网站部署到 Cloudflare
 description: Cloudflare 部署 Gemini 3 Pro 生成的博客网站
 published: 2025-12-31
-image: "https://zayck-img.pages.dev/file/网站/1767143606908_image.jpeg"
+image: "/assets/images/posts/html-file-image.webp"
 tags: [博客, 网站, Gemini, Cloudflare]
 category: 网站实战
 ---
@@ -27,7 +27,7 @@ category: 网站实战
 ---
 title: 青囊 | 辨治别论
 Date: 2023-06-14
-image: https://zayck-img.pages.dev/file/青囊/1765228331536_幻灯片5.jpg
+image: /assets/images/posts/gemini-slideshow.jpg
 tags:
   - 中医
   - 辨证
@@ -36,7 +36,7 @@ tags:
 
 不过现在的这个文章功能还是有欠缺的，我魔改到这里的时候，发现这个`目录`不能实现`悬浮固定效果`。
 
-![640.webp](https://zayck-img.pages.dev/file/网站/1767482519109_640.webp)
+![640.webp](/assets/images/posts/gemini-deploy-640-1.webp)
 
 你看我的博客，是可以在看文章的时候，随着页面的下拉，目录是跟随固定的。
 
@@ -51,7 +51,7 @@ tags:
 
 那上传之后，怎么部署呢？
 
-![640.webp](https://zayck-img.pages.dev/file/网站/1767482519219_640.webp)
+![640.webp](/assets/images/posts/gemini-deploy-640-2.webp)
 
 进入你的仓库，然后点击`Settings`，找到左侧边栏的`Pages`，把`Build and deployment`的`Source`选成`GitHub Actions`，接着等待一会就部署成功了。
 
@@ -62,7 +62,7 @@ tags:
 
 我看了一下，原作者只是部署到 github 上，用的 GitHub Actions 来部署的，并没有用 Cloudflare 来部署。
 
-![640.webp](https://zayck-img.pages.dev/file/网站/1767482522382_640.webp)
+![640.webp](/assets/images/posts/gemini-deploy-640-3.webp)
 
 相对来说，用 GitHub Actions 国内是比较难访问的。
 
@@ -78,7 +78,7 @@ base: '/',
 
 这里的`Framework preset`选`React(Vite)`，下面这些不用管，它会自动填写，最后点击`Save and Deploy`，等一会你的个人博客网站就上线啦！！！。
 
-![640.webp](https://zayck-img.pages.dev/file/网站/1767482524235_640.webp)
+![640.webp](/assets/images/posts/gemini-deploy-640-4.webp)
 
 然后呢，兄弟们，我就发现 GitHub Actions 部署失败了！
 

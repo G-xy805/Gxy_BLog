@@ -50,8 +50,8 @@ export const siteConfig: SiteConfig = {
 	// { type: "image", value: "https://example.com/logo.png", alt: "Firefly Logo" }
 	navbarLogo: {
 		type: "image",
-		value: "/assets/images/goat.png",
-		alt: "",
+		value: "/assets/images/logo.webp",
+		alt: "Firefly Logo",
 	},
 	navbarTitle: "Gxy", // 导航栏标题，可以设置为与 title 不同的值，如果不设置则使用 title
 

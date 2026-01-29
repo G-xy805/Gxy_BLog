@@ -13,7 +13,7 @@ category: Astro魔改
 
 ## 📷 预览
 
-![image.png](https://zayck-img.pages.dev/file/1765111758854_image.png)
+![image.png](/assets/images/posts/astro-modify-image.webp)
 
 ## ✨ 特点
 

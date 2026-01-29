@@ -2,7 +2,7 @@
 title: WAC | 如何白嫖 Cloudflare 部署 HTML？
 description: Cloudflare 部署 HTML
 published: 2025-12-30
-image: "https://zayck-img.pages.dev/file/网站/1767181162327_BandiView_im1age.webp"
+image: "/assets/images/posts/cloudflare-deploy-image.webp"
 tags: [博客, 网站, HTML, Cloudflare]
 category: 网站实战
 ---
@@ -20,7 +20,7 @@ category: 网站实战
 
 ## 一、上传 github 再部署
 
-![640.png](https://zayck-img.pages.dev/file/网站/1767180898828_640.png)
+![640.png](/assets/images/posts/cloudflare-deploy-640-1.webp)
 
 直接上传 HTML 不是不行吗？
 
@@ -28,7 +28,7 @@ category: 网站实战
 
 ## 二、增加 _headers 文件
 
-![640.png](https://zayck-img.pages.dev/file/网站/1767180896579_640.png)
+![640.png](/assets/images/posts/cloudflare-deploy-640-2.webp)
 
 用 Cloudflare 部署的时候，选择上传文件夹，文件夹里除了原本的`index.html`，还要另外加上一个 `_headers` 文件。
 
