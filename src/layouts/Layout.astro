@@ -680,9 +680,7 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         : []),
     ]}
   >
-    <a href="#swup-container" class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-[var(--card-bg)] focus:text-[var(--primary)] focus:top-0 focus:left-0 focus:shadow-lg focus:rounded-br-lg transition-all">
-      跳转到主要内容
-    </a>
+    <a href="#swup-container" class="skip-link">跳转到主要内容</a>
     <noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-KRX3XGVH"
@@ -701,8 +699,6 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
     <ConfigCarrier />
     <FontManager />
     <slot />
-
-
 
     <!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
     <div id="page-height-extend" class="hidden h-[300vh]"></div>
