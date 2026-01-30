@@ -206,6 +206,7 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
           isWallpaperSwitchableProp ?? siteConfig.backgroundWallpaper.switchable ?? true,
         darkTheme: expressiveCodeConfig.darkTheme,
         lightTheme: expressiveCodeConfig.lightTheme,
+        backgroundWallpaperSrc: siteConfig.backgroundWallpaper.src,
       }}
     >
       // 主题初始化 - 与setting-utils.ts保持一致
@@ -258,7 +259,7 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         }
 
         // 获取背景图片配置
-        const bgSrc = siteConfig.backgroundWallpaper.src;
+        const bgSrc = backgroundWallpaperSrc;
 
         // 选择与当前主题匹配的背景图片
         function getThemeBackground() {
@@ -414,7 +415,7 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
 
           // 根据主题更新背景图片
           function updateBackgroundImage() {
-            const bgSrc = siteConfig.backgroundWallpaper.src;
+            const bgSrc = backgroundWallpaperSrc;
             
             function getThemeBackground() {
               if (typeof bgSrc === "object" && bgSrc !== null && !Array.isArray(bgSrc)) {
