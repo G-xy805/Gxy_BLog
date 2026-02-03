@@ -4,10 +4,12 @@
 .banner-title {
     animation: banner-fadeInUp 1s ease-out;
     font-weight: bold;
+    margin-bottom: 3rem; /* 再次增加底部边距 */
 }
 
 .banner-subtitle {
     animation: banner-fadeInUp 1s ease-out 0.3s both;
+    margin-top: 1.5rem; /* 再次增加顶部边距 */
 }
 
 @keyframes banner-fadeInUp {
