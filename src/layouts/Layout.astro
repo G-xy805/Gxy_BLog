@@ -2,6 +2,9 @@
 import FancyboxManager from "@components/effects/FancyboxManager.astro";
 import FontManager from "@components/interactive/FontManager.astro";
 import ConfigCarrier from "@components/layout/ConfigCarrier.astro";
+import LoadingSpinner from "@components/LoadingSpinner.astro";
+import ErrorBoundary from "@components/ErrorBoundary.astro";
+import ErrorMessage from "@components/ErrorMessage.astro";
 
 import { expressiveCodeConfig, profileConfig, siteConfig } from "@/config";
 import {
@@ -134,10 +137,19 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
 
     <title>{pageTitle}</title>
 
-    <!-- Google Fonts - Inter & JetBrains Mono -->
+    <!-- 资源预连接和 DNS 预取 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.clarity.ms">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.clarity.ms">
+
+    <!-- Google Fonts - Inter & JetBrains Mono -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 
     <meta charset="UTF-8" />
     <meta
@@ -176,12 +188,15 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
     <meta name="theme-color" content="#F1F5F9" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
 
-    <!-- 图片预加载 -->
-    <!-- 预加载关键图片资源 -->
+    <!-- 关键图片资源预加载 -->
     <link rel="preload" href="/assets/images/logo.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="preload" href="/assets/images/avatar.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="preload" href="/assets/images/banner-light.webp" as="image" type="image/webp" media="(prefers-color-scheme: light)" />
-    <link rel="preload" href="/assets/images/banner-dark.webp" as="image" type="image/webp" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href="/assets/images/banner-light.webp" as="image" type="image/webp" media="(prefers-color-scheme: light)" fetchpriority="high" />
+    <link rel="preload" href="/assets/images/banner-dark.webp" as="image" type="image/webp" media="(prefers-color-scheme: dark)" fetchpriority="high" />
+    
+    <!-- 预连接常用资源域名 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://unpkg.com" />
     {
       favicons.map((favicon) => (
         <link
@@ -540,15 +555,15 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         requestAnimationFrame(tryApply);
       })();
 
-      // 图片预加载功能
-      (function initImagePreloading() {
+      // 高效图片预加载和懒加载功能
+      (function initImageOptimization() {
         // 检查是否在浏览器环境中
         if (typeof window === "undefined" || typeof document === "undefined") {
           return;
         }
 
-        // 需要预加载的图片列表
-        const imagesToPreload = [
+        // 需要预加载的关键图片列表
+        const criticalImages = [
           "/assets/images/logo.webp",
           "/assets/images/avatar.webp",
           "/assets/images/banner-light.webp",
@@ -557,30 +572,36 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
 
         // 图片加载状态管理
         const imageLoadStatus = {
-          loaded: [],
-          failed: [],
-          loading: []
+          loaded: new Set(),
+          failed: new Set(),
+          loading: new Set()
         };
 
         // 预加载单个图片
         function preloadImage(src) {
           return new Promise((resolve, reject) => {
+            // 检查图片是否已经在加载或已加载
+            if (imageLoadStatus.loaded.has(src) || imageLoadStatus.loading.has(src)) {
+              resolve(src);
+              return;
+            }
+            
             const img = new Image();
             
             // 添加到加载中列表
-            imageLoadStatus.loading.push(src);
+            imageLoadStatus.loading.add(src);
             
             img.onload = function() {
               // 从加载中列表移除，添加到已加载列表
-              imageLoadStatus.loading = imageLoadStatus.loading.filter(item => item !== src);
-              imageLoadStatus.loaded.push(src);
+              imageLoadStatus.loading.delete(src);
+              imageLoadStatus.loaded.add(src);
               resolve(src);
             };
             
             img.onerror = function() {
               // 从加载中列表移除，添加到加载失败列表
-              imageLoadStatus.loading = imageLoadStatus.loading.filter(item => item !== src);
-              imageLoadStatus.failed.push(src);
+              imageLoadStatus.loading.delete(src);
+              imageLoadStatus.failed.add(src);
               reject(src);
             };
             
@@ -588,34 +609,109 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
           });
         }
 
-        // 批量预加载图片
-        async function preloadImages() {
-          console.log("开始预加载图片...");
+        // 批量预加载关键图片
+        async function preloadCriticalImages() {
+          console.log("开始预加载关键图片...");
           
-          const promises = imagesToPreload.map(src => preloadImage(src));
+          // 并行加载关键图片，限制并发数以避免阻塞
+          const concurrencyLimit = 2;
+          const results = [];
           
-          try {
-            const results = await Promise.allSettled(promises);
+          for (let i = 0; i < criticalImages.length; i += concurrencyLimit) {
+            const batch = criticalImages.slice(i, i + concurrencyLimit);
+            const batchPromises = batch.map(src => preloadImage(src));
+            const batchResults = await Promise.allSettled(batchPromises);
+            results.push(...batchResults);
             
-            const successCount = results.filter(result => result.status === "fulfilled").length;
-            const failureCount = results.filter(result => result.status === "rejected").length;
-            
-            console.log(`图片预加载完成: ${successCount} 成功, ${failureCount} 失败`);
-            console.log(`已加载: ${imageLoadStatus.loaded.length} 张图片`);
-            
-            if (failureCount > 0) {
-              console.warn(`加载失败的图片: ${imageLoadStatus.failed.join(", ")}`);
+            // 短暂延迟以避免过度占用资源
+            if (i + concurrencyLimit < criticalImages.length) {
+              await new Promise(resolve => setTimeout(resolve, 10));
             }
-          } catch (error) {
-            console.error("图片预加载过程中发生错误:", error);
           }
+          
+          const successCount = results.filter(result => result.status === "fulfilled").length;
+          const failureCount = results.filter(result => result.status === "rejected").length;
+          
+          console.log(`关键图片预加载完成: ${successCount} 成功, ${failureCount} 失败`);
+          console.log(`已加载: ${imageLoadStatus.loaded.size} 张关键图片`);
+          
+          if (failureCount > 0) {
+            console.warn(`加载失败的关键图片: ${Array.from(imageLoadStatus.failed).join(", ")}`);
+          }
+        }
+
+        // 懒加载非关键图片
+        function initLazyLoading() {
+          // 使用 Intersection Observer 实现高效的懒加载
+          const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                
+                // 检查是否有 data-src 属性（懒加载属性）
+                if (img.dataset.src) {
+                  // 创建临时图片对象用于预加载
+                  const tempImg = new Image();
+                  
+                  tempImg.onload = () => {
+                    // 替换原始图片的 src
+                    img.src = tempImg.src;
+                    
+                    // 添加淡入效果
+                    img.style.opacity = 0;
+                    img.style.transition = 'opacity 0.3s ease-in-out';
+                    
+                    // 短暂延迟后显示图片
+                    requestAnimationFrame(() => {
+                      img.style.opacity = 1;
+                      
+                      // 移除懒加载属性，添加已加载类
+                      img.removeAttribute('data-src');
+                      img.classList.add('lazy-loaded');
+                      
+                      // 触发自定义事件
+                      img.dispatchEvent(new CustomEvent('lazy-loaded', { 
+                        bubbles: true,
+                        detail: { src: img.src }
+                      }));
+                    });
+                  };
+                  
+                  tempImg.onerror = () => {
+                    // 如果加载失败，添加错误类
+                    img.classList.add('lazy-error');
+                    img.alt = img.alt || '图片加载失败';
+                    
+                    // 触发错误事件
+                    img.dispatchEvent(new CustomEvent('lazy-error', { 
+                      bubbles: true,
+                      detail: { src: img.dataset.src }
+                    }));
+                  };
+                  
+                  // 开始加载图片
+                  tempImg.src = img.dataset.src;
+                }
+                
+                // 停止观察已处理的图片
+                observer.unobserve(img);
+              }
+            });
+          }, {
+            rootMargin: '100px' // 提前 100px 开始加载
+          });
+
+          // 观察所有带有 data-src 属性的图片
+          document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+          });
         }
 
         // 为图片添加加载状态管理
         function addImageLoadListeners() {
           // 监听页面中的图片加载
           document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('img');
+            const images = document.querySelectorAll('img:not([data-src])'); // 排除懒加载的图片
             
             images.forEach(img => {
               // 检查图片是否已经加载完成
@@ -630,6 +726,12 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
                   // 移除加载中类，添加加载完成类
                   img.classList.remove('image-loading');
                   img.classList.add('image-loaded');
+                  
+                  // 触发加载完成事件
+                  img.dispatchEvent(new CustomEvent('image-loaded', { 
+                    bubbles: true,
+                    detail: { src: img.src }
+                  }));
                 };
                 
                 img.onerror = function() {
@@ -638,15 +740,31 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
                   img.classList.add('image-error');
                   // 可以添加错误占位图
                   img.alt = img.alt || '图片加载失败';
+                  
+                  // 触发错误事件
+                  img.dispatchEvent(new CustomEvent('image-error', { 
+                    bubbles: true,
+                    detail: { src: img.src }
+                  }));
                 };
               }
             });
           });
         }
 
-        // 运行预加载
-        preloadImages();
-        addImageLoadListeners();
+        // 初始化所有图片优化功能
+        preloadCriticalImages()
+          .then(() => {
+            // 关键图片预加载完成后，初始化懒加载
+            initLazyLoading();
+            addImageLoadListeners();
+          })
+          .catch(error => {
+            console.error("关键图片预加载失败:", error);
+            // 即使关键图片加载失败，也要初始化懒加载和其他功能
+            initLazyLoading();
+            addImageLoadListeners();
+          });
       })();
     </script>
     <style
@@ -698,7 +816,41 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
     </div>
     <ConfigCarrier />
     <FontManager />
-    <slot />
+
+    <ErrorBoundary>
+      <slot />
+    </ErrorBoundary>
+
+    <!-- Loading Spinner -->
+    <div id="page-loader" class="fixed inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center z-50 hidden">
+      <LoadingSpinner size="lg" />
+    </div>
+
+    <script>
+      const showLoading = function() {
+        const loader = document.getElementById('page-loader');
+        if (loader) loader.classList.remove('hidden');
+      };
+
+      const hideLoading = function() {
+        const loader = document.getElementById('page-loader');
+        if (loader) loader.classList.add('hidden');
+      };
+
+      window.addEventListener('load', hideLoading);
+      document.addEventListener('astro:page-load', showLoading);
+      document.addEventListener('astro:page-load-complete', hideLoading);
+
+      window.addEventListener('unhandledrejection', function(event) {
+        console.error('未处理的 Promise 拒绝:', event.reason);
+        const errorContainer = document.getElementById('error-boundary');
+        if (errorContainer) {
+          const message = event.reason?.message || '网络请求失败，请检查您的连接';
+          const errorHtml = '<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center"><h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">网络错误</h3><p class="text-red-600 dark:text-red-300 mb-4">' + message + '</p><button onclick="window.location.reload()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">重试</button></div>';
+          errorContainer.innerHTML = errorHtml;
+        }
+      });
+    </script>
 
     <!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
     <div id="page-height-extend" class="hidden h-[300vh]"></div>

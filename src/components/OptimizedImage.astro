@@ -1,0 +1,127 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  className?: string;
+  placeholder?: string; // Base64 placeholder for loading state
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  loading = 'lazy',
+  decoding = 'async',
+  className = '',
+  placeholder
+} = Astro.props;
+
+// Generate a low-quality placeholder if not provided
+const lqip = placeholder || `data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='${width || 400}' height='${height || 300}'%3e%3crect width='100%25' height='100%25' fill='%23f0f0f0'/%3e%3c/svg%3e`;
+---
+
+<script>
+  // 图片懒加载和预加载逻辑
+  document.addEventListener('DOMContentLoaded', () => {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          
+          // 如果有占位符，替换为实际图片
+          if (img.dataset.src) {
+            // 创建新图像对象用于预加载
+            const imgPreloader = new Image();
+            
+            imgPreloader.onload = () => {
+              // 当图像加载完成后，替换占位符
+              img.src = imgPreloader.src;
+              
+              // 添加淡入效果
+              img.style.opacity = 0;
+              img.style.transition = 'opacity 0.3s ease-in-out';
+              
+              // 短暂延迟后显示图像
+              setTimeout(() => {
+                img.style.opacity = 1;
+                
+                // 触发自定义事件
+                img.dispatchEvent(new CustomEvent('image-loaded', { bubbles: true }));
+              }, 10);
+            };
+            
+            imgPreloader.onerror = () => {
+              // 如果加载失败，保留占位符并触发错误事件
+              img.dispatchEvent(new CustomEvent('image-error', { bubbles: true }));
+            };
+            
+            // 开始加载实际图片
+            imgPreloader.src = img.dataset.src;
+          }
+          
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '50px' // 提前 50px 开始加载
+    });
+
+    // 观察所有带有 data-src 属性的图片
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+  });
+</script>
+
+<div class={`optimized-image-container ${className}`}>
+  <img 
+    data-src={src} 
+    src={lqip}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding={decoding}
+    style={`background: #f0f0f0; min-width: ${width ? width + 'px' : 'auto'}; min-height: ${height ? height + 'px' : 'auto'};`}
+    class="optimized-img"
+  />
+  
+  <noscript>
+    <img 
+      src={src} 
+      alt={alt}
+      width={width}
+      height={height}
+      class="optimized-img"
+    />
+  </noscript>
+</div>
+
+<style>
+  .optimized-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .optimized-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .optimized-img[lazy='loading'] {
+    filter: blur(5px);
+  }
+  
+  .optimized-img[lazy='loaded'] {
+    filter: blur(0);
+  }
+</style>
+</module>
+</content>

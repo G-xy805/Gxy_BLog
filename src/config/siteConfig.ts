@@ -56,7 +56,7 @@ navbarLogo: {
 	navbarTitle: "Gxy", // 导航栏标题，可以设置为与 title 不同的值，如果不设置则使用 title
 
 	// 站点开始日期，用于统计运行天数
-	siteStartDate: "2025-11-29", // 请修改为你的站点实际开始日期，格式：YYYY-MM-DD
+	siteStartDate: "2025-12-15", // 请修改为你的站点实际开始日期，格式：YYYY-MM-DD
 
 	// 文章页底部的"上次编辑时间"卡片开关
 	showLastModified: true,
