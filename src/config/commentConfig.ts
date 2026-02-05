@@ -13,7 +13,7 @@ export const commentConfig: CommentConfig = {
 
 	//waline评论系统配置
 	waline: {
-		serverURL: "https://waline.zayck34.dpdns.org",
+		serverURL: "https://mywaline-m61u1ficw-gxys-projects-10a5d308.vercel.app",
 		lang: "zh-CN", // 设置 Waline 评论系统语言
 		login: "enable", // 评论登录模式。可选值如下：
 		//   'enable'   —— 默认，允许访客匿名评论和用第三方 OAuth 登录评论，兼容性最佳。
