@@ -1,7 +1,9 @@
 ---
 title: Astro | Markdown Mermaid 图表
-published: 2025-12-06
+order: 5
+published: 2025-12-20
 description: 一个包含 Mermaid 的 Markdown 博客文章简单示例
+image: /assets/images/posts/Astro.webp
 tags: [博客, Markdown, Astro]
 category: Astro魔改
 ---

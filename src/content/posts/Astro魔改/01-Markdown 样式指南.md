@@ -1,7 +1,9 @@
 ---
 title: Astro | Markdown 样式指南
-published: 2025-12-06
+order: 1
+published: 2025-12-20
 description: 一个简明的 Markdown 博客示例
+image: /assets/images/posts/Astro.webp
 tags: [博客, Markdown, Astro]
 category: Astro魔改
 ---

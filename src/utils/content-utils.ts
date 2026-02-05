@@ -61,35 +61,59 @@ export async function getPopularPosts() {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	// 先渲染所有文章以获取阅读时间数据
-	const postsWithReadingTime = await Promise.all(
+	// 先渲染所有文章以获取阅读时间数据，并计算推荐分数
+	const postsWithScore = await Promise.all(
 		allBlogPosts.map(async (post) => {
 			// 渲染文章内容以获取frontmatter中的阅读时间数据
 			const { remarkPluginFrontmatter } = await render(post);
+			const readingTime = remarkPluginFrontmatter.minutes || 0;
+
+			// 计算发布天数
+			const now = new Date();
+			const published = new Date(post.data.published);
+			const daysSincePublished = Math.max(
+				0,
+				(now.getTime() - published.getTime()) / (1000 * 60 * 60 * 24),
+			);
+
+			// 计算热度分数
+			// 基础分：阅读时间（假设内容越长越有深度）
+			// 时间衰减：使用半衰期模型，假设每 180 天热度减半
+			// 这样可以避免老旧的长文永远霸榜，给新文章更多展示机会
+			const halfLifeDays = 180;
+			const timeDecayFactor = 1 / (1 + daysSincePublished / halfLifeDays);
+
+			const score = readingTime * timeDecayFactor;
+
 			return {
 				...post,
-				readingTime: remarkPluginFrontmatter.minutes || 0
+				readingTime,
+				score,
 			};
-		})
+		}),
 	);
 
-	// 按阅读时间排序（从长到短）
-	const sorted = postsWithReadingTime.sort((a, b) => {
-		// 首先按阅读时间排序（从长到短）
-		if (a.readingTime !== b.readingTime) {
-			return b.readingTime - a.readingTime;
+	// 排序
+	const sorted = postsWithScore.sort((a, b) => {
+		// 1. 优先显示置顶文章 (pinned)
+		// 如果你希望某篇文章强制显示在热门列表顶部，可以在 frontmatter 中设置 pinned: true
+		if (a.data.pinned && !b.data.pinned) return -1;
+		if (!a.data.pinned && b.data.pinned) return 1;
+
+		// 2. 按计算出的热度分数排序（从高到低）
+		if (Math.abs(a.score - b.score) > 0.01) {
+			return b.score - a.score;
 		}
 
-		// 如果阅读时间相同，则按发布日期排序（最新的在前）
+		// 3. 分数相同时，按发布日期排序（最新的在前）
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 
-		// 如果发布日期不同，则按日期排序
 		if (dateA.getTime() !== dateB.getTime()) {
 			return dateA > dateB ? -1 : 1;
 		}
 
-		// 如果发布日期相同，则按order字段排序（数字小的在前）
+		// 4. 最后兜底：按order字段排序
 		const orderA =
 			typeof a.data.order !== "undefined"
 				? a.data.order
@@ -99,11 +123,11 @@ export async function getPopularPosts() {
 				? b.data.order
 				: Number.MAX_SAFE_INTEGER;
 
-		return orderA - orderB; // 按order升序（数字小的在前）
+		return orderA - orderB;
 	});
 
 	// 返回原始的post对象
-	return sorted.map(post => post);
+	return sorted.map((post) => post);
 }
 
 export async function getSortedPosts() {

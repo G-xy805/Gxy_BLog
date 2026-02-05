@@ -94,6 +94,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			animationDelay: 300,
 			// 响应式配置
 			responsive: {
+				// 折叠阈值：当热门文章数量超过3个时自动折叠
+				collapseThreshold: 3,
 				// 在移动端隐藏
 				hidden: ["mobile"],
 			},

@@ -1,19 +1,20 @@
 ---
 title: Astro | Markdown 扩展功能
-published: 2025-12-06
-description: 了解 Kael 中的 Markdown 功能
-image: /assets/images/posts/code-block-xh.webp
+order: 3
+published: 2025-12-20
+description: 了解Markdown 功能
+image: /assets/images/posts/Astro.webp
 tags: [博客, Markdown, Astro]
 category: Astro魔改
 ---
 
 ## GitHub 仓库卡片
 
-::github{repo="zayck/kael"}
+::github{repo="G-xy805/Gxy_BLog"}
 
 
 ```markdown
-::github{repo="zayck/kael"}
+::github{repo="G-xy805/Gxy_BLog"}
 ```
 
 ## 提醒框
