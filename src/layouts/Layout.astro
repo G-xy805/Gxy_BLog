@@ -838,8 +838,21 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
       };
 
       window.addEventListener('load', hideLoading);
-      document.addEventListener('astro:page-load', showLoading);
-      document.addEventListener('astro:page-load-complete', hideLoading);
+      document.addEventListener('astro:page-load', hideLoading);
+      
+      // 使用 Swup 的钩子来控制加载动画
+      function setupSwupLoader() {
+        if (window.swup) {
+          window.swup.hooks.on('visit:start', showLoading);
+          window.swup.hooks.on('visit:end', hideLoading);
+        }
+      }
+
+      if (window.swup) {
+        setupSwupLoader();
+      } else {
+        document.addEventListener('swup:enable', setupSwupLoader);
+      }
 
       window.addEventListener('unhandledrejection', function(event) {
         console.error('未处理的 Promise 拒绝:', event.reason);

@@ -80,9 +80,13 @@ export function initIconLoader() {
 			setTimeout(() => {
 				observer.disconnect();
 				if (!checkIconLoaded()) {
-					// console.warn(`Icon load timeout: ${iconName}`);
+					// 即使图标加载失败，也显示图标以避免一直显示loading状态
+					showIcon();
+					if (iconName) {
+						console.warn(`Icon load timeout: ${iconName}, showing fallback`);
+					}
 				}
-			}, 5000);
+			}, 3000);
 		}
 
 		// 立即检查一次（可能已经加载完成）

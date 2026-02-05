@@ -44,7 +44,7 @@ export default defineConfig({
 			// when the Tailwind class `transition-all` is used
 			containers: ["main"],
 			smoothScrolling: false,
-			cache: true,
+			cache: false, // 禁用缓存以解决删除文章后分类一直转圈的问题
 			preload: false,
 			accessibility: true,
 			updateHead: true,

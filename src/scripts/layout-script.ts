@@ -119,10 +119,15 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		});
 		// @ts-expect-error
 		window.swup.hooks.on("content:replace", () => {
-			// 重新初始化图标加载器
-			import("@/utils/icon-loader").then(({ initIconLoader }) => {
-				initIconLoader();
-			});
+			// 强制重新初始化图标加载器
+			setTimeout(() => {
+				document.querySelectorAll("[data-icon-container]").forEach((container) => {
+					container.removeAttribute("data-icon-initialized");
+				});
+				import("@/utils/icon-loader").then(({ initIconLoader }) => {
+					initIconLoader();
+				});
+			}, 50);
 
 			// 重新初始化导航栏JavaScript功能
 			// @ts-expect-error
