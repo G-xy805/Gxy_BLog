@@ -35,9 +35,9 @@ let commentService: string = commentConfig?.type || "none";
 
       <!-- 评论区标题 -->
       <div class="relative z-10 mb-6 mt-[-0.5rem]">
-        <div class="flex items-center gap-2 mb-2">
-          <Icon name="ri:chat-1-line" class="w-6 h-6 text-[var(--primary)]" />
-          <h3 class="text-xl font-bold text-[#394E6A] dark:text-white">{i18n(Key.commentSection)}</h3>
+        <div class="flex items-start gap-3 mb-2">
+          <Icon name="ri:chat-1-line" class="w-6 h-6 shrink-0 text-[var(--primary)]" />
+          <h3 class="text-xl leading-none font-bold text-[#394E6A] dark:text-white">{i18n(Key.commentSection)}</h3>
         </div>
         <p class="text-sm text-[var(--content-meta)]">{i18n(Key.commentSubtitle)}</p>
       </div>

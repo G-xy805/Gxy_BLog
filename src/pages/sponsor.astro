@@ -22,11 +22,11 @@ const enabledMethods = sponsorConfig.methods.filter((method) => method.enabled);
     <div class="card-base z-10 px-8 py-6 relative w-full">
       <!-- 页面标题和描述 -->
       <div class="mb-8">
-        <div class="flex items-center gap-2 mb-3">
-          <Icon icon="ri:heart-line" size="2xl" class="text-primary dark:text-[var(--primary)]"></Icon>
-          <h2 class="text-2xl font-bold text-[#394E6A] dark:text-neutral-100">
-            {title}
-          </h2>
+        <div class="flex items-start gap-4 md:gap-6 mb-3">
+          <div class="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl bg-[var(--primary)]/10 text-[var(--primary)] shrink-0">
+            <Icon icon="ri:heart-line" class="w-full h-full" />
+          </div>
+          <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#394E6A] dark:text-neutral-100 leading-none">{title}</h2>
         </div>
         {description && (
           <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mt-6 mb-6">
@@ -52,21 +52,20 @@ const enabledMethods = sponsorConfig.methods.filter((method) => method.enabled);
                     {enabledMethods.map((method) => (
                       <div class="flex flex-col items-center p-6 rounded-xl bg-white dark:bg-[#1A1B26] shadow-lg hover:shadow-xl transition-all duration-300">
                         <!-- 图标和名称 -->
-                        <div class="flex items-center gap-3 mb-4">
+                        <div class="flex items-start gap-3 mb-4">
                           {method.icon && (
                             <Icon 
                               icon={method.icon} 
-                              class={`transition-colors ${
+                              class={`transition-colors w-6 h-6 shrink-0 ${
                                 method.name === '支付宝' ? 'text-blue-500' :
                                 method.name === '微信' ? 'text-green-500' :
                                 method.name === '公众号' ? 'text-green-600' :
                                 method.name === 'Bilibili' ? 'text-pink-500' :
                                 'text-[#394E6A]'
                               }`} 
-                              style="width: 1.125rem; height: 1.125rem;" 
                             />
                           )}
-                          <h3 class="text-lg font-semibold text-[#394E6A] dark:text-white">
+                          <h3 class="text-lg leading-none font-semibold text-[#394E6A] dark:text-white">
                             {method.name}
                           </h3>
                         </div>
