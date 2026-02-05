@@ -391,6 +391,11 @@ const isSidebarTocEnabled = sidebarTocComponent?.enable ?? false;
       return;
     }
 
+    try {
+      const { domCache } = await import("@/utils/domCache");
+      domCache.clear();
+    } catch (_) {}
+
     // 更新显示状态
     updateFloatingTOCVisibility();
 

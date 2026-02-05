@@ -40,6 +40,7 @@ const { headings: _headings = [], class: className, style } = Astro.props;
 
 <script>
   import { TOCManager } from "@/utils/tocUtils";
+  import { domCache } from "@/utils/domCache";
 
   if (typeof window.SidebarTOC === "undefined") {
     window.SidebarTOC = {
@@ -50,6 +51,8 @@ const { headings: _headings = [], class: className, style } = Astro.props;
   async function initSidebarTOC() {
     const tocContent = document.getElementById("sidebar-toc-content");
     if (!tocContent) return;
+
+    try { domCache.clear(); } catch (_) {}
 
     // 检查是否为文章页面
     const isCurrentlyPostPage = window.location.pathname.includes("/posts/");
