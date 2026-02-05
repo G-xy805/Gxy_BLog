@@ -6,7 +6,7 @@ export const commentConfig: CommentConfig = {
 
 	//twikoo评论系统配置
 	twikoo: {
-		envId: "https://twikoo.zayck34.dpdns.org",
+		envId: "https://twikoo.example",
 		lang: "zh-CN", // 设置 Twikoo 评论系统语言
 		visitorCount: true, // 文章访问量统计功能。
 	},
