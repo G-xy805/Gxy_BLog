@@ -20,27 +20,31 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		el.id = "net-error-toast";
 		el.textContent = text;
 		el.style.position = "fixed";
-		el.style.top = "24px";
-		el.style.right = "24px";
+		el.style.top = "32px";
+		el.style.left = "50%";
+		el.style.transform = "translateX(-50%) translateY(-20px)";
 		el.style.zIndex = "9999";
-		el.style.padding = "10px 14px";
+		el.style.padding = "12px 20px";
 		el.style.borderRadius = "12px";
-		el.style.backdropFilter = "blur(6px)";
-		el.style.background = "rgba(0,0,0,0.6)";
+		el.style.backdropFilter = "blur(8px)";
+		el.style.background = "rgba(239, 68, 68, 0.9)"; // 使用红色 (Tailwind red-500)
 		el.style.color = "#fff";
-		el.style.fontSize = "14px";
-		el.style.boxShadow = "0 6px 20px rgba(0,0,0,0.25)";
-		el.style.transition = "opacity .3s ease";
+		el.style.fontSize = "15px";
+		el.style.fontWeight = "600";
+		el.style.boxShadow = "0 10px 25px rgba(239, 68, 68, 0.3)";
+		el.style.transition = "all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
 		el.style.opacity = "0";
 		document.body.appendChild(el);
 		requestAnimationFrame(() => {
 			el.style.opacity = "1";
+			el.style.transform = "translateX(-50%) translateY(0)";
 		});
 		setTimeout(() => {
 			el.style.opacity = "0";
+			el.style.transform = "translateX(-50%) translateY(-20px)";
 			setTimeout(() => {
 				el.remove();
-			}, 300);
+			}, 400);
 		}, 4000);
 	}
 	window.addEventListener("unhandledrejection", (e) => {
