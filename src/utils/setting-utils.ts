@@ -78,7 +78,7 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 		// 使用 requestAnimationFrame 确保在下一帧触发事件
 		requestAnimationFrame(() => {
 			const themeChangedEvent = new CustomEvent("theme:changed", {
-				detail: { theme: targetIsDark ? "dark" : "light" }
+				detail: { theme: targetIsDark ? "dark" : "light" },
 			});
 			document.dispatchEvent(themeChangedEvent);
 		});

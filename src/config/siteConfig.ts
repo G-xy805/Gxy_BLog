@@ -47,8 +47,8 @@ export const siteConfig: SiteConfig = {
 	// navbarLogo 支持三种类型：Astro图标库，本地图片，网络图片
 	// { type: "icon", value: "material-symbols:home-pin-outline" }
 	// { type: "image", value: "/assets/images/logo.webp", alt: "GuoXY Logo" }
-// { type: "image", value: "https://example.com/logo.png", alt: "GuoXY Logo" }
-navbarLogo: {
+	// { type: "image", value: "https://example.com/logo.png", alt: "GuoXY Logo" }
+	navbarLogo: {
 		type: "image",
 		value: "/assets/images/logo.webp",
 		alt: "GuoXY Logo",
@@ -96,12 +96,12 @@ navbarLogo: {
 			// 桌面背景图片 - 使用高质量本地图片
 			desktop: [
 				"/assets/images/banner-light.webp", // 亮色主题：简约科技渐变
-				"/assets/images/banner-dark.webp"   // 暗色主题：自然简约风格
+				"/assets/images/banner-dark.webp", // 暗色主题：自然简约风格
 			],
 			// 移动背景图片 - 使用相同的高质量图片
 			mobile: [
 				"/assets/images/banner-light.webp",
-				"/assets/images/banner-dark.webp"
+				"/assets/images/banner-dark.webp",
 			],
 		},
 

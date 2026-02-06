@@ -76,7 +76,7 @@ onMount(async () => {
 				.toString()
 				.padStart(2, "0");
 			const day = post.data.published.getDate().toString().padStart(2, "0");
-			
+
 			if (!acc[year]) {
 				acc[year] = {};
 			}
@@ -109,13 +109,13 @@ onMount(async () => {
 								posts: posts,
 							};
 						});
-						
+
 					return {
 						month: monthStr,
 						days: days,
 					};
 				});
-				
+
 			return {
 				year,
 				months,

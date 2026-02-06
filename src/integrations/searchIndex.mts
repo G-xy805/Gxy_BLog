@@ -16,7 +16,9 @@ export default function searchIndexer() {
 					`${"=".repeat(10)}Running Search Indexer...${"=".repeat(10)}`,
 				);
 				if (navBarSearchConfig.method === NavBarSearchMethod.MeiliSearch) {
-					console.log("MeiliSearch is configured but indexer is not available.");
+					console.log(
+						"MeiliSearch is configured but indexer is not available.",
+					);
 				} else if (navBarSearchConfig.method === NavBarSearchMethod.PageFind) {
 					console.log("Running Pagefind Indexer...");
 					try {

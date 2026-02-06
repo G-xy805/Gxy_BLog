@@ -1,9 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPostUrlBySlug } from "@utils/url-utils";
-import { getPopularPosts } from "@/utils/content-utils";
 import { Icon } from "astro-icon/components";
 import WidgetLayout from "@/components/widget/WidgetLayout.astro";
+import { getPopularPosts } from "@/utils/content-utils";
 import { widgetManager } from "@/utils/widget-manager";
 
 const allPosts = await getPopularPosts();
@@ -24,27 +24,27 @@ const { title = "热门文章" } = Astro.props;
 type PostEntry = CollectionEntry<"posts">;
 
 interface Props {
-  class?: string;
-  style?: string;
-  title?: string;
+	class?: string;
+	style?: string;
+	title?: string;
 }
 const className = Astro.props.class;
 const style = Astro.props.style;
 
 // 简单的字数统计和阅读时间估算
 function getReadingTime(content: string) {
-  const wordsPerMinute = 200;
-  const wordCount = content.length;
-  const minutes = Math.ceil(wordCount / wordsPerMinute);
-  return `${minutes} min`;
+	const wordsPerMinute = 200;
+	const wordCount = content.length;
+	const minutes = Math.ceil(wordCount / wordsPerMinute);
+	return `${minutes} min`;
 }
 
 // 格式化日期
 function formatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	return `${year}-${month}-${day}`;
 }
 ---
 

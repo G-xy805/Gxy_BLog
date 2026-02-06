@@ -1,14 +1,14 @@
 ---
 interface Props {
-  title?: string;
-  message?: string;
-  showRetry?: boolean;
+	title?: string;
+	message?: string;
+	showRetry?: boolean;
 }
 
 const {
-  title = '出错了',
-  message = '抱歉，发生了一些问题。请稍后再试。',
-  showRetry = true
+	title = "出错了",
+	message = "抱歉，发生了一些问题。请稍后再试。",
+	showRetry = true,
 } = Astro.props;
 ---
 

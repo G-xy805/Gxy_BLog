@@ -16,9 +16,9 @@ async function getRawSortedPosts() {
 			const { remarkPluginFrontmatter } = await render(post);
 			return {
 				...post,
-				readingTime: remarkPluginFrontmatter.minutes || 0
+				readingTime: remarkPluginFrontmatter.minutes || 0,
 			};
-		})
+		}),
 	);
 
 	const sorted = postsWithReadingTime.sort((a, b) => {
@@ -49,7 +49,7 @@ async function getRawSortedPosts() {
 	});
 
 	// 返回原始的post对象
-	return sorted.map(post => post);
+	return sorted.map((post) => post);
 }
 
 /**

@@ -29,10 +29,12 @@ export async function getStaticPaths() {
 
 	// 转换为路由参数
 	return Array.from(tagMap.entries()).flatMap(([name, count]) => {
-		const paths = [{
-			params: { slug: name },
-			props: { tagName: name, postCount: count },
-		}];
+		const paths = [
+			{
+				params: { slug: name },
+				props: { tagName: name, postCount: count },
+			},
+		];
 		// 如果标签名称包含特殊字符，也生成一个编码后的版本作为备份
 		const encoded = encodeURIComponent(name);
 		if (encoded !== name) {

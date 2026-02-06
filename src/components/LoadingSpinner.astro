@@ -1,16 +1,16 @@
 ---
 interface Props {
-  size?: 'sm' | 'md' | 'lg';
-  color?: string;
+	size?: "sm" | "md" | "lg";
+	color?: string;
 }
 
-const { size = 'md', color = 'currentColor' } = Astro.props;
+const { size = "md", color = "currentColor" } = Astro.props;
 
-let sizeClass = 'w-8 h-8';
-if (size === 'sm') sizeClass = 'w-4 h-4';
-if (size === 'lg') sizeClass = 'w-12 h-12';
+let sizeClass = "w-8 h-8";
+if (size === "sm") sizeClass = "w-4 h-4";
+if (size === "lg") sizeClass = "w-12 h-12";
 
-const style = 'border-top-color: ' + color + ';';
+const style = "border-top-color: " + color + ";";
 ---
 
 <div class={`animate-spin rounded-full border-2 border-gray-300 border-t-transparent ${sizeClass}`} style={style} aria-label="加载中" role="status">

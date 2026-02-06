@@ -1,7 +1,7 @@
 ---
 // 可靠的图标组件
 // 提供加载状态管理和错误处理
-import { getIcon, iconSizes, iconColors } from "@/config/iconConfig";
+import { getIcon, iconColors, iconSizes } from "@/config/iconConfig";
 
 export interface Props {
 	icon?: string; // 直接图标名称
@@ -9,7 +9,17 @@ export interface Props {
 	name?: string; // 图标名称
 	class?: string;
 	style?: string;
-	size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "2xl-md" | "3xl" | "4xl" | "5xl";
+	size?:
+		| "xs"
+		| "sm"
+		| "md"
+		| "lg"
+		| "xl"
+		| "2xl"
+		| "2xl-md"
+		| "3xl"
+		| "4xl"
+		| "5xl";
 	color?: string;
 	colorType?: keyof typeof iconColors; // 颜色类型
 	fallback?: string; // 备用图标或文本
@@ -47,7 +57,9 @@ if (colorType && iconColors[colorType]) {
 const colorStyle = color ? `color: ${color};` : "";
 const combinedStyle = `${colorStyle}${style}`;
 // 如果传入了自定义 class，则优先使用自定义 class，否则使用 sizeClass
-const combinedClass = className ? `${className} ${colorClass}`.trim() : `${sizeClass} ${colorClass}`.trim();
+const combinedClass = className
+	? `${className} ${colorClass}`.trim()
+	: `${sizeClass} ${colorClass}`.trim();
 
 // 生成唯一ID
 const iconId = `icon-${Math.random().toString(36).slice(2, 11)}`;

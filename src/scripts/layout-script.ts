@@ -121,9 +121,11 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		window.swup.hooks.on("content:replace", () => {
 			// 强制重新初始化图标加载器
 			setTimeout(() => {
-				document.querySelectorAll("[data-icon-container]").forEach((container) => {
-					container.removeAttribute("data-icon-initialized");
-				});
+				document
+					.querySelectorAll("[data-icon-container]")
+					.forEach((container) => {
+						container.removeAttribute("data-icon-initialized");
+					});
 				import("@/utils/icon-loader").then(({ initIconLoader }) => {
 					initIconLoader();
 				});
@@ -496,8 +498,24 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 	};
 
 	// 页面加载完成后初始化banner和katex容器
-if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", () => {
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", () => {
+			// 预加载背景图片
+			preloadBackgroundImages();
+			showBanner();
+			// 只在文章页面初始化数学公式容器
+			// 客户端重新计算是否为文章页面
+			const isArticlePage = document.querySelector(".post-container") !== null;
+			if (isArticlePage) {
+				initCustomScrollbar();
+			}
+			// Initialize wallpaper mode
+			initWallpaperMode();
+			initIconLoader();
+			// 添加主题切换监听器
+			addThemeChangeListener();
+		});
+	} else {
 		// 预加载背景图片
 		preloadBackgroundImages();
 		showBanner();
@@ -512,173 +530,161 @@ if (document.readyState === "loading") {
 		initIconLoader();
 		// 添加主题切换监听器
 		addThemeChangeListener();
-	});
-} else {
-	// 预加载背景图片
-	preloadBackgroundImages();
-	showBanner();
-	// 只在文章页面初始化数学公式容器
-	// 客户端重新计算是否为文章页面
-	const isArticlePage = document.querySelector(".post-container") !== null;
-	if (isArticlePage) {
-		initCustomScrollbar();
 	}
-	// Initialize wallpaper mode
-	initWallpaperMode();
-	initIconLoader();
-	// 添加主题切换监听器
-	addThemeChangeListener();
-}
 
-// 预加载背景图片
-function preloadBackgroundImages() {
-	// 定义背景图片路径 - 与siteConfig中的配置一致
-	const lightImages = {
-		desktop: '/assets/images/banner-light.webp',
-		mobile: '/assets/images/banner-light.webp'
-	};
-	
-	const darkImages = {
-		desktop: '/assets/images/banner-dark.webp',
-		mobile: '/assets/images/banner-dark.webp'
-	};
-	
-	// 预加载亮色主题图片
-	const lightDesktopImg = new Image();
-	lightDesktopImg.src = lightImages.desktop;
-	
-	const lightMobileImg = new Image();
-	lightMobileImg.src = lightImages.mobile;
-	
-	// 预加载暗色主题图片
-	const darkDesktopImg = new Image();
-	darkDesktopImg.src = darkImages.desktop;
-	
-	const darkMobileImg = new Image();
-	darkMobileImg.src = darkImages.mobile;
-	
-	console.log('背景图片预加载完成');
-}
-
-// 添加主题切换监听器，动态更新背景图片
-function addThemeChangeListener() {
-	// 创建主题切换覆盖层元素
-	const createOverlay = () => {
-		let overlay = document.getElementById('theme-transition-overlay');
-		if (!overlay) {
-			overlay = document.createElement('div');
-			overlay.id = 'theme-transition-overlay';
-			overlay.className = 'theme-transition-overlay';
-			document.body.appendChild(overlay);
-		}
-		return overlay;
-	};
-	
-	// 显示主题切换动画
-	const showThemeTransition = () => {
-		const overlay = createOverlay();
-		
-		// 重置覆盖层状态
-		overlay.classList.remove('active', 'fade-out');
-		
-		// 触发重排
-		overlay.offsetHeight;
-		
-		// 显示覆盖层
-		overlay.classList.add('active');
-		
-		// 动画完成后淡出
-		setTimeout(() => {
-			overlay.classList.add('fade-out');
-			
-			// 动画结束后移除覆盖层
-			setTimeout(() => {
-				overlay.remove();
-			}, 400);
-		}, 200);
-	};
-	
-	// 监听主题切换事件
-	document.addEventListener('theme:changed', () => {
-		// 显示主题切换动画
-		showThemeTransition();
-		// 直接执行背景图片更新
-		updateBackgroundImages();
-	});
-	
-	// 监听系统主题变化
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-		// 显示主题切换动画
-		showThemeTransition();
-		// 直接执行背景图片更新
-		updateBackgroundImages();
-	});
-}
-
-// 更新背景图片
-function updateBackgroundImages() {
-	// 查找桌面端图片元素（在id="banner"的div内部）
-	const bannerDiv = document.getElementById('banner');
-	const desktopImg = bannerDiv ? bannerDiv.querySelector('img') : null;
-	
-	// 查找移动端图片元素（在class包含"lg:hidden"的div内部）
-	const mobileDiv = document.querySelector('#banner-wrapper div[class*="lg:hidden"]');
-	const mobileImg = mobileDiv ? mobileDiv.querySelector('img') : null;
-	
-	if (desktopImg || mobileImg) {
-		// 获取当前主题
-		const isDark = document.documentElement.classList.contains('dark');
-		
+	// 预加载背景图片
+	function preloadBackgroundImages() {
 		// 定义背景图片路径 - 与siteConfig中的配置一致
 		const lightImages = {
-			desktop: '/assets/images/banner-light.webp',
-			mobile: '/assets/images/banner-light.webp'
+			desktop: "/assets/images/banner-light.webp",
+			mobile: "/assets/images/banner-light.webp",
 		};
-		
+
 		const darkImages = {
-			desktop: '/assets/images/banner-dark.webp',
-			mobile: '/assets/images/banner-dark.webp'
+			desktop: "/assets/images/banner-dark.webp",
+			mobile: "/assets/images/banner-dark.webp",
 		};
-		
-		// 根据主题选择图片
-		const selectedImages = isDark ? darkImages : lightImages;
-		
-		// 添加主题切换硬件加速类
-		document.documentElement.classList.add('theme-transitioning');
-		
-		// 添加淡入淡出效果的函数
-		const updateWithFade = (imgElement: HTMLImageElement, newSrc: string) => {
-			if (!imgElement) return;
-			
-			// 开始淡出
-			imgElement.style.opacity = '0';
-			
-			// 等待淡出完成后更新图片
+
+		// 预加载亮色主题图片
+		const lightDesktopImg = new Image();
+		lightDesktopImg.src = lightImages.desktop;
+
+		const lightMobileImg = new Image();
+		lightMobileImg.src = lightImages.mobile;
+
+		// 预加载暗色主题图片
+		const darkDesktopImg = new Image();
+		darkDesktopImg.src = darkImages.desktop;
+
+		const darkMobileImg = new Image();
+		darkMobileImg.src = darkImages.mobile;
+
+		console.log("背景图片预加载完成");
+	}
+
+	// 添加主题切换监听器，动态更新背景图片
+	function addThemeChangeListener() {
+		// 创建主题切换覆盖层元素
+		const createOverlay = () => {
+			let overlay = document.getElementById("theme-transition-overlay");
+			if (!overlay) {
+				overlay = document.createElement("div");
+				overlay.id = "theme-transition-overlay";
+				overlay.className = "theme-transition-overlay";
+				document.body.appendChild(overlay);
+			}
+			return overlay;
+		};
+
+		// 显示主题切换动画
+		const showThemeTransition = () => {
+			const overlay = createOverlay();
+
+			// 重置覆盖层状态
+			overlay.classList.remove("active", "fade-out");
+
+			// 触发重排
+			overlay.offsetHeight;
+
+			// 显示覆盖层
+			overlay.classList.add("active");
+
+			// 动画完成后淡出
 			setTimeout(() => {
-				imgElement.setAttribute('src', newSrc);
-				
-				// 图片加载完成后淡入
-				imgElement.onload = () => {
-					imgElement.style.opacity = '1';
-					// 动画完成后移除硬件加速类
-					setTimeout(() => {
-						document.documentElement.classList.remove('theme-transitioning');
-					}, 300);
-				};
+				overlay.classList.add("fade-out");
+
+				// 动画结束后移除覆盖层
+				setTimeout(() => {
+					overlay.remove();
+				}, 400);
 			}, 200);
 		};
-		
-		// 更新桌面端图片
-		if (desktopImg) {
-			updateWithFade(desktopImg as HTMLImageElement, selectedImages.desktop);
-		}
-		
-		// 更新移动端图片
-		if (mobileImg) {
-			updateWithFade(mobileImg as HTMLImageElement, selectedImages.mobile);
-		}
-		
-		console.log(`背景图片已更新为${isDark ? '暗色' : '亮色'}主题`);
+
+		// 监听主题切换事件
+		document.addEventListener("theme:changed", () => {
+			// 显示主题切换动画
+			showThemeTransition();
+			// 直接执行背景图片更新
+			updateBackgroundImages();
+		});
+
+		// 监听系统主题变化
+		window
+			.matchMedia("(prefers-color-scheme: dark)")
+			.addEventListener("change", () => {
+				// 显示主题切换动画
+				showThemeTransition();
+				// 直接执行背景图片更新
+				updateBackgroundImages();
+			});
 	}
-}
+
+	// 更新背景图片
+	function updateBackgroundImages() {
+		// 查找桌面端图片元素（在id="banner"的div内部）
+		const bannerDiv = document.getElementById("banner");
+		const desktopImg = bannerDiv ? bannerDiv.querySelector("img") : null;
+
+		// 查找移动端图片元素（在class包含"lg:hidden"的div内部）
+		const mobileDiv = document.querySelector(
+			'#banner-wrapper div[class*="lg:hidden"]',
+		);
+		const mobileImg = mobileDiv ? mobileDiv.querySelector("img") : null;
+
+		if (desktopImg || mobileImg) {
+			// 获取当前主题
+			const isDark = document.documentElement.classList.contains("dark");
+
+			// 定义背景图片路径 - 与siteConfig中的配置一致
+			const lightImages = {
+				desktop: "/assets/images/banner-light.webp",
+				mobile: "/assets/images/banner-light.webp",
+			};
+
+			const darkImages = {
+				desktop: "/assets/images/banner-dark.webp",
+				mobile: "/assets/images/banner-dark.webp",
+			};
+
+			// 根据主题选择图片
+			const selectedImages = isDark ? darkImages : lightImages;
+
+			// 添加主题切换硬件加速类
+			document.documentElement.classList.add("theme-transitioning");
+
+			// 添加淡入淡出效果的函数
+			const updateWithFade = (imgElement: HTMLImageElement, newSrc: string) => {
+				if (!imgElement) return;
+
+				// 开始淡出
+				imgElement.style.opacity = "0";
+
+				// 等待淡出完成后更新图片
+				setTimeout(() => {
+					imgElement.setAttribute("src", newSrc);
+
+					// 图片加载完成后淡入
+					imgElement.onload = () => {
+						imgElement.style.opacity = "1";
+						// 动画完成后移除硬件加速类
+						setTimeout(() => {
+							document.documentElement.classList.remove("theme-transitioning");
+						}, 300);
+					};
+				}, 200);
+			};
+
+			// 更新桌面端图片
+			if (desktopImg) {
+				updateWithFade(desktopImg as HTMLImageElement, selectedImages.desktop);
+			}
+
+			// 更新移动端图片
+			if (mobileImg) {
+				updateWithFade(mobileImg as HTMLImageElement, selectedImages.mobile);
+			}
+
+			console.log(`背景图片已更新为${isDark ? "暗色" : "亮色"}主题`);
+		}
+	}
 }

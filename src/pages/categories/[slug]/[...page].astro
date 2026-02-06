@@ -55,8 +55,14 @@ export async function getStaticPaths() {
 				const dateA = new Date(a.data.published);
 				const dateB = new Date(b.data.published);
 				if (dateA.getTime() !== dateB.getTime()) return dateA > dateB ? -1 : 1;
-				const orderA = typeof a.data.order !== "undefined" ? a.data.order : Number.MAX_SAFE_INTEGER;
-				const orderB = typeof b.data.order !== "undefined" ? b.data.order : Number.MAX_SAFE_INTEGER;
+				const orderA =
+					typeof a.data.order !== "undefined"
+						? a.data.order
+						: Number.MAX_SAFE_INTEGER;
+				const orderB =
+					typeof b.data.order !== "undefined"
+						? b.data.order
+						: Number.MAX_SAFE_INTEGER;
 				return orderA - orderB;
 			});
 
@@ -83,8 +89,14 @@ export async function getStaticPaths() {
 							end: Math.min(endIndex, categoryPosts.length),
 							url: {
 								current: `/categories/${category}/${pageNum}/`,
-								prev: pageNum > 2 ? `/categories/${category}/${pageNum - 1}/` : `/categories/${category}/`,
-								next: pageNum < totalPages ? `/categories/${category}/${pageNum + 1}/` : undefined,
+								prev:
+									pageNum > 2
+										? `/categories/${category}/${pageNum - 1}/`
+										: `/categories/${category}/`,
+								next:
+									pageNum < totalPages
+										? `/categories/${category}/${pageNum + 1}/`
+										: undefined,
 								first: `/categories/${category}/`,
 								last: `/categories/${category}/${totalPages}/`,
 							},
@@ -108,8 +120,14 @@ export async function getStaticPaths() {
 								end: Math.min(endIndex, categoryPosts.length),
 								url: {
 									current: `/categories/${encoded}/${pageNum}/`,
-									prev: pageNum > 2 ? `/categories/${encoded}/${pageNum - 1}/` : `/categories/${encoded}/`,
-									next: pageNum < totalPages ? `/categories/${encoded}/${pageNum + 1}/` : undefined,
+									prev:
+										pageNum > 2
+											? `/categories/${encoded}/${pageNum - 1}/`
+											: `/categories/${encoded}/`,
+									next:
+										pageNum < totalPages
+											? `/categories/${encoded}/${pageNum + 1}/`
+											: undefined,
 									first: `/categories/${encoded}/`,
 									last: `/categories/${encoded}/${totalPages}/`,
 								},

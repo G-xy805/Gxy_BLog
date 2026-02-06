@@ -14,22 +14,26 @@ export const getBackgroundImages = () => {
 			desktop?: string | string[];
 			mobile?: string | string[];
 		};
-		
+
 		// 处理数组形式的图片配置 - 根据主题选择图片
 		const getThemeImage = (src: string | string[] | undefined): string => {
 			if (typeof src === "string") return src;
 			if (Array.isArray(src) && src.length > 0) {
 				// 检查当前主题状态
-				const isDark = typeof window !== 'undefined' && document.documentElement.classList.contains('dark');
+				const isDark =
+					typeof window !== "undefined" &&
+					document.documentElement.classList.contains("dark");
 				// 如果是暗色主题，使用第二个图片（索引1），否则使用第一个图片（索引0）
 				return isDark && src.length > 1 ? src[1] : src[0];
 			}
 			return "";
 		};
-		
+
 		return {
-			desktop: getThemeImage(srcObj.desktop) || getThemeImage(srcObj.mobile) || "",
-			mobile: getThemeImage(srcObj.mobile) || getThemeImage(srcObj.desktop) || "",
+			desktop:
+				getThemeImage(srcObj.desktop) || getThemeImage(srcObj.mobile) || "",
+			mobile:
+				getThemeImage(srcObj.mobile) || getThemeImage(srcObj.desktop) || "",
 		};
 	}
 	// 如果是字符串，同时用于桌面端和移动端
