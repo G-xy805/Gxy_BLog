@@ -12,6 +12,52 @@ import { pathsEqual, url } from "@/utils/url-utils";
 // 确保所有代码只在客户端执行
 if (typeof window !== "undefined" && typeof document !== "undefined") {
 	const bannerEnabled = !!document.getElementById("banner-wrapper");
+	let _netErrToastShown = false;
+	function _showNetErrToast(text: string) {
+		if (_netErrToastShown) return;
+		_netErrToastShown = true;
+		const el = document.createElement("div");
+		el.id = "net-error-toast";
+		el.textContent = text;
+		el.style.position = "fixed";
+		el.style.top = "24px";
+		el.style.right = "24px";
+		el.style.zIndex = "9999";
+		el.style.padding = "10px 14px";
+		el.style.borderRadius = "12px";
+		el.style.backdropFilter = "blur(6px)";
+		el.style.background = "rgba(0,0,0,0.6)";
+		el.style.color = "#fff";
+		el.style.fontSize = "14px";
+		el.style.boxShadow = "0 6px 20px rgba(0,0,0,0.25)";
+		el.style.transition = "opacity .3s ease";
+		el.style.opacity = "0";
+		document.body.appendChild(el);
+		requestAnimationFrame(() => {
+			el.style.opacity = "1";
+		});
+		setTimeout(() => {
+			el.style.opacity = "0";
+			setTimeout(() => {
+				el.remove();
+			}, 300);
+		}, 4000);
+	}
+	window.addEventListener("unhandledrejection", (e) => {
+		const m =
+			typeof e.reason === "string"
+				? e.reason
+				: String((e.reason && (e.reason.message || e.reason.toString())) || "");
+		if (m.includes("Failed to fetch") || m.includes("ERR_FAILED")) {
+			_showNetErrToast("网络异常：评论服务暂不可用");
+		}
+	});
+	window.addEventListener("error", (e) => {
+		const m = String(e.message || "");
+		if (m.includes("Failed to fetch") || m.includes("ERR_FAILED")) {
+			_showNetErrToast("网络异常：评论服务暂不可用");
+		}
+	});
 
 	function setClickOutsideToClose(panel: string, ignores: string[]) {
 		document.addEventListener("click", (event) => {

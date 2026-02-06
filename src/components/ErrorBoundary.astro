@@ -8,6 +8,10 @@ const { fallback = "error" } = Astro.props;
 
 <script>
   window.addEventListener('error', function(event) {
+    const msg = String(event.message || '');
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('ERR_FAILED')) {
+      return;
+    }
     const errorContainer = document.getElementById('error-boundary');
     if (errorContainer) {
       const message = event.message || '发生了意外错误';

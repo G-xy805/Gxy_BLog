@@ -859,8 +859,11 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         const errorContainer = document.getElementById('error-boundary');
         if (errorContainer) {
           const message = event.reason?.message || '网络请求失败，请检查您的连接';
-          const errorHtml = '<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center"><h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">网络错误</h3><p class="text-red-600 dark:text-red-300 mb-4">' + message + '</p><button onclick="window.location.reload()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">重试</button></div>';
-          errorContainer.innerHTML = errorHtml;
+          const isNetErr = String(message).includes('Failed to fetch') || String(message).includes('ERR_FAILED');
+          if (!isNetErr) {
+            const errorHtml = '<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center"><h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">网络错误</h3><p class="text-red-600 dark:text-red-300 mb-4">' + message + '</p><button onclick="window.location.reload()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">重试</button></div>';
+            errorContainer.innerHTML = errorHtml;
+          }
         }
       });
     </script>
@@ -926,6 +929,12 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
 
     img.image-error {
       @apply opacity-100 bg-gray-100 dark:bg-gray-800;
+    }
+
+    /* Skip link 样式：默认隐藏，只在 Tab 聚焦时显示 */
+    .skip-link {
+      @apply absolute left-4 top-4 z-[100] px-4 py-2 bg-[var(--primary)] text-white rounded-lg 
+             -translate-y-[200%] transition-transform duration-300 focus:translate-y-0;
     }
   }
 </style>
