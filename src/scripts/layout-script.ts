@@ -565,6 +565,8 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 			initIconLoader();
 			// 添加主题切换监听器
 			addThemeChangeListener();
+			// 初始化背景图片，确保与当前主题一致
+			updateBackgroundImages();
 		});
 	} else {
 		// 预加载背景图片
@@ -581,6 +583,8 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		initIconLoader();
 		// 添加主题切换监听器
 		addThemeChangeListener();
+		// 初始化背景图片，确保与当前主题一致
+		updateBackgroundImages();
 	}
 
 	// 预加载背景图片
