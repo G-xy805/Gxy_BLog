@@ -9,16 +9,8 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
         <div class="card-base z-10 px-9 py-6 relative w-full ">
             <div class="space-y-10 mb-8">
                 <!-- Profile Section -->
-                <section class="flex flex-col md:flex-row gap-8 items-center md:items-start mt-2">
-                    <div class="avatar">
-                        <div
-                            class="w-32 h-32 md:w-40 md:h-40 rounded-xl ring ring-primary dark:ring-primary-dark ring-offset-base-100 ring-offset-2 overflow-hidden"
-                        >
-                            <img src="/assets/images/avatar.webp" alt="Avatar" width="160" height="160" loading="eager" />
-                        </div>
-                    </div>
-
-                    <div class="flex-1 text-center md:text-left">
+                <section class="flex flex-col items-center md:items-start mt-2">
+                    <div class="flex-1 text-center md:text-left w-full">
                         <h1 class="text-3xl md:text-4xl font-bold mb-2 text-[#394E6A] dark:text-white">宇</h1>
                         <p class="text-xl text-base-content/80 mb-4 text-[#394E6A] dark:text-white">Technology Sharing</p>
 
@@ -34,7 +26,7 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
                             </a>
                         </div>
                         <div class="text-base-content/80 leading-relaxed">
-                            <p class="text-[#394E6A] dark:text-white">美学 摄影 文化 | 学习 思维 小众</p>
+                            <p class="text-[#394E6A] dark:text-white">编程 开发 魔改 | 学习 思维 成长</p>
                         </div>
                     </div>
                 </section>
@@ -44,22 +36,24 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
                         <Icon name="ri:information-line" class="w-6 h-6 text-primary dark:text-primary-dark" />
                         <span>关于本站</span>
                     </h2>
-                    
+
                     <div class="prose prose-base dark:prose-invert max-w-none [&_ul>li]:break-words" style="max-width: 100%">
                         <p>
-                            本站是一个简洁、优雅、快速的静态博客，基于 Astro 5.0+ & Tailwind CSS 开发。
+                            欢迎来到我的数字花园！这里将会记录着我在技术路上的探索与成长，从编程思维的锤炼到技术杂谈的思考。每篇文章都是一次学习旅程的见证，希望这些内容能为你带来启发与帮助。
                         </p>
-                        
+
                         <h3 class="text-xl font-bold mt-4 mb-2">✨ 核心特点</h3>
                         <ul class="list-disc list-inside space-y-1">
-                            <li>🚀 <strong>极速性能</strong>：基于 Astro 5.0+ 构建，零 JS 运行时开销，首屏加载毫秒级。</li>
-                            <li>🎨 <strong>精美设计</strong>：卡片式布局，Tailwind CSS 驱动，支持明暗主题无缝切换。</li>
-                            <li>📱 <strong>响应式布局</strong>：移动端优先，完美适配手机、平板、桌面端。</li>
-                            <li>🔍 <strong>全文搜索</strong>：集成 Pagefind，毫秒级文章搜索体验。</li>
-                            <li>⚡ <strong>流畅动效</strong>：ClientRouter 页面过渡，丝滑浏览体验。</li>
-                            <li>� <strong>多元评论</strong>：支持 Twikoo、Waline、Giscus 等多种评论系统。</li>
-                            <li>🖼️ <strong>图片优化</strong>：自动懒加载、响应式处理，极致视觉体验。</li>
-                            <li>� <strong>数据可视化</strong>：站点统计、文章日历、字数统计等丰富数据展示。</li>
+                            <li>🚀 <strong>Astro 5.0+ 驱动</strong>：零 JS 运行时开销，首屏加载毫秒级，极致性能体验。</li>
+                            <li>🎨 <strong>双主题系统</strong>：明暗主题无缝切换，自定义主题色（0-360°），三种背景壁纸模式。</li>
+                            <li>📱 <strong>全端响应式</strong>：移动端优先设计，完美适配手机、平板、桌面端，响应式侧边栏配置。</li>
+                            <li>🔍 <strong>全文搜索</strong>：集成 Pagefind 搜索，毫秒级文章检索，支持 MeiliSearch 扩展。</li>
+                            <li>📝 <strong>内容增强</strong>：Markdown 扩展、KaTeX 数学公式、Mermaid 图表、Expressive Code 代码高亮。</li>
+                            <li>💬 <strong>多评论系统</strong>：支持 Waline、Twikoo、Giscus、Artalk、Disqus 等多种评论方案。</li>
+                            <li>📊 <strong>丰富组件</strong>：站点统计、文章日历、热门文章、分类标签云、用户资料等侧边栏组件。</li>
+                            <li>⚡ <strong>流畅交互</strong>：ClientRouter 页面过渡、悬浮目录、阅读进度条、图片灯箱、返回顶部。</li>
+                            <li>🌍 <strong>国际化支持</strong>：i18n 多语言支持，涵盖简中、繁中、英文、日文、俄语。</li>
+                            <li>🔧 <strong>灵活配置</strong>：文章列表布局切换（列表/网格）、自定义导航栏、字体管理等。</li>
                         </ul>
 
 
