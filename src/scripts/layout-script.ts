@@ -680,10 +680,8 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		const bannerDiv = document.getElementById("banner");
 		const desktopImg = bannerDiv ? bannerDiv.querySelector("img") : null;
 
-		// 查找移动端图片元素（在class包含"lg:hidden"的div内部）
-		const mobileDiv = document.querySelector(
-			'#banner-wrapper div[class*="lg:hidden"]',
-		);
+		// 查找移动端图片元素（在id="banner-mobile"的div内部）
+		const mobileDiv = document.getElementById("banner-mobile");
 		const mobileImg = mobileDiv ? mobileDiv.querySelector("img") : null;
 
 		if (desktopImg || mobileImg) {
