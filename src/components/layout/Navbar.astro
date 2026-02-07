@@ -32,8 +32,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
         className,
         "z-50 !overflow-visible max-w-7xl mx-auto w-full h-[4rem] flex items-center justify-between px-4 relative whitespace-nowrap"]} data-is-home={isHomePageCheck} role="navigation" aria-label="主导航">
         
-        <!-- 导航栏左侧装饰 -->
-        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-[var(--primary)]/10 to-transparent rounded-full blur-2xl pointer-events-none lg:hidden"></div>
+
         
         <!-- 导航栏左侧：标题 -->
         <div class="flex items-center flex-shrink-0">
@@ -47,8 +46,8 @@ let links: NavBarLink[] = navBarConfig.links.map(
         </div>
         
         <!-- 导航栏中间：菜单 -->
-        <div class="absolute left-1/2 -translate-x-1/2 flex items-center">
-            <nav class="hidden md:flex items-center space-x-1 justify-center" aria-label="主导航菜单">
+        <div class="hidden md:flex items-center justify-center flex-1 mx-4">
+            <nav class="flex items-center space-x-1 justify-center" aria-label="主导航菜单">
                 {links.map((l) => {
                     return <DropdownMenu link={l} class="group flex-shrink-0" />;
                 })}
@@ -80,8 +79,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
             </button>
         </div>
         
-        <!-- 导航栏右侧装饰 -->
-        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-l from-[var(--secondary)]/10 to-transparent rounded-full blur-2xl pointer-events-none lg:hidden"></div>
+
 </div>
 
 <!-- 移动端导航菜单面板 -->
@@ -294,6 +292,13 @@ initNavbar();
     transform: translateY(0); /* 默认显示，不再隐藏 */
 }
 
+/* 确保所有内部div元素都继承背景色 */
+#navbar > div {
+    background: inherit;
+    -webkit-backdrop-filter: inherit;
+    backdrop-filter: inherit;
+}
+
 /* 确保主题切换时的平滑过渡 */
 #navbar * {
     transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
@@ -414,8 +419,81 @@ initNavbar();
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+    /* 平板端导航栏布局优化 */
+    #navbar {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        /* 确保背景色和边框色与主题一致 */
+        background: var(--card-bg);
+        border-bottom: 1px solid var(--line-color);
+        box-shadow: var(--shadow-md);
+    }
+    
+    /* 调整标题样式 */
     #navbar .navbar-title-text {
         font-size: 1.6rem;
+        /* 确保文字颜色与主题一致 */
+        color: var(--primary);
+    }
+    
+    /* 调整中间菜单的间距 */
+    #navbar > div:nth-child(3) {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+    
+    /* 调整导航项的间距 */
+    #navbar > div:nth-child(3) nav {
+        gap: 0.125rem;
+    }
+    
+    /* 调整右侧操作区的间距 */
+    #navbar > div:nth-child(4) {
+        gap: 0.75rem;
+    }
+    
+    /* 调整按钮大小和样式 */
+    #navbar .btn-plain {
+        width: 2.75rem;
+        height: 2.75rem;
+        /* 确保按钮样式与主题一致 */
+        color: var(--text-color);
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* 调整图标大小和颜色 */
+    #navbar .btn-plain Icon {
+        font-size: 1.25rem;
+        /* 确保图标颜色与主题一致 */
+        color: var(--primary);
+    }
+    
+    /* 调整下拉菜单的按钮大小和样式 */
+    #navbar .dropdown-container .btn-plain {
+        height: 2.75rem;
+        padding: 0 1rem;
+        /* 确保下拉按钮样式与主题一致 */
+        color: var(--text-color);
+    }
+    
+    /* 调整下拉菜单的箭头颜色 */
+    #navbar .dropdown-arrow {
+        /* 确保箭头颜色与主题一致 */
+        color: var(--text-secondary);
+    }
+    
+    /* 调整导航图标颜色 */
+    #navbar .navbar-icon {
+        /* 确保导航图标颜色与主题一致 */
+        color: var(--primary);
+    }
+    
+    /* 确保主题切换时的平滑过渡 */
+    #navbar * {
+        transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 }
 </style>

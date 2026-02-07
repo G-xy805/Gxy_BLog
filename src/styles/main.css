@@ -22,9 +22,9 @@
     right: 0;
     z-index: 50;
     backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--line-color);
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
     overflow: visible;
     transform: translateY(-100%);

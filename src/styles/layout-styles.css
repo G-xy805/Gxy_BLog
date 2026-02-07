@@ -545,7 +545,7 @@
     }
     
     /* 增强导航栏视觉效果 */
-    #navbar > div {
+    #navbar {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important; /* 更明显的导航栏边框 */
     }
     
@@ -604,9 +604,8 @@
     }
     
     /* 增强导航栏视觉效果 */
-    #navbar > div {
+    #navbar {
         border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important; /* 更明显的导航栏边框 */
-        background-color: rgba(255, 255, 255, 0.98) !important; /* 更白的导航栏背景 */
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important; /* 导航栏阴影 */
     }
     
