@@ -306,8 +306,26 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
         if (backgroundImage) {
           // 找到banner元素并设置背景图片
           const banner = document.getElementById("banner");
+          const bannerMobile = document.getElementById("banner-mobile");
+          
+          // 设置桌面端banner背景
           if (banner) {
-            banner.style.backgroundImage = `url(${backgroundImage})`;
+            const bannerImg = banner.querySelector("img");
+            if (bannerImg) {
+              bannerImg.src = backgroundImage;
+            } else {
+              banner.style.backgroundImage = `url(${backgroundImage})`;
+            }
+          }
+          
+          // 设置移动端banner背景
+          if (bannerMobile) {
+            const bannerMobileImg = bannerMobile.querySelector("img");
+            if (bannerMobileImg) {
+              bannerMobileImg.src = backgroundImage;
+            } else {
+              bannerMobile.style.backgroundImage = `url(${backgroundImage})`;
+            }
           }
         }
       })();
@@ -453,8 +471,26 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
             const backgroundImage = getThemeBackground();
             if (backgroundImage && bannerWrapper) {
               const banner = bannerWrapper.querySelector("#banner");
+              const bannerMobile = bannerWrapper.querySelector("#banner-mobile");
+              
+              // 设置桌面端banner背景
               if (banner) {
-                banner.style.backgroundImage = `url(${backgroundImage})`;
+                const bannerImg = banner.querySelector("img");
+                if (bannerImg) {
+                  bannerImg.src = backgroundImage;
+                } else {
+                  banner.style.backgroundImage = `url(${backgroundImage})`;
+                }
+              }
+              
+              // 设置移动端banner背景
+              if (bannerMobile) {
+                const bannerMobileImg = bannerMobile.querySelector("img");
+                if (bannerMobileImg) {
+                  bannerMobileImg.src = backgroundImage;
+                } else {
+                  bannerMobile.style.backgroundImage = `url(${backgroundImage})`;
+                }
               }
             }
           }
