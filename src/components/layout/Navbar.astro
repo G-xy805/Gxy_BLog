@@ -261,9 +261,10 @@ function resetMenuState() {
         menuBtn.setAttribute("aria-expanded", "false");
         menuBtn.classList.remove("active");
         
-        // 移除所有事件监听器
-        document.removeEventListener('click', closeMenuOutside);
-        document.removeEventListener('keydown', closeMenuEsc);
+        // 移除所有可能的事件监听器（使用匿名函数的方式）
+        // 由于无法直接引用内部函数，我们通过克隆元素来移除所有监听器
+        const newMenuBtn = menuBtn.cloneNode(true);
+        menuBtn.parentNode?.replaceChild(newMenuBtn, menuBtn);
     }
 }
 
