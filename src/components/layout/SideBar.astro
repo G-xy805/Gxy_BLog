@@ -148,6 +148,10 @@ function renderComponent(
     #sidebar {
       display: var(--sidebar-mobile-display, none);
     }
+    /* 手机端隐藏粘性区域，防止挤压内容 */
+    #sidebar-sticky {
+      display: none !important;
+    }
   }
 
   @media (min-width: 769px) and (max-width: 1024px) {

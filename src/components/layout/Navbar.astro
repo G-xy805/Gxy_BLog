@@ -35,8 +35,8 @@ let links: NavBarLink[] = navBarConfig.links.map(
 
         
         <!-- 导航栏左侧：标题 -->
-        <div class="flex items-center flex-shrink-0">
-            <a href={url('/')} class="btn-plain scale-animation rounded-xl h-[2.75rem] px-5 font-bold active:scale-95 relative group z-10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2">
+        <div class="flex items-center flex-shrink-0 md:rounded-l-xl md:overflow-hidden">
+            <a href={url('/')} class="btn-plain scale-animation md:rounded-xl h-[2.75rem] px-5 font-bold active:scale-95 relative group z-10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2">
                 <div class="flex flex-row text-[var(--primary)] items-center text-[1.75rem] leading-[1]">
                     <span class="navbar-title-text">{navbarTitle}</span>
                 </div>
@@ -46,7 +46,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
         </div>
         
         <!-- 导航栏中间：菜单 -->
-        <div class="hidden md:flex items-center justify-center flex-1 mx-4">
+        <div class="hidden md:flex items-center justify-center flex-1">
             <nav class="flex items-center space-x-1 justify-center" aria-label="主导航菜单">
                 {links.map((l) => {
                     return <DropdownMenu link={l} class="group flex-shrink-0" />;
@@ -55,11 +55,11 @@ let links: NavBarLink[] = navBarConfig.links.map(
         </div>
         
         <!-- 导航栏右侧：操作区 -->
-        <div class="flex items-center gap-2 z-10 flex-shrink-0" role="toolbar" aria-label="工具">
+        <div class="flex items-center gap-2 z-10 flex-shrink-0 md:rounded-r-xl md:overflow-hidden" role="toolbar" aria-label="工具">
             <!-- 搜索图标按钮 -->
-            <a href="/search/" aria-label="搜索" class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0">
+            <a href="/search/" aria-label="搜索" class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0 flex items-center justify-center">
                 <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <Icon name="ri:search-line" class="text-[1.35rem] text-[var(--primary)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12"></Icon>
+                <Icon name="ri:search-line" class="text-[1.35rem] text-[var(--primary)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 flex-shrink-0 w-[1.35rem] h-[1.35rem]"></Icon>
             </a>
 
             <!-- 主题切换按钮 -->
@@ -71,11 +71,11 @@ let links: NavBarLink[] = navBarConfig.links.map(
                 aria-expanded="false" 
                 aria-controls="nav-menu-panel" 
                 name="导航菜单" 
-                class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 md:!hidden ml-1 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0"
+                class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 md:!hidden ml-1 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0 flex items-center justify-center"
                 id="nav-menu-switch"
             >
                 <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <Icon name="ri:menu-line" class="text-[1.35rem] text-[var(--primary)] transition-all duration-400 group-hover:rotate-90 group-hover:scale-110"></Icon>
+                <Icon name="ri:menu-line" class="text-[1.35rem] text-[var(--primary)] transition-all duration-400 group-hover:rotate-90 group-hover:scale-110 flex-shrink-0 w-[1.35rem] h-[1.35rem]"></Icon>
             </button>
         </div>
         

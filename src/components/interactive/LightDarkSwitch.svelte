@@ -34,7 +34,7 @@ onDestroy(() => {
     aria-label="Light/Dark Mode" 
     aria-pressed={$theme === DARK_MODE}
     role="switch"
-    class="btn-plain scale-animation rounded-full h-11 w-11 active:scale-90 flex items-center justify-center theme-switch-btn {isSwitching ? 'switching' : ''} ml-3 mr-1 relative overflow-hidden group"
+    class="btn-plain scale-animation rounded-full h-11 w-11 active:scale-90 flex items-center justify-center theme-switch-btn {isSwitching ? 'switching' : ''} relative overflow-hidden group"
     on:click={toggleTheme}
     disabled={isSwitching}
     title={$theme === LIGHT_MODE ? '切换到深色模式' : '切换到浅色模式'}
@@ -45,11 +45,11 @@ onDestroy(() => {
     <!-- 光晕效果 -->
     <div class="absolute inset-0 rounded-full bg-[var(--primary)]/20 opacity-0 group-hover:opacity-30 transition-opacity duration-300 blur-md scale-0 group-hover:scale-150"></div>
     
-    <div class="absolute icon-transition" class:opacity-0={$theme !== LIGHT_MODE}>
-        <Icon icon="ri:sun-line" class="text-[1.25rem] text-[var(--primary)]"></Icon>
+    <div class="absolute icon-transition flex items-center justify-center w-full h-full" class:opacity-0={$theme !== LIGHT_MODE}>
+        <Icon icon="ri:sun-line" class="text-[1.35rem] text-[var(--primary)] flex-shrink-0 w-[1.35rem] h-[1.35rem]"></Icon>
     </div>
-    <div class="absolute icon-transition" class:opacity-0={$theme !== DARK_MODE}>
-        <Icon icon="ri:moon-line" class="text-[1.25rem] text-[var(--primary)]"></Icon>
+    <div class="absolute icon-transition flex items-center justify-center w-full h-full" class:opacity-0={$theme !== DARK_MODE}>
+        <Icon icon="ri:moon-line" class="text-[1.35rem] text-[var(--primary)] flex-shrink-0 w-[1.35rem] h-[1.35rem]"></Icon>
     </div>
 </button>
 
