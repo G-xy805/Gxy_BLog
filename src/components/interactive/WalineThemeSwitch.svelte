@@ -30,11 +30,15 @@ function handleKeyboardEvent(event: KeyboardEvent) {
 
 onMount(() => {
 	applyThemeToDocument($theme);
-	window.addEventListener("keydown", handleKeyboardEvent);
+	if (typeof window !== 'undefined') {
+		window.addEventListener("keydown", handleKeyboardEvent);
+	}
 });
 
 onDestroy(() => {
-	window.removeEventListener("keydown", handleKeyboardEvent);
+	if (typeof window !== 'undefined') {
+		window.removeEventListener("keydown", handleKeyboardEvent);
+	}
 });
 
 // 获取 Waline 主题状态
