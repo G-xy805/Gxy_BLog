@@ -248,8 +248,30 @@ function initScrollEvents() {
     }, 100));
 }
 
+// 重置菜单状态
+function resetMenuState() {
+    const menuPanel = document.getElementById("nav-menu-panel");
+    const menuBtn = document.getElementById("nav-menu-switch");
+    
+    if (menuPanel && menuBtn) {
+        // 强制重置菜单为关闭状态
+        menuPanel.classList.add("float-panel-closed");
+        menuPanel.style.opacity = "0";
+        menuPanel.style.transform = "translateY(-10px)";
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.classList.remove("active");
+        
+        // 移除所有事件监听器
+        document.removeEventListener('click', closeMenuOutside);
+        document.removeEventListener('keydown', closeMenuEsc);
+    }
+}
+
 // 初始化所有导航栏功能
 function initNavbar() {
+    // 先重置菜单状态
+    resetMenuState();
+    
     // 等待DOM加载完成
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
