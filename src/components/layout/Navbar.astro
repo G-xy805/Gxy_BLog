@@ -125,11 +125,11 @@ function initMenuSwitch() {
                 menuPanel.style.transform = "translateY(0)";
             }, 10);
             
-            // 延迟添加监听器，防止立即触发
+            // 延迟添加监听器，等待动画完成后才监听外部点击，防止立即触发
             setTimeout(() => {
                 document.addEventListener('click', closeMenuOutside);
                 document.addEventListener('keydown', closeMenuEsc);
-            }, 0);
+            }, 300);
         }
 
         // 关闭菜单
