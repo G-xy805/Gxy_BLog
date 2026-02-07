@@ -156,14 +156,14 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 			// 添加页面切换保护，防止导航栏闪烁
 			document.documentElement.classList.add("is-page-transitioning");
 
-			// 简化navbar处理逻辑
+			// 简化navbar处理逻辑 - 移除隐藏/显示逻辑，保持统一风格
 			if (bannerEnabled) {
 				const navbar = document.getElementById("navbar-wrapper");
 				if (navbar && document.body.classList.contains("lg:is-home")) {
-					const threshold = window.innerHeight * (BANNER_HEIGHT / 100) - 88;
-					if (document.documentElement.scrollTop >= threshold) {
-						navbar.classList.add("navbar-hidden");
-					}
+					// const threshold = window.innerHeight * (BANNER_HEIGHT / 100) - 88;
+					// if (document.documentElement.scrollTop >= threshold) {
+					// 	navbar.classList.add("navbar-hidden");
+					// }
 				}
 			}
 		});
@@ -506,11 +506,12 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 				const currentBannerHeight = isHome ? BANNER_HEIGHT_HOME : BANNER_HEIGHT;
 				const threshold = window.innerHeight * (currentBannerHeight / 100) - 88;
 
-				if (scrollTop >= threshold) {
-					navbar.classList.add("navbar-hidden");
-				} else {
-					navbar.classList.remove("navbar-hidden");
-				}
+				// 移除隐藏/显示逻辑，保持统一风格
+				// if (scrollTop >= threshold) {
+				// 	navbar.classList.add("navbar-hidden");
+				// } else {
+				// 	navbar.classList.remove("navbar-hidden");
+				// }
 			});
 		}
 

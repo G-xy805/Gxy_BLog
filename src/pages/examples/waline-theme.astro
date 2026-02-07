@@ -1,0 +1,93 @@
+---
+import Waline from '@/components/comment/Waline.astro';
+import WalineThemeSwitch from '@/components/interactive/WalineThemeSwitch.svelte';
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Waline 主题系统示例">
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="card-base p-8 mb-8">
+      <h1 class="text-3xl font-bold mb-4">Waline 主题系统示例</h1>
+      <p class="text-[var(--text-secondary)] mb-6">
+        这个页面展示了 Waline 评论区主题系统的功能。你可以看到评论区的主题会随着应用主题的变化而自动切换。
+      </p>
+
+      <div class="flex items-center gap-4 mb-6">
+        <h2 class="text-xl font-semibold">主题切换按钮：</h2>
+        <WalineThemeSwitch />
+      </div>
+
+      <div class="space-y-4">
+        <div class="p-4 bg-[var(--card-bg)] rounded-lg border border-[var(--card-border)]">
+          <h3 class="font-semibold mb-2">✨ 功能特性</h3>
+          <ul class="list-disc list-inside space-y-1 text-[var(--text-secondary)]">
+            <li>完整的亮色/暗色主题支持</li>
+            <li>自动跟随系统主题</li>
+            <li>与应用主题完美融合</li>
+            <li>主题偏好本地存储</li>
+            <li>平滑的主题过渡动画</li>
+            <li>跨平台兼容性优化</li>
+            <li>WCAG 无障碍标准支持</li>
+          </ul>
+        </div>
+
+        <div class="p-4 bg-[var(--card-bg)] rounded-lg border border-[var(--card-border)]">
+          <h3 class="font-semibold mb-2">🎨 主题色彩</h3>
+          <p class="text-[var(--text-secondary)] mb-2">
+            评论区的主题色会自动使用应用的主题色变量：
+          </p>
+          <div class="flex gap-2 flex-wrap">
+            <div class="px-3 py-1 rounded-full text-white text-sm" style="background: var(--primary)">
+              Primary
+            </div>
+            <div class="px-3 py-1 rounded-full text-white text-sm" style="background: var(--secondary)">
+              Secondary
+            </div>
+            <div class="px-3 py-1 rounded-full text-white text-sm" style="background: var(--accent)">
+              Accent
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-[var(--card-bg)] rounded-lg border border-[var(--card-border)]">
+          <h3 class="font-semibold mb-2">📱 平台优化</h3>
+          <p class="text-[var(--text-secondary)]">
+            主题系统已经针对以下平台进行了优化：
+          </p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
+            <div class="text-center p-2 bg-[var(--btn-plain-bg-hover)] rounded">
+              <div class="text-2xl mb-1">🍎</div>
+              <div class="text-sm">iOS Safari</div>
+            </div>
+            <div class="text-center p-2 bg-[var(--btn-plain-bg-hover)] rounded">
+              <div class="text-2xl mb-1">🤖</div>
+              <div class="text-sm">Android</div>
+            </div>
+            <div class="text-center p-2 bg-[var(--btn-plain-bg-hover)] rounded">
+              <div class="text-2xl mb-1">🦊</div>
+              <div class="text-sm">Firefox</div>
+            </div>
+            <div class="text-center p-2 bg-[var(--btn-plain-bg-hover)] rounded">
+              <div class="text-2xl mb-1">🌐</div>
+              <div class="text-sm">Chrome</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-base p-8">
+      <h2 class="text-2xl font-bold mb-6">评论区</h2>
+      <p class="text-[var(--text-secondary)] mb-4">
+        下面的评论区会自动跟随应用的主题。尝试切换主题，看看效果吧！
+      </p>
+      <Waline path="/examples/waline-theme" />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    min-height: 100vh;
+  }
+</style>

@@ -1,15 +1,15 @@
 /**
- * 统一导航栏样式
- * 简化版：只使用黑白纯色，无透明效果和阴影，保留底部圆角
+ * 导航栏样式
+ * 与主题规范保持一致，实现跨平台适配
  */
 
 /* 基础导航栏样式 - 适用所有设备和主题 */
-#navbar > div {
-    background: var(--card-bg); /* 依赖主题的黑白纯色背景 */
+#navbar {
+    background: var(--card-bg); /* 依赖主题的背景色 */
     border: none; /* 移除边框 */
     border-radius: 0 0 1rem 1rem; /* 保留底部圆角 */
-    transition: none; /* 消除过渡动画，避免主题切换卡顿 */
-    height: 4rem; /* 减小导航栏高度，使其更紧凑 */
+    transition: all 0.3s ease-in-out; /* 平滑过渡动画 */
+    height: 4rem; /* 导航栏高度 */
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -19,7 +19,8 @@
 #navbar button,
 #navbar .btn-plain {
     color: var(--text-color); /* 白天模式颜色 */
-    font-size: 1.25rem; /* 进一步增大导航栏字号 */
+    font-size: 1.1rem; /* 导航栏字号 */
+    transition: all 0.3s ease-in-out; /* 平滑过渡动画 */
 }
 
 /* 黑暗模式下的导航栏颜色 */
@@ -35,9 +36,11 @@
     color: var(--primary);
 }
 
-/* 增大主题切换按钮大小 */
+/* 按钮样式 */
 #navbar .btn-plain {
     padding: 0.5rem 0.75rem; /* 增大按钮内边距 */
+    border-radius: 0.5rem; /* 圆角按钮 */
+    transition: all 0.3s ease-in-out; /* 平滑过渡动画 */
 }
 
 /* 针对所有导航栏中的btn-plain元素的悬停效果 */
@@ -48,13 +51,9 @@
 #navbar .dropdown-container:hover > button.btn-plain {
     color: var(--primary); /* 悬停时显示主题色 */
     background-color: var(--btn-plain-bg-hover); /* 悬停背景色 */
-}
-
-/* 覆盖expand-animation和scale-animation的伪元素效果 */
-#navbar .btn-plain::before,
-#navbar .scale-animation::before {
-    display: none; /* 完全隐藏所有伪元素 */
-    content: none; /* 确保没有内容 */
+    transform: translateY(-2px); /* 轻微上浮效果 */
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); /* 悬停阴影 */
+    transition: all 0.3s ease-in-out; /* 平滑过渡动画，确保所有属性的过渡时间一致 */
 }
 
 /* 确保下拉菜单的hover效果不受影响 */
@@ -63,45 +62,126 @@
     background-color: var(--btn-plain-bg-hover); /* 保持下拉菜单项的背景色 */
 }
 
-/* 减小下拉菜单文字大小 */
+/* 下拉菜单样式 */
 #navbar .dropdown-content .dropdown-item {
-    font-size: 1rem; /* 减小下拉菜单项的字体大小 */
-    font-weight: 700; /* 增加下拉菜单项的字重为 font-bold */
+    font-size: 1rem; /* 下拉菜单项的字体大小 */
+    font-weight: 600; /* 设置导航栏菜单项为 font-semibold */
+    padding: 0.5rem 1rem; /* 下拉菜单项内边距 */
+    transition: all 0.3s ease-in-out; /* 平滑过渡动画 */
 }
 
 /* 设置导航栏菜单字重 */
 #navbar .dropdown-container > a.btn-plain,
 #navbar .dropdown-container > button.btn-plain {
     font-weight: 600; /* 设置导航栏菜单项为 font-semibold */
+    position: relative;
 }
 
-/* 显示菜单文字和箭头图标，隐藏其他非必要图标 */
-/* 隐藏导航栏链接中的图标（除了箭头） */
+/* 导航栏图标样式 */
 #navbar .navbar-icon {
-    display: none;
+    margin-right: 0.5rem; /* 图标与文字间距 */
+    font-size: 1.2rem; /* 图标大小 */
 }
 
-/* 保留箭头图标 */
+/* 下拉箭头图标 */
 #navbar .dropdown-arrow {
-    display: block;
+    margin-left: 0.25rem; /* 箭头与文字间距 */
+    transition: transform 0.3s ease-in-out; /* 平滑过渡动画 */
 }
 
-/* 禁用下拉箭头的旋转动画 */
+/* 下拉箭头旋转动画 */
 #navbar .dropdown-container:hover .dropdown-arrow,
 #navbar .dropdown-container:focus-within .dropdown-arrow {
-    transform: none; /* 阻止箭头旋转 */
-    transition: none; /* 确保没有过渡效果 */
+    transform: rotate(180deg); /* 箭头旋转效果 */
 }
 
-/* 隐藏外部链接图标 */
+/* 外部链接图标 */
 #navbar a [name="ri:external-link-line"] {
-    display: none;
+    margin-left: 0.25rem; /* 图标与文字间距 */
+    font-size: 0.9rem; /* 图标大小 */
 }
 
-/* 移动端适配 */
+/* 导航栏激活状态 */
+#navbar .active {
+    color: var(--primary); /* 激活状态显示主题色 */
+    font-weight: 700; /* 激活状态加粗 */
+}
+
+/* 导航栏滚动状态 - 移除特殊样式，保持统一风格 */
+#navbar.scrolled {
+    /* 移除滚动状态的特殊样式，保持统一风格 */
+}
+
+.dark #navbar.scrolled {
+    /* 移除滚动状态的特殊样式，保持统一风格 */
+}
+
+/* 响应式设计 */
+
+/* 平板设备 */
 @media (max-width: 1023px) {
-    #navbar > div {
+    #navbar {
         padding: 0.5rem 1rem; /* 简化移动端内边距 */
+    }
+    
+    #navbar a,
+    #navbar button,
+    #navbar .btn-plain {
+        font-size: 1rem; /* 减小字号 */
+    }
+    
+    #navbar .navbar-title-text {
+        font-size: 1.6rem; /* 减小标题字号 */
+    }
+}
+
+/* 移动设备 */
+@media (max-width: 767px) {
+    #navbar {
+        padding: 0.5rem 1rem; /* 移动端内边距 */
+        height: 3.75rem; /* 减小导航栏高度 */
+    }
+    
+    #navbar .navbar-title-text {
+        font-size: 1.5rem; /* 减小标题字号 */
+    }
+    
+    #navbar .btn-plain {
+        padding: 0.4rem 0.6rem; /* 减小按钮内边距 */
+    }
+}
+
+/* 小屏移动设备 */
+@media (max-width: 480px) {
+    #navbar .navbar-title-text {
+        font-size: 1.25rem; /* 进一步减小标题字号 */
+    }
+    
+    #navbar .btn-plain {
+        width: 2.5rem; /* 减小按钮宽度 */
+        height: 2.5rem; /* 减小按钮高度 */
+        padding: 0.3rem; /* 进一步减小按钮内边距 */
+    }
+    
+    #navbar .btn-plain Icon {
+        font-size: 1.2rem; /* 减小图标大小 */
+    }
+}
+
+/* 超大屏设备 */
+@media (min-width: 1280px) {
+    #navbar {
+        padding: 0.5rem 2rem; /* 增大内边距 */
+    }
+    
+    #navbar .navbar-title-text {
+        font-size: 1.8rem; /* 增大标题字号 */
+    }
+    
+    #navbar a,
+    #navbar button,
+    #navbar .btn-plain {
+        font-size: 1.15rem; /* 增大字号 */
     }
 }
 

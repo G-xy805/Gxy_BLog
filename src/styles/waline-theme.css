@@ -1,0 +1,740 @@
+/**
+ * Waline 评论区主题样式
+ * Waline Comment System Theme Styles
+ * 
+ * 支持亮色/暗色主题切换，与整体应用主题保持一致
+ * Supports light/dark theme switching, consistent with overall app theme
+ */
+
+/* ===== Waline 基础容器样式 ===== */
+#waline {
+  font-family: var(--font-display), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: var(--leading-normal);
+  transition: all var(--duration-medium) var(--ease-standard);
+}
+
+/* ===== 亮色主题样式 ===== */
+:root:not(.dark) #waline,
+html:not(.dark) #waline {
+  --waline-theme-color: var(--primary);
+  --waline-active-color: var(--secondary);
+  --waline-text-color: var(--text-color);
+  --waline-bg-color: var(--card-bg);
+  --waline-bg-color-light: #F8FAFC;
+  --waline-bg-color-hover: #F1F5F9;
+  --waline-border-color: var(--card-border);
+  --waline-disable-bg-color: #F1F5F9;
+  --waline-disable-color: #94A3B8;
+  --waline-card-bg-color: #FFFFFF;
+  --waline-info-color: #64748B;
+  --waline-info-bg-color: #F8FAFC;
+  --waline-info-border-color: #E2E8F0;
+  --waline-success-color: var(--color-success);
+  --waline-success-bg-color: var(--color-success-bg);
+  --waline-success-border-color: var(--color-success-dark);
+  --waline-warning-color: var(--color-warning);
+  --waline-warning-bg-color: var(--color-warning-bg);
+  --waline-warning-border-color: var(--color-warning-dark);
+  --waline-danger-color: var(--color-danger);
+  --waline-danger-bg-color: var(--color-danger-bg);
+  --waline-danger-border-color: var(--color-danger-dark);
+  --waline-shadow: var(--card-shadow);
+  --waline-shadow-hover: var(--card-hover-shadow);
+}
+
+/* ===== 暗色主题样式 ===== */
+:root.dark #waline,
+html.dark #waline {
+  --waline-theme-color: var(--primary);
+  --waline-active-color: var(--secondary);
+  --waline-text-color: var(--text-color);
+  --waline-bg-color: var(--card-bg);
+  --waline-bg-color-light: #1E293B;
+  --waline-bg-color-hover: #334155;
+  --waline-border-color: var(--card-border);
+  --waline-disable-bg-color: #334155;
+  --waline-disable-color: #64748B;
+  --waline-card-bg-color: #1E293B;
+  --waline-info-color: #CBD5E1;
+  --waline-info-bg-color: #0F172A;
+  --waline-info-border-color: #334155;
+  --waline-success-color: var(--color-success);
+  --waline-success-bg-color: var(--color-success-bg);
+  --waline-success-border-color: var(--color-success-dark);
+  --waline-warning-color: var(--color-warning);
+  --waline-warning-bg-color: var(--color-warning-bg);
+  --waline-warning-border-color: var(--color-warning-dark);
+  --waline-danger-color: var(--color-danger);
+  --waline-danger-bg-color: var(--color-danger-bg);
+  --waline-danger-border-color: var(--color-danger-dark);
+  --waline-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 12px 24px rgba(0, 0, 0, 0.4);
+  --waline-shadow-hover: 0 20px 40px rgba(165, 180, 252, 0.25);
+}
+
+/* ===== Waline 主容器 ===== */
+#waline .wl-comment {
+  position: relative;
+  background: var(--waline-bg-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--waline-border-color);
+  box-shadow: var(--waline-shadow);
+  backdrop-filter: blur(20px) saturate(180%);
+  transition: all var(--duration-medium) var(--ease-standard);
+}
+
+#waline .wl-comment:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--waline-shadow-hover);
+  border-color: var(--waline-active-color);
+}
+
+/* ===== 评论输入框样式 ===== */
+#waline .wl-editor {
+  background: var(--waline-bg-color-light);
+  border: 1px solid var(--waline-border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  color: var(--waline-text-color);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  transition: all var(--duration-normal) var(--ease-standard);
+  resize: vertical;
+  min-height: 120px;
+}
+
+#waline .wl-editor:focus {
+  outline: none;
+  border-color: var(--waline-theme-color);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+  background: var(--waline-bg-color);
+}
+
+#waline .wl-editor::placeholder {
+  color: var(--waline-info-color);
+}
+
+/* ===== 输入框工具栏 ===== */
+#waline .wl-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--waline-border-color);
+}
+
+/* ===== 工具栏按钮 ===== */
+#waline .wl-actions .wl-action {
+  color: var(--waline-text-color);
+  opacity: 0.8;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-actions .wl-action:hover {
+  color: var(--waline-theme-color);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* ===== 暗色主题下的工具栏按钮增强 ===== */
+:root.dark #waline .wl-actions .wl-action,
+html.dark #waline .wl-actions .wl-action {
+  color: #E2E8F0;
+  opacity: 0.9;
+}
+
+/* ===== 提交按钮 ===== */
+#waline .wl-btn {
+  background: linear-gradient(135deg, var(--waline-theme-color) 0%, var(--waline-active-color) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+#waline .wl-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.4);
+}
+
+#waline .wl-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.3);
+}
+
+#waline .wl-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== 评论列表 ===== */
+#waline .wl-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#waline .wl-item {
+  margin-bottom: var(--spacing-lg);
+  animation: fadeInUp var(--duration-medium) var(--ease-standard);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== 评论卡片 ===== */
+#waline .wl-card {
+  background: var(--waline-card-bg-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--waline-border-color);
+  box-shadow: var(--waline-shadow);
+  transition: all var(--duration-medium) var(--ease-standard);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+#waline .wl-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--waline-shadow-hover);
+  border-color: var(--waline-active-color);
+}
+
+/* ===== 评论头部 ===== */
+#waline .wl-head {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--waline-border-color);
+}
+
+/* ===== 头像 ===== */
+#waline .wl-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--waline-theme-color);
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-user-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+/* ===== 用户名 ===== */
+#waline .wl-user-nick {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--waline-text-color);
+  margin-left: var(--spacing-md);
+  transition: color var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-user-nick:hover {
+  color: var(--waline-theme-color);
+}
+
+/* ===== 评论时间 ===== */
+#waline .wl-time {
+  font-size: var(--text-xs);
+  color: var(--waline-info-color);
+  margin-left: auto;
+  transition: color var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-time:hover {
+  color: var(--waline-theme-color);
+}
+
+/* ===== 暗色主题下的评论时间增强 ===== */
+:root.dark #waline .wl-time,
+html.dark #waline .wl-time {
+  color: #CBD5E1;
+  opacity: 0.9;
+}
+
+/* ===== 评论内容 ===== */
+#waline .wl-content {
+  color: var(--waline-text-color);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--spacing-md);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#waline .wl-content p {
+  margin-bottom: var(--spacing-md);
+}
+
+#waline .wl-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== 回复按钮 ===== */
+#waline .wl-reply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: var(--waline-bg-color-light);
+  color: var(--waline-info-color);
+  border: 1px solid var(--waline-border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-reply-btn:hover {
+  background: var(--waline-bg-color-hover);
+  color: var(--waline-theme-color);
+  border-color: var(--waline-theme-color);
+  transform: translateY(-1px);
+}
+
+/* ===== 表单输入框 ===== */
+#waline .wl-input {
+  background: var(--waline-bg-color-light);
+  border: 1px solid var(--waline-border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--waline-text-color);
+  font-size: var(--text-sm);
+  transition: all var(--duration-normal) var(--ease-standard);
+  width: 100%;
+}
+
+#waline .wl-input:focus {
+  outline: none;
+  border-color: var(--waline-theme-color);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+  background: var(--waline-bg-color);
+}
+
+#waline .wl-input::placeholder {
+  color: var(--waline-info-color);
+  opacity: 0.8;
+}
+
+/* ===== 暗色主题下的输入框占位符增强 ===== */
+:root.dark #waline .wl-input::placeholder,
+html.dark #waline .wl-input::placeholder,
+:root.dark #waline .wl-editor::placeholder,
+html.dark #waline .wl-editor::placeholder {
+  color: #94A3B8;
+  opacity: 0.9;
+}
+
+/* ===== 表单标签 ===== */
+#waline .wl-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--waline-text-color);
+  margin-bottom: var(--spacing-xs);
+  letter-spacing: 0.025em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== 暗色主题下的表单标签增强 ===== */
+:root.dark #waline .wl-label,
+html.dark #waline .wl-label {
+  color: #E2E8F0;
+  font-weight: 600;
+}
+
+/* ===== 表单组 ===== */
+#waline .wl-form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+/* ===== 表单行 ===== */
+#waline .wl-form-row {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+#waline .wl-form-row .wl-form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* ===== 表情面板 ===== */
+#waline .wl-emoji-popup {
+  background: var(--waline-card-bg-color);
+  border: 1px solid var(--waline-border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md);
+  box-shadow: var(--waline-shadow-hover);
+  backdrop-filter: blur(20px) saturate(180%);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#waline .wl-emoji-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  font-size: 20px;
+  margin: 2px;
+}
+
+#waline .wl-emoji-item:hover {
+  background: var(--waline-bg-color-hover);
+  transform: scale(1.1);
+}
+
+/* ===== 图片预览 ===== */
+#waline .wl-preview-image {
+  max-width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--waline-shadow);
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-preview-image:hover {
+  transform: scale(1.02);
+  box-shadow: var(--waline-shadow-hover);
+}
+
+/* ===== 评论计数 ===== */
+#waline .wl-count {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--waline-text-color);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--waline-border-color);
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: all var(--duration-medium) var(--ease-standard);
+}
+
+/* ===== 暗色主题下的评论计数增强 ===== */
+:root.dark #waline .wl-count,
+html.dark #waline .wl-count {
+  color: #E2E8F0;
+  font-weight: 700;
+}
+
+/* ===== 分页 ===== */
+#waline .wl-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+}
+
+#waline .wl-page-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 var(--spacing-sm);
+  background: var(--waline-bg-color-light);
+  border: 1px solid var(--waline-border-color);
+  border-radius: var(--radius-md);
+  color: var(--waline-text-color);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-page-item:hover {
+  background: var(--waline-bg-color-hover);
+  border-color: var(--waline-theme-color);
+  color: var(--waline-theme-color);
+}
+
+#waline .wl-page-item.current {
+  background: linear-gradient(135deg, var(--waline-theme-color) 0%, var(--waline-active-color) 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+#waline .wl-page-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== 加载状态 ===== */
+#waline .wl-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  color: var(--waline-info-color);
+  font-size: var(--text-sm);
+}
+
+#waline .wl-loading::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--waline-border-color);
+  border-top-color: var(--waline-theme-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: var(--spacing-sm);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== 空状态 ===== */
+#waline .wl-empty {
+  text-align: center;
+  padding: var(--spacing-3xl);
+  color: var(--waline-info-color);
+  font-size: var(--text-base);
+}
+
+/* ===== 回复列表 ===== */
+#waline .wl-replies {
+  margin-left: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+  padding-left: var(--spacing-lg);
+  border-left: 2px solid var(--waline-border-color);
+}
+
+/* ===== 管理员标识 ===== */
+#waline .wl-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: linear-gradient(135deg, var(--waline-theme-color) 0%, var(--waline-active-color) 100%);
+  color: white;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-md);
+  margin-left: var(--spacing-sm);
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.3);
+}
+
+/* ===== Markdown 样式 ===== */
+#waline .wl-content h1,
+#waline .wl-content h2,
+#waline .wl-content h3,
+#waline .wl-content h4,
+#waline .wl-content h5,
+#waline .wl-content h6 {
+  color: var(--waline-text-color);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+#waline .wl-content h1 {
+  font-size: var(--text-2xl);
+}
+
+#waline .wl-content h2 {
+  font-size: var(--text-xl);
+}
+
+#waline .wl-content h3 {
+  font-size: var(--text-lg);
+}
+
+#waline .wl-content code {
+  background: var(--waline-bg-color-light);
+  color: var(--waline-text-color);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+}
+
+#waline .wl-content pre {
+  background: var(--waline-bg-color-light);
+  border: 1px solid var(--waline-border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  overflow-x: auto;
+  margin: var(--spacing-md) 0;
+}
+
+#waline .wl-content pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+#waline .wl-content blockquote {
+  border-left: 4px solid var(--waline-theme-color);
+  padding-left: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  color: var(--waline-info-color);
+  background: var(--waline-bg-color-light);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+#waline .wl-content a {
+  color: var(--waline-theme-color);
+  text-decoration: none;
+  transition: color var(--duration-normal) var(--ease-standard);
+}
+
+#waline .wl-content a:hover {
+  color: var(--waline-active-color);
+  text-decoration: underline;
+}
+
+#waline .wl-content ul,
+#waline .wl-content ol {
+  margin: var(--spacing-md) 0;
+  padding-left: var(--spacing-xl);
+}
+
+#waline .wl-content li {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 768px) {
+  #waline .wl-form-row {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  #waline .wl-replies {
+    margin-left: var(--spacing-md);
+    padding-left: var(--spacing-md);
+  }
+
+  #waline .wl-card {
+    padding: var(--spacing-md);
+  }
+
+  #waline .wl-user-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  #waline .wl-user-nick {
+    font-size: var(--text-sm);
+  }
+
+  #waline .wl-content {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ===== 主题过渡动画 ===== */
+#waline,
+#waline *,
+#waline *::before,
+#waline *::after {
+  transition-property: background-color, border-color, color, box-shadow, transform;
+  transition-duration: var(--duration-medium);
+  transition-timing-function: var(--ease-standard);
+}
+
+/* ===== 减少动画偏好 ===== */
+@media (prefers-reduced-motion: reduce) {
+  #waline,
+  #waline *,
+  #waline *::before,
+  #waline *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
+
+/* ===== 平台特定优化 ===== */
+
+/* iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  #waline .wl-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #waline .wl-input,
+  #waline .wl-editor {
+    -webkit-appearance: none;
+  }
+}
+
+/* Android Chrome */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #waline .wl-btn {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Firefox */
+@-moz-document url-prefix() {
+  #waline .wl-input,
+  #waline .wl-editor {
+    scrollbar-width: thin;
+    scrollbar-color: var(--waline-border-color) var(--waline-bg-color-light);
+  }
+}
+
+/* Safari */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  #waline .wl-card,
+  #waline .wl-comment,
+  #waline .wl-emoji-popup {
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+}
+
+/* ===== 高对比度模式 ===== */
+@media (prefers-contrast: high) {
+  #waline .wl-card,
+  #waline .wl-comment {
+    border-width: 2px;
+  }
+
+  #waline .wl-btn {
+    border: 2px solid var(--waline-text-color);
+  }
+}
+
+/* ===== 打印样式 ===== */
+@media print {
+  #waline .wl-actions,
+  #waline .wl-reply-btn,
+  #waline .wl-pagination {
+    display: none;
+  }
+
+  #waline .wl-card {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}

@@ -857,19 +857,17 @@ html.is-entering .transition-main {
     transform: translateY(0);
 }
 
-/* 导航栏滚动效果 */
+/* 导航栏滚动效果 - 移除特殊样式，保持统一风格 */
 #navbar {
     transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 #navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    /* 移除滚动状态的特殊样式，保持统一风格 */
 }
 
 :root.dark #navbar.scrolled {
-    background: rgba(30, 41, 59, 0.95) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* 移除滚动状态的特殊样式，保持统一风格 */
 }
 
 /* 平滑滚动到锚点 */

@@ -5,21 +5,59 @@ interface Props {
 	path: string;
 }
 
-const config = {
-	...commentConfig.waline,
-	el: "#waline",
-	path: Astro.props.path,
-	dark: "html.dark",
-	wordLimit: ["2", "300"],
-	...(commentConfig.waline?.visitorCount ? { pageview: true } : {}),
+const props = Astro.props;
+const walineConfig = {
+  serverURL: commentConfig.waline.serverURL,
+  path: props.path,
+  lang: commentConfig.waline.lang,
+  login: commentConfig.waline.login,
+  visitorCount: commentConfig.waline.visitorCount,
+  wordLimit: ["2", "300"],
+  el: "#waline"
 };
 ---
 <!-- Waline -->
 <div class="relative w-full">
-  <div id="waline"></div>
-  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css" />
-  <script type="module" is:inline define:vars={{ config }}>
+  <!-- 加载状态 -->
+  <div id="waline-loading" class="flex items-center justify-center py-12">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)]"></div>
+  </div>
+  <div id="waline" class="hidden"></div>
+  
+  <!-- 异步加载样式 -->
+  <link rel="preload" href="https://unpkg.com/@waline/client@v3/dist/waline.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"></noscript>
+  
+  <!-- 异步加载脚本 -->
+  <script type="module" async define:vars={{ walineConfig }}>
+    // 预加载 Waline 脚本
     import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
-    init(config);
+    
+    // 立即初始化，不等待 DOMContentLoaded
+    try {
+      // 隐藏加载状态，显示评论区
+      const loadingEl = document.getElementById('waline-loading');
+      const walineEl = document.getElementById('waline');
+      
+      if (loadingEl && walineEl) {
+        loadingEl.classList.add('hidden');
+        walineEl.classList.remove('hidden');
+      }
+      
+      // 初始化 Waline
+      const walineInstance = init(walineConfig);
+      console.log('[Waline] 初始化成功:', walineConfig);
+      
+      // 将实例保存到全局
+      window.walineInstance = walineInstance;
+    } catch (error) {
+      console.error('[Waline] 初始化失败:', error);
+      // 显示错误信息
+      const loadingEl = document.getElementById('waline-loading');
+      if (loadingEl) {
+        loadingEl.innerHTML = '<p class="text-red-500">评论加载失败，请稍后重试</p>';
+        loadingEl.classList.remove('animate-spin');
+      }
+    }
   </script>
 </div>

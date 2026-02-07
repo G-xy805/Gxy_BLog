@@ -18,6 +18,7 @@ const navbarTitle = siteConfig.navbarTitle || siteConfig.title;
 // 检查是否为首页
 const isHomePageCheck = isHomePage(Astro.url.pathname);
 
+// 处理导航链接
 let links: NavBarLink[] = navBarConfig.links.map(
 	(item: NavBarLink | LinkPreset): NavBarLink => {
 		if (typeof item === "number") {
@@ -27,39 +28,53 @@ let links: NavBarLink[] = navBarConfig.links.map(
 	},
 );
 ---
-<div id="navbar" class="z-50" data-is-home={isHomePageCheck}>
-    <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
-    <div class:list={[
+<div id="navbar" class:list={[
         className,
-        "!overflow-visible w-full h-[4rem] flex items-center justify-between px-4 relative"]} 
-        style="backdrop-filter: none; box-shadow: none;">
+        "z-50 !overflow-visible max-w-7xl mx-auto w-full h-[4rem] flex items-center justify-between px-4 relative whitespace-nowrap"]} data-is-home={isHomePageCheck} role="navigation" aria-label="主导航">
         
         <!-- 导航栏左侧装饰 -->
         <div class="absolute left-0 top-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-[var(--primary)]/10 to-transparent rounded-full blur-2xl pointer-events-none lg:hidden"></div>
         
-        <a href={url('/')} class="btn-plain scale-animation rounded-xl h-[2.75rem] px-5 font-bold active:scale-95 relative group z-10">
-            <div class="flex flex-row text-[var(--primary)] items-center text-[1.75rem] leading-[1]">
-                <span class="navbar-title-text">{navbarTitle}</span>
-            </div>
-            <div class="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
-            <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-[var(--primary)]/5 to-[var(--secondary)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-        </a>
-        
-        <div class="hidden md:flex items-center space-x-1">
-            {links.map((l) => {
-                return <DropdownMenu link={l} class="group" />;
-            })}
+        <!-- 导航栏左侧：标题 -->
+        <div class="flex items-center flex-shrink-0">
+            <a href={url('/')} class="btn-plain scale-animation rounded-xl h-[2.75rem] px-5 font-bold active:scale-95 relative group z-10 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2">
+                <div class="flex flex-row text-[var(--primary)] items-center text-[1.75rem] leading-[1]">
+                    <span class="navbar-title-text">{navbarTitle}</span>
+                </div>
+                <div class="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-[var(--primary)]/5 to-[var(--secondary)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+            </a>
         </div>
         
-        <div class="flex items-center gap-2 z-10">
+        <!-- 导航栏中间：菜单 -->
+        <div class="absolute left-1/2 -translate-x-1/2 flex items-center">
+            <nav class="hidden md:flex items-center space-x-1 justify-center" aria-label="主导航菜单">
+                {links.map((l) => {
+                    return <DropdownMenu link={l} class="group flex-shrink-0" />;
+                })}
+            </nav>
+        </div>
+        
+        <!-- 导航栏右侧：操作区 -->
+        <div class="flex items-center gap-2 z-10 flex-shrink-0" role="toolbar" aria-label="工具">
             <!-- 搜索图标按钮 -->
-            <a href="/search/" aria-label="Search" class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 group relative overflow-hidden">
+            <a href="/search/" aria-label="搜索" class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0">
                 <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <Icon name="ri:search-line" class="text-[1.35rem] text-[var(--primary)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12"></Icon>
             </a>
 
-            <LightDarkSwitch client:only="svelte" class="group"></LightDarkSwitch>
-            <button aria-label="Menu" aria-expanded="false" aria-controls="nav-menu-panel" name="Nav Menu" class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 md:!hidden ml-1 group relative overflow-hidden" id="nav-menu-switch">
+            <!-- 主题切换按钮 -->
+            <LightDarkSwitch client:only="svelte" class="group focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0"></LightDarkSwitch>
+            
+            <!-- 移动端菜单按钮 -->
+            <button 
+                aria-label="菜单" 
+                aria-expanded="false" 
+                aria-controls="nav-menu-panel" 
+                name="导航菜单" 
+                class="btn-plain scale-animation rounded-full w-11 h-11 active:scale-95 md:!hidden ml-1 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/50 focus:ring-offset-2 flex-shrink-0"
+                id="nav-menu-switch"
+            >
                 <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <Icon name="ri:menu-line" class="text-[1.35rem] text-[var(--primary)] transition-all duration-400 group-hover:rotate-90 group-hover:scale-110"></Icon>
             </button>
@@ -67,19 +82,26 @@ let links: NavBarLink[] = navBarConfig.links.map(
         
         <!-- 导航栏右侧装饰 -->
         <div class="absolute right-0 top-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-l from-[var(--secondary)]/10 to-transparent rounded-full blur-2xl pointer-events-none lg:hidden"></div>
-    </div>
 </div>
 
+<!-- 移动端导航菜单面板 -->
 <NavMenuPanel links={links}></NavMenuPanel>
 
-<script>
-function loadButtonScript() {
+<!-- 导航栏脚本 -->
+<script type="module">
+/**
+ * 导航栏脚本
+ * 处理导航栏的交互逻辑，包括菜单切换、智能显示/隐藏等功能
+ */
+
+// 菜单切换逻辑
+function initMenuSwitch() {
     const menuBtn = document.getElementById("nav-menu-switch");
     const menuPanel = document.getElementById("nav-menu-panel");
 
     if (menuBtn && menuPanel) {
         // 切换菜单状态
-        menuBtn.onclick = function (e) {
+        menuBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             const isClosed = menuPanel.classList.contains("float-panel-closed");
             
@@ -88,13 +110,22 @@ function loadButtonScript() {
             } else {
                 closeMenu();
             }
-        };
+        });
 
         // 打开菜单
         function openMenu() {
             menuPanel.classList.remove("float-panel-closed");
             menuBtn.setAttribute("aria-expanded", "true");
             menuBtn.classList.add("active"); // 添加激活状态样式
+            
+            // 添加菜单打开动画
+            menuPanel.style.opacity = "0";
+            menuPanel.style.transform = "translateY(-10px)";
+            
+            setTimeout(() => {
+                menuPanel.style.opacity = "1";
+                menuPanel.style.transform = "translateY(0)";
+            }, 10);
             
             // 延迟添加监听器，防止立即触发
             setTimeout(() => {
@@ -105,12 +136,23 @@ function loadButtonScript() {
 
         // 关闭菜单
         function closeMenu() {
-            menuPanel.classList.add("float-panel-closed");
-            menuBtn.setAttribute("aria-expanded", "false");
-            menuBtn.classList.remove("active");
+            // 添加菜单关闭动画
+            menuPanel.style.opacity = "1";
+            menuPanel.style.transform = "translateY(0)";
             
-            document.removeEventListener('click', closeMenuOutside);
-            document.removeEventListener('keydown', closeMenuEsc);
+            setTimeout(() => {
+                menuPanel.style.opacity = "0";
+                menuPanel.style.transform = "translateY(-10px)";
+            }, 10);
+            
+            setTimeout(() => {
+                menuPanel.classList.add("float-panel-closed");
+                menuBtn.setAttribute("aria-expanded", "false");
+                menuBtn.classList.remove("active");
+                
+                document.removeEventListener('click', closeMenuOutside);
+                document.removeEventListener('keydown', closeMenuEsc);
+            }, 300);
         }
 
         // 点击外部关闭
@@ -129,118 +171,104 @@ function loadButtonScript() {
     }
 }
 
+// 导航栏逻辑（始终显示，取消自动隐藏功能）
 function initSmartNavbar() {
     const navbar = document.getElementById('navbar');
     if (!navbar) return;
 
-    // 检测是否支持 hover (区分移动端和桌面端)
-    const isTouchDevice = window.matchMedia('(hover: none)').matches;
-    
-    // 初始化 ARIA 状态
-    if (!isTouchDevice) {
-        navbar.setAttribute('aria-hidden', 'true');
-    } else {
-        navbar.setAttribute('aria-hidden', 'false');
-    }
+    // 初始化 ARIA 状态，始终设置为可见
+    navbar.setAttribute('aria-hidden', 'false');
 
-    if (isTouchDevice) return; // 移动端不启用自动隐藏
-
-    let hideTimeout;
-    const TRIGGER_Height = 10; // 顶部触发区域高度
-    const HIDE_DELAY = 300; // 延迟隐藏时间
-
-    // 显示导航栏
+    // 无论是否为移动端，都让导航栏始终显示
     function showNavbar() {
+        // 确保导航栏可见
         navbar.classList.add('navbar-visible');
         navbar.setAttribute('aria-hidden', 'false');
-        if (hideTimeout) {
-            clearTimeout(hideTimeout);
-            hideTimeout = null;
-        }
+        
+        // 移除任何可能的隐藏动画样式
+        navbar.style.transform = 'translateY(0)';
+        navbar.style.opacity = '1';
     }
 
-    // 隐藏导航栏
-    function hideNavbar() {
-        // 如果菜单打开，不隐藏
-        const menuBtn = document.getElementById("nav-menu-switch");
-        if (menuBtn && menuBtn.getAttribute("aria-expanded") === "true") return;
-        
-        navbar.classList.remove('navbar-visible');
-        navbar.setAttribute('aria-hidden', 'true');
-        hideTimeout = null;
-    }
+    // 立即显示导航栏
+    showNavbar();
 
-    // 检查鼠标是否在导航栏或下拉菜单区域内
-    function isMouseInNavbarArea(mouseX, mouseY) {
-        const navbarRect = navbar.getBoundingClientRect();
-        
-        // 检查是否在导航栏内
-        if (mouseX >= navbarRect.left && mouseX <= navbarRect.right &&
-            mouseY >= navbarRect.top && mouseY <= navbarRect.bottom) {
-            return true;
-        }
-        
-        // 检查是否在任何下拉菜单内
-        const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-        for (const menu of dropdownMenus) {
-            const rect = menu.getBoundingClientRect();
-            // 只检查可见的下拉菜单
-            if (rect.height > 0 && 
-                mouseX >= rect.left && mouseX <= rect.right &&
-                mouseY >= rect.top && mouseY <= rect.bottom) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
+    // 确保导航栏在页面加载和滚动时始终显示
+    window.addEventListener('load', showNavbar);
+    window.addEventListener('scroll', showNavbar);
+    window.addEventListener('resize', showNavbar);
 
-    // 鼠标移动处理
-    window.addEventListener('mousemove', (e) => {
-        const mouseY = e.clientY;
-        const mouseX = e.clientX;
+    // 为了确保导航栏始终显示，我们可以添加一个样式规则来强制显示
+    const style = document.createElement('style');
+    style.textContent = `
+        #navbar {
+            display: flex !important;
+            transform: translateY(0) !important;
+            opacity: 1 !important;
+        }
         
-        // 鼠标在顶部触发区域 -> 显示
-        if (mouseY <= TRIGGER_Height) {
-            showNavbar();
-        } 
-        // 鼠标在导航栏区域（包括下拉菜单）-> 显示
-        else if (isMouseInNavbarArea(mouseX, mouseY)) {
-            showNavbar();
+        #navbar.navbar-visible {
+            display: flex !important;
         }
-        // 鼠标离开导航栏区域 -> 准备隐藏
-        else if (!hideTimeout && navbar.classList.contains('navbar-visible')) {
-            hideTimeout = setTimeout(hideNavbar, HIDE_DELAY);
-        }
-    });
-
-    // 鼠标进入导航栏 -> 显示
-    navbar.addEventListener('mouseenter', () => {
-        showNavbar();
-    });
-
-    // 鼠标离开导航栏 -> 准备隐藏（但会检查是否在下拉菜单上）
-    navbar.addEventListener('mouseleave', () => {
-        if (hideTimeout) {
-            clearTimeout(hideTimeout);
-        }
-        hideTimeout = setTimeout(() => {
-            // 再次检查鼠标位置，防止快速移动时的闪烁
-            // 这里不需要额外检查，因为 mousemove 事件会处理
-            hideNavbar();
-        }, HIDE_DELAY);
-    });
-    
-    // 初始化：如果鼠标已经在顶部，显示
-    // 无法直接获取鼠标位置，但可以通过mousemove触发
+    `;
+    document.head.appendChild(style);
 }
 
-loadButtonScript();
-initSmartNavbar();
+// 滚动事件处理
+function initScrollEvents() {
+    const navbar = document.getElementById('navbar');
+    if (!navbar) return;
 
+    // 初始状态
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    }
+
+    // 节流函数
+    function throttle(func, delay) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, delay);
+            }
+        };
+    }
+
+    // 添加节流后的滚动事件监听器
+    window.addEventListener('scroll', throttle(() => {
+        if (window.scrollY > 50) {
+            if (!navbar.classList.contains('scrolled')) {
+                navbar.classList.add('scrolled');
+            }
+        } else {
+            if (navbar.classList.contains('scrolled')) {
+                navbar.classList.remove('scrolled');
+            }
+        }
+    }, 100));
+}
+
+// 初始化所有导航栏功能
+function initNavbar() {
+    // 等待DOM加载完成
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            initMenuSwitch();
+            initSmartNavbar();
+            initScrollEvents();
+        });
+    } else {
+        initMenuSwitch();
+        initSmartNavbar();
+        initScrollEvents();
+    }
+}
+
+// 导出默认函数
+initNavbar();
 </script>
-
-
 
 <style>
 .navbar-title-text {
@@ -261,13 +289,19 @@ initSmartNavbar();
     background: rgba(255, 255, 255, 0.95);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+    transition: background-color 0.3s ease;
     overflow: visible;
-    transform: translateY(-100%);
+    transform: translateY(0); /* 默认显示，不再隐藏 */
+}
+
+.dark #navbar {
+    background: rgba(30, 41, 59, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 #navbar.navbar-visible {
-    transform: translateY(0);
+    transform: translateY(0); /* 保持显示状态 */
 }
 
 @media (hover: none), (max-width: 768px) {
@@ -296,11 +330,11 @@ initSmartNavbar();
 }
 
 #navbar.scrolled {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    /* 移除滚动状态的特殊样式，保持统一风格 */
 }
 
 :root.dark #navbar.scrolled {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    /* 移除滚动状态的特殊样式，保持统一风格 */
 }
 
 #navbar:hover {
@@ -333,6 +367,12 @@ initSmartNavbar();
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
+/* 焦点样式 */
+.btn-plain:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
 .navbar-title-text:hover {
     transform: scale(1.05);
     background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -350,6 +390,7 @@ initSmartNavbar();
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
+/* 响应式设计 */
 @media (max-width: 767px) {
     #navbar {
         padding-left: 1rem;
@@ -358,6 +399,27 @@ initSmartNavbar();
     
     #navbar .navbar-title-text {
         font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #navbar .navbar-title-text {
+        font-size: 1.25rem;
+    }
+    
+    #navbar .btn-plain {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    #navbar .btn-plain Icon {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #navbar .navbar-title-text {
+        font-size: 1.6rem;
     }
 }
 </style>

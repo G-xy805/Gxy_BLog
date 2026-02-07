@@ -21,6 +21,15 @@ declare global {
 		};
 		BackToTopManager?: unknown;
 		initMobileDropdowns?: () => void;
+		walineThemeManager?: {
+			setWalineInstance: (instance: unknown) => void;
+			setTheme: (theme: string) => void;
+			toggleTheme: () => void;
+			isDarkMode: () => boolean;
+			getThemeStatus: () => unknown;
+			onThemeChange: (listener: (theme: string) => void) => () => void;
+			updateWalineTheme: () => void;
+		};
 	}
 
 	interface MediaQueryList {
