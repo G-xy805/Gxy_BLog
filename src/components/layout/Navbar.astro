@@ -41,7 +41,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
                     <span class="navbar-title-text">{navbarTitle}</span>
                 </div>
                 <div class="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
-                <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-[var(--primary)]/5 to-[var(--secondary)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <div class="absolute inset-0 rounded-xl bg-inherit opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
             </a>
         </div>
         
@@ -292,7 +292,7 @@ initNavbar();
     transform: translateY(0); /* 默认显示，不再隐藏 */
 }
 
-/* 确保所有内部div元素都继承背景色 */
+/* 确保直接子div元素继承背景色 */
 #navbar > div {
     background: inherit;
     -webkit-backdrop-filter: inherit;
