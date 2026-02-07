@@ -678,11 +678,32 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 	function updateBackgroundImages() {
 		// 查找桌面端图片元素（在id="banner"的div内部）
 		const bannerDiv = document.getElementById("banner");
-		const desktopImg = bannerDiv ? bannerDiv.querySelector("img") : null;
+		let desktopImg = bannerDiv ? bannerDiv.querySelector("img") : null;
 
 		// 查找移动端图片元素（在id="banner-mobile"的div内部）
 		const mobileDiv = document.getElementById("banner-mobile");
-		const mobileImg = mobileDiv ? mobileDiv.querySelector("img") : null;
+		let mobileImg = mobileDiv ? mobileDiv.querySelector("img") : null;
+
+		// 如果找不到图片元素，创建一个新的图片元素并添加到容器中
+		if (bannerDiv && !desktopImg) {
+			desktopImg = document.createElement("img");
+			desktopImg.className = "w-full h-full object-cover";
+			desktopImg.style.objectPosition = "center";
+			desktopImg.loading = "lazy";
+			desktopImg.decoding = "async";
+			desktopImg.alt = "Desktop background image of the blog";
+			bannerDiv.appendChild(desktopImg);
+		}
+
+		if (mobileDiv && !mobileImg) {
+			mobileImg = document.createElement("img");
+			mobileImg.className = "w-full h-full object-cover";
+			mobileImg.style.objectPosition = "center";
+			mobileImg.loading = "lazy";
+			mobileImg.decoding = "async";
+			mobileImg.alt = "Mobile background image of the blog";
+			mobileDiv.appendChild(mobileImg);
+		}
 
 		if (desktopImg || mobileImg) {
 			// 获取当前主题
