@@ -24,3 +24,9 @@ const { fallback = "error" } = Astro.props;
 <div id="error-boundary">
   <slot />
 </div>
+
+<style>
+  #error-boundary:empty {
+    display: none;
+  }
+</style>
