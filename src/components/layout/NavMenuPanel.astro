@@ -1,5 +1,5 @@
 ---
-import Icon from "@/components/misc/Icon.astro";
+import { Icon } from "astro-icon/components";
 import { LinkPresets } from "@/constants/link-presets";
 import { LinkPreset, type NavBarLink } from "@/types/config";
 import { url } from "@/utils/url-utils";
@@ -32,7 +32,7 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                         aria-expanded="false"
                     >
                         <div class="flex items-center transition-all duration-300 text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
-                            {link.icon && <Icon icon={link.icon} class="text-[1.1rem] mr-2" />}
+                            {link.icon && <Icon name={link.icon} class="text-[1.1rem] mr-2" />}
                             {link.name}
                         </div>
                         <div class="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--primary)]/10 group-hover:bg-[var(--primary)]/20 transition-all duration-300">
@@ -50,7 +50,7 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                                rel={child.external ? "noopener noreferrer" : ""
                             }>
                                 <div class="flex items-center transition-all duration-300 text-black/60 dark:text-white/60 font-medium group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
-                                    {child.icon && <Icon icon={child.icon} class="text-[1.1rem] mr-2" />}
+                                    {child.icon && <Icon name={child.icon} class="text-[1.1rem] mr-2" />}
                                     {child.name}
                                 </div>
                                 {child.external && (
@@ -71,7 +71,7 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                    rel={link.external ? "noopener noreferrer" : ""}
                 >
                     <div class="flex items-center transition-all duration-300 text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
-                        {link.icon && <Icon icon={link.icon} class="text-[1.1rem] mr-2" />}
+                        {link.icon && <Icon name={link.icon} class="text-[1.1rem] mr-2" />}
                         {link.name}
                     </div>
                     {link.external ? (
