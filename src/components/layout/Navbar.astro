@@ -93,13 +93,13 @@ let links: NavBarLink[] = navBarConfig.links.map(
                 id="nav-menu-switch"
             >
                 <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <!-- 菜单图标（展开前显示） -->
-                <svg id="menu-icon-open" class="menu-icon text-[1.35rem] text-[var(--primary)] transition-all duration-300 absolute" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <!-- 菜单图标（收缩状态显示三条横杆） -->
+                <svg id="menu-icon-open" class="menu-icon text-[1.35rem] text-[var(--primary)] transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
-                <!-- 关闭图标（展开后显示） -->
-                <svg id="menu-icon-close" class="menu-icon text-[1.35rem] text-[var(--primary)] transition-all duration-300 absolute opacity-0 scale-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                <!-- 展开状态显示三条竖杆 -->
+                <svg id="menu-icon-close" class="menu-icon text-[1.35rem] text-[var(--primary)] transition-all duration-300 absolute inset-0 m-auto opacity-0 scale-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 4v16M12 4v16M18 4v16"></path>
                 </svg>
             </button>
         </div>
@@ -143,16 +143,17 @@ function initMenuSwitch() {
         function toggleMenuIcon(isOpen) {
             if (iconOpen && iconClose) {
                 if (isOpen) {
-                    // 展开状态：显示关闭图标
-                    iconOpen.classList.add('opacity-0', 'scale-50', 'rotate-90');
+                    // 展开状态：显示关闭图标（X），隐藏菜单图标
+                    iconOpen.classList.add('opacity-0', 'scale-50');
+                    iconOpen.classList.remove('opacity-100', 'scale-100');
                     iconClose.classList.remove('opacity-0', 'scale-50');
-                    iconClose.classList.add('opacity-100', 'scale-100', 'rotate-0');
+                    iconClose.classList.add('opacity-100', 'scale-100');
                 } else {
-                    // 收缩状态：显示菜单图标
-                    iconOpen.classList.remove('opacity-0', 'scale-50', 'rotate-90');
-                    iconOpen.classList.add('opacity-100', 'scale-100', 'rotate-0');
+                    // 收缩状态：显示菜单图标（三条横杆），隐藏关闭图标
+                    iconOpen.classList.remove('opacity-0', 'scale-50');
+                    iconOpen.classList.add('opacity-100', 'scale-100');
                     iconClose.classList.add('opacity-0', 'scale-50');
-                    iconClose.classList.remove('opacity-100', 'scale-100', 'rotate-0');
+                    iconClose.classList.remove('opacity-100', 'scale-100');
                 }
             }
         }
