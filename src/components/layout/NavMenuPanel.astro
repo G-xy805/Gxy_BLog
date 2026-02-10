@@ -19,23 +19,33 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
 	}),
 }));
 ---
-<div id="nav-menu-panel" class:list={["float-panel float-panel-closed transition-all fixed top-[4rem] right-4 px-2 py-2 max-h-[80vh] overflow-y-auto z-[9999] bg-white dark:bg-gray-800 rounded-xl shadow-lg"]}>
-    {processedLinks.map((link) => (
-        <div class="mobile-menu-item mb-1">
+<div id="nav-menu-panel" class="float-panel float-panel-closed transition-all duration-300 fixed top-[4.5rem] right-4 left-4 max-h-[80vh] overflow-y-auto z-[9999] rounded-2xl shadow-2xl border border-white/10 dark:border-white/5 backdrop-blur-xl">
+    <div class="bg-gradient-to-br from-white/95 via-white/90 to-gray-50/95 dark:from-gray-900/95 dark:via-gray-800/90 dark:to-gray-900/95 p-4 rounded-2xl">
+        {processedLinks.map((link, index) => (
+            <div class:list={["mobile-menu-item", index !== processedLinks.length - 1 ? "mb-2" : ""]}>
             {link.children && link.children.length > 0 ? (
-                <!-- 有子菜单的项目 -->
-                <div class="mobile-dropdown" data-mobile-dropdown>
+                <div class="mobile-dropdown group" data-mobile-dropdown>
                     <button 
-                        class="group flex justify-between items-center py-2.5 pl-3 pr-2 rounded-lg gap-8 w-full text-left
-                            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition-all duration-300"
+                        class="relative flex justify-between items-center py-3 px-4 rounded-xl w-full text-left overflow-hidden
+                            hover:from-[var(--primary)]/5 hover:via-[var(--primary)]/3 hover:to-transparent
+                            active:scale-[0.98] transition-all duration-300 ease-out"
                         data-mobile-dropdown-trigger
                         aria-expanded="false"
                     >
-                        <div class="flex items-center transition-all duration-300 text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
-                            {link.icon && <Icon name={link.icon} class="text-[1.1rem] mr-2" />}
-                            {link.name}
+                        <div class="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/0 to-[var(--secondary)]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                        
+                        <div class="relative flex items-center gap-3">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/5 
+                                group-hover:from-[var(--primary)]/20 group-hover:to-[var(--secondary)]/10 transition-all duration-300 shadow-sm">
+                                {link.icon && <Icon name={link.icon} class="text-[1.2rem] text-[var(--primary)] group-hover:scale-110 transition-transform duration-300" />}
+                            </div>
+                            
+                            <span class="text-[0.95rem] font-semibold text-gray-700 dark:text-gray-200 group-hover:text-[var(--primary)] transition-colors duration-300">
+                                {link.name}
+                            </span>
                         </div>
-                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--primary)]/10 group-hover:bg-[var(--primary)]/20 transition-all duration-300">
+                        
+                        <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-[var(--primary)]/5 group-hover:bg-[var(--primary)]/10 transition-all duration-300">
                             <svg class="mobile-dropdown-arrow w-4 h-4 text-[var(--primary)] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
