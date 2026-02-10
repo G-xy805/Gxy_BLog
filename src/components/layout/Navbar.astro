@@ -338,16 +338,35 @@ function initNavbar() {
             initMenuSwitch();
             initSmartNavbar();
             initScrollEvents();
+            // 初始化移动端下拉菜单（如果存在）
+            if (typeof window !== 'undefined' && window.initMobileDropdowns) {
+                window.initMobileDropdowns();
+            }
         });
     } else {
         initMenuSwitch();
         initSmartNavbar();
         initScrollEvents();
+        // 初始化移动端下拉菜单（如果存在）
+        if (typeof window !== 'undefined' && window.initMobileDropdowns) {
+            window.initMobileDropdowns();
+        }
     }
 }
 
 // 导出默认函数
 initNavbar();
+
+// 监听 Swup 页面切换事件，重新初始化
+if (typeof window !== 'undefined') {
+    document.addEventListener('swup:contentReplaced', () => {
+        initNavbar();
+        // 确保移动端下拉菜单也被重新初始化
+        if (window.initMobileDropdowns) {
+            window.initMobileDropdowns();
+        }
+    });
+}
 </script>
 
 <style>

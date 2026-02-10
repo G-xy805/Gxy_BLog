@@ -225,5 +225,18 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
         window.initMobileDropdowns = initMobileDropdowns;
     }
 
-    document.addEventListener('DOMContentLoaded', initMobileDropdowns);
+    // DOM加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileDropdowns);
+    } else {
+        initMobileDropdowns();
+    }
+
+    // 监听 Swup 页面切换事件，重新初始化
+    document.addEventListener('swup:contentReplaced', () => {
+        // 延迟执行以确保 DOM 已更新
+        setTimeout(() => {
+            initMobileDropdowns();
+        }, 50);
+    });
 </script>
