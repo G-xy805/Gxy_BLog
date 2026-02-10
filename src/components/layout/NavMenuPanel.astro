@@ -31,24 +31,6 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                             active:scale-[0.98] transition-all duration-300 ease-out"
                         data-mobile-dropdown-trigger
                         aria-expanded="false"
-                        onclick="
-                            const dropdown = this.closest('[data-mobile-dropdown]');
-                            const isExpanded = dropdown.getAttribute('data-expanded') === 'true';
-                            
-                            // 关闭所有其他下拉菜单
-                            document.querySelectorAll('[data-mobile-dropdown]').forEach(other => {
-                                if (other !== dropdown) {
-                                    other.setAttribute('data-expanded', 'false');
-                                    const otherTrigger = other.querySelector('[data-mobile-dropdown-trigger]');
-                                    if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
-                                }
-                            });
-                            
-                            // 切换当前状态
-                            const newState = !isExpanded;
-                            dropdown.setAttribute('data-expanded', newState.toString());
-                            this.setAttribute('aria-expanded', newState.toString());
-                        "
                     >
                         <div class="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/0 to-[var(--secondary)]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
                         
@@ -200,6 +182,34 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
 </style>
 
 <script>
+    // 下拉菜单点击处理函数
+    function handleDropdownClick(e) {
+        const trigger = e.target.closest('[data-mobile-dropdown-trigger]');
+        if (!trigger) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const dropdown = trigger.closest('[data-mobile-dropdown]');
+        if (!dropdown) return;
+        
+        const isExpanded = dropdown.getAttribute('data-expanded') === 'true';
+        
+        // 关闭所有其他下拉菜单
+        document.querySelectorAll('[data-mobile-dropdown]').forEach(other => {
+            if (other !== dropdown) {
+                other.setAttribute('data-expanded', 'false');
+                const otherTrigger = other.querySelector('[data-mobile-dropdown-trigger]');
+                if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+        
+        // 切换当前状态
+        const newState = !isExpanded;
+        dropdown.setAttribute('data-expanded', newState.toString());
+        trigger.setAttribute('aria-expanded', newState.toString());
+    }
+    
     // 点击外部关闭下拉菜单
     function handleClickOutside(e) {
         const dropdown = e.target.closest('[data-mobile-dropdown]');
@@ -213,12 +223,41 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
         }
     }
     
-    // 添加点击外部监听
-    document.addEventListener('click', handleClickOutside);
-    
-    // Swup 切换后重新添加监听（因为页面内容被替换）
-    document.addEventListener('swup:contentReplaced', () => {
+    // 初始化函数
+    function initMobileDropdowns() {
+        // 移除旧的监听器
+        document.removeEventListener('click', handleDropdownClick);
         document.removeEventListener('click', handleClickOutside);
+        
+        // 添加新的监听器
+        document.addEventListener('click', handleDropdownClick);
         document.addEventListener('click', handleClickOutside);
-    });
+        
+        // 确保所有下拉菜单初始状态正确
+        document.querySelectorAll('[data-mobile-dropdown]').forEach(d => {
+            d.setAttribute('data-expanded', 'false');
+            const trigger = d.querySelector('[data-mobile-dropdown-trigger]');
+            if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        });
+    }
+    
+    // 页面加载后初始化
+    function onPageLoad() {
+        initMobileDropdowns();
+    }
+    
+    // 使用多种事件确保初始化
+    if (typeof window !== 'undefined') {
+        window.initMobileDropdowns = initMobileDropdowns;
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', onPageLoad);
+    } else {
+        onPageLoad();
+    }
+    
+    // Swup 页面切换后重新初始化
+    document.addEventListener('astro:page-load', onPageLoad);
+    document.addEventListener('swup:contentReplaced', onPageLoad);
 </script>
