@@ -93,7 +93,14 @@ let links: NavBarLink[] = navBarConfig.links.map(
                 id="nav-menu-switch"
             >
                 <div class="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-[var(--secondary)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <Icon name="ri:menu-line" class="text-[1.35rem] text-[var(--primary)] transition-all duration-400 group-hover:rotate-90 group-hover:scale-110 flex-shrink-0 w-[1.35rem] h-[1.35rem]"></Icon>
+                <!-- 菜单图标（展开前显示） -->
+                <svg id="menu-icon-open" class="menu-icon text-[1.35rem] text-[var(--primary)] transition-all duration-300 absolute" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <!-- 关闭图标（展开后显示） -->
+                <svg id="menu-icon-close" class="menu-icon text-[1.35rem] text-[var(--primary)] transition-all duration-300 absolute opacity-0 scale-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </button>
         </div>
         
@@ -128,11 +135,36 @@ function initMenuSwitch() {
             }
         });
 
+        // 获取图标元素
+        const iconOpen = menuBtn.querySelector('#menu-icon-open');
+        const iconClose = menuBtn.querySelector('#menu-icon-close');
+
+        // 切换图标状态
+        function toggleMenuIcon(isOpen) {
+            if (iconOpen && iconClose) {
+                if (isOpen) {
+                    // 展开状态：显示关闭图标
+                    iconOpen.classList.add('opacity-0', 'scale-50', 'rotate-90');
+                    iconClose.classList.remove('opacity-0', 'scale-50');
+                    iconClose.classList.add('opacity-100', 'scale-100', 'rotate-0');
+                } else {
+                    // 收缩状态：显示菜单图标
+                    iconOpen.classList.remove('opacity-0', 'scale-50', 'rotate-90');
+                    iconOpen.classList.add('opacity-100', 'scale-100', 'rotate-0');
+                    iconClose.classList.add('opacity-0', 'scale-50');
+                    iconClose.classList.remove('opacity-100', 'scale-100', 'rotate-0');
+                }
+            }
+        }
+
         // 打开菜单
         function openMenu() {
             menuPanel.classList.remove("float-panel-closed");
             menuBtn.setAttribute("aria-expanded", "true");
             menuBtn.classList.add("active"); // 添加激活状态样式
+            
+            // 切换图标为关闭状态
+            toggleMenuIcon(true);
             
             // 添加菜单打开动画
             menuPanel.style.opacity = "0";
@@ -165,6 +197,9 @@ function initMenuSwitch() {
                 menuPanel.classList.add("float-panel-closed");
                 menuBtn.setAttribute("aria-expanded", "false");
                 menuBtn.classList.remove("active");
+                
+                // 切换图标为菜单状态
+                toggleMenuIcon(false);
                 
                 document.removeEventListener('click', closeMenuOutside);
                 document.removeEventListener('keydown', closeMenuEsc);
@@ -279,10 +314,15 @@ function resetMenuState() {
         menuBtn.setAttribute("aria-expanded", "false");
         menuBtn.classList.remove("active");
         
-        // 移除所有可能的事件监听器（使用匿名函数的方式）
-        // 由于无法直接引用内部函数，我们通过克隆元素来移除所有监听器
-        const newMenuBtn = menuBtn.cloneNode(true);
-        menuBtn.parentNode?.replaceChild(newMenuBtn, menuBtn);
+        // 重置图标状态
+        const iconOpen = menuBtn.querySelector('#menu-icon-open');
+        const iconClose = menuBtn.querySelector('#menu-icon-close');
+        if (iconOpen && iconClose) {
+            iconOpen.classList.remove('opacity-0', 'scale-50', 'rotate-90');
+            iconOpen.classList.add('opacity-100', 'scale-100');
+            iconClose.classList.add('opacity-0', 'scale-50');
+            iconClose.classList.remove('opacity-100', 'scale-100', 'rotate-0');
+        }
     }
 }
 
@@ -428,8 +468,23 @@ initNavbar();
 }
 
 #nav-menu-switch:hover {
-    transform: rotate(90deg) scale(1.1);
     box-shadow: var(--shadow-primary);
+}
+
+/* 菜单按钮图标样式 */
+#nav-menu-switch .menu-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 展开状态下的按钮样式 */
+#nav-menu-switch[aria-expanded="true"] {
+    background: var(--primary)/10;
+}
+
+#nav-menu-switch[aria-expanded="true"]:hover {
+    transform: scale(1.1);
 }
 
 /* 响应式设计 */
