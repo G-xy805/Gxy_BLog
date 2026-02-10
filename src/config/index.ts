@@ -28,7 +28,11 @@ export { getEnabledFriends } from "./friendsConfig"; // 友链配置
 export { licenseConfig } from "./licenseConfig"; // 许可证配置
 // 组件配置
 
-export { navBarConfig, navBarSearchConfig } from "./navBarConfig"; // 导航栏配置与搜索配置
+export {
+	DYNAMIC_CATEGORIES_MARKER,
+	navBarConfig,
+	navBarSearchConfig,
+} from "./navBarConfig"; // 导航栏配置与搜索配置
 
 export { profileConfig } from "./profileConfig"; // 用户资料配置
 // 布局配置

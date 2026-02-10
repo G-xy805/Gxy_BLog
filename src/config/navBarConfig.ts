@@ -7,6 +7,8 @@ import {
 } from "../types/config";
 import { siteConfig } from "./siteConfig";
 
+export const DYNAMIC_CATEGORIES_MARKER = "__DYNAMIC_CATEGORIES__";
+
 // 根据页面开关动态生成导航栏配置
 const getDynamicNavBarConfig = (): NavBarConfig => {
 	const links: (NavBarLink | LinkPreset)[] = [
@@ -16,28 +18,11 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			url: "/",
 			icon: "ri:home-2-line",
 		},
-		// 分类
 		{
 			name: "分类",
 			url: "/categories/",
 			icon: "ri:grid-line",
-			children: [
-				{
-					name: "C++",
-					url: "/categories/C%2B%2B/",
-					icon: "ri:code-box-line",
-				},
-				{
-					name: "Astro",
-					url: "/categories/Astro魔改/",
-					icon: "ri:code-box-line",
-				},
-				{
-					name: "技术杂谈",
-					url: "/categories/技术杂谈/",
-					icon: "ri:code-box-line",
-				},
-			],
+			children: [],
 		},
 		// 归档
 		{

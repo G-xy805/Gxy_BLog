@@ -5,6 +5,7 @@ import LightDarkSwitch from "@/components/interactive/LightDarkSwitch.svelte";
 import { navBarConfig, siteConfig } from "@/config";
 import { LinkPresets } from "@/constants/link-presets";
 import { LinkPreset, type NavBarLink } from "@/types/config";
+import { getCategoriesWithPosts } from "@/utils/content-utils";
 import { isHomePage } from "@/utils/layout-utils";
 import { url } from "@/utils/url-utils";
 import DropdownMenu from "./DropdownMenu.astro";
@@ -18,11 +19,28 @@ const navbarTitle = siteConfig.navbarTitle || siteConfig.title;
 // 检查是否为首页
 const isHomePageCheck = isHomePage(Astro.url.pathname);
 
-// 处理导航链接
+// 获取所有分类
+const categoriesWithPosts = await getCategoriesWithPosts();
+
+// 将分类转换为导航链接格式
+const categoryLinks: NavBarLink[] = categoriesWithPosts.map((category) => ({
+	name: category.name,
+	url: `/categories/${encodeURIComponent(category.name)}/`,
+	icon: "ri:folder-line",
+}));
+
+// 处理导航链接 - 动态生成分类下拉菜单
 let links: NavBarLink[] = navBarConfig.links.map(
 	(item: NavBarLink | LinkPreset): NavBarLink => {
 		if (typeof item === "number") {
 			return LinkPresets[item];
+		}
+		// 如果是"分类"链接，动态添加所有分类作为子菜单
+		if (item.name === "分类" && item.url === "/categories/") {
+			return {
+				...item,
+				children: categoryLinks,
+			} as NavBarLink;
 		}
 		return item;
 	},
