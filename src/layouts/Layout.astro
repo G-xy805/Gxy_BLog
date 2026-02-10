@@ -550,6 +550,8 @@ const bannerOffset = `${BANNER_HEIGHT_EXTEND / 2}vh`;
             // 只在移动端非首页时调整主内容位置
             if (isMobile && !isHomePage) {
               mainContentWrapper.classList.add("mobile-main-no-banner");
+              // 移除内联样式，让CSS类生效
+              mainContentWrapper.style.top = "";
             } else {
               mainContentWrapper.classList.remove("mobile-main-no-banner");
             }
