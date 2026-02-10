@@ -35,9 +35,11 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                             {link.icon && <Icon icon={link.icon} class="text-[1.1rem] mr-2" />}
                             {link.name}
                         </div>
-                        <Icon icon="ri:arrow-down-s-line"
-                              class="transition-all duration-300 text-[1.25rem] text-[var(--primary)] mobile-dropdown-arrow"
-                        />
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--primary)]/10 group-hover:bg-[var(--primary)]/20 transition-all duration-300">
+                            <svg class="mobile-dropdown-arrow w-4 h-4 text-[var(--primary)] transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
                     </button>
                     <div class="mobile-submenu" data-mobile-submenu>
                         {link.children.map((child) => (
@@ -51,9 +53,11 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                                     {child.icon && <Icon icon={child.icon} class="text-[1.1rem] mr-2" />}
                                     {child.name}
                                 </div>
-                                {child.external && <Icon icon="ri:external-link-line"
-                                      class="transition-all duration-300 text-[0.9rem] text-[var(--primary)]/70"
-                                />}
+                                {child.external && (
+                                    <svg class="w-3.5 h-3.5 text-[var(--primary)]/70 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                )}
                             </a>
                         ))}
                     </div>
@@ -70,12 +74,15 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
                         {link.icon && <Icon icon={link.icon} class="text-[1.1rem] mr-2" />}
                         {link.name}
                     </div>
-                    {!link.external && <Icon icon="ri:arrow-right-s-line"
-                          class="transition-all duration-300 text-[1.25rem] text-[var(--primary)]"
-                    />}
-                    {link.external && <Icon icon="ri:external-link-line"
-                          class="transition-all duration-300 text-[0.9rem] text-[var(--primary)]/70"
-                    />}
+                    {link.external ? (
+                        <svg class="w-4 h-4 text-[var(--primary)]/70 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    ) : (
+                        <div class="flex items-center justify-center w-6 h-6">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[var(--primary)]/30 group-hover:bg-[var(--primary)]/60 transition-all duration-300"></div>
+                        </div>
+                    )}
                 </a>
             )}
         </div>
