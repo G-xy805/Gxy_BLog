@@ -63,8 +63,18 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		}
 	});
 
+	// 存储事件监听器引用，用于页面切换时清理
+	const clickOutsideListeners = new Map<string, EventListener>();
+
 	function setClickOutsideToClose(panel: string, ignores: string[]) {
-		document.addEventListener("click", (event) => {
+		// 如果已存在监听器，先移除
+		const existingListener = clickOutsideListeners.get(panel);
+		if (existingListener) {
+			document.removeEventListener("click", existingListener);
+		}
+
+		// 创建新的事件监听器
+		const listener = (event: Event) => {
 			const panelDom = document.getElementById(panel);
 			const tDom = event.target;
 			if (!(tDom instanceof Node)) return; // Ensure the event target is an HTML Node
@@ -77,29 +87,40 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 			if (panelDom) {
 				panelDom.classList.add("float-panel-closed");
 			}
-		});
+		};
+
+		// 保存监听器引用并添加
+		clickOutsideListeners.set(panel, listener as EventListener);
+		document.addEventListener("click", listener as EventListener);
 	}
-	setClickOutsideToClose("display-setting", [
-		"display-setting",
-		"display-settings-switch",
-	]);
-	setClickOutsideToClose("nav-menu-panel", [
-		"nav-menu-panel",
-		"nav-menu-switch",
-	]);
-	setClickOutsideToClose("search-panel", [
-		"search-panel",
-		"search-bar",
-		"search-switch",
-	]);
-	setClickOutsideToClose("wallpaper-mode-panel", [
-		"wallpaper-mode-panel",
-		"wallpaper-mode-switch",
-	]);
-	setClickOutsideToClose("theme-mode-panel", [
-		"theme-mode-panel",
-		"scheme-switch",
-	]);
+
+	// 初始化函数，可在页面切换后调用
+	function initClickOutsideListeners() {
+		setClickOutsideToClose("display-setting", [
+			"display-setting",
+			"display-settings-switch",
+		]);
+		setClickOutsideToClose("nav-menu-panel", [
+			"nav-menu-panel",
+			"nav-menu-switch",
+		]);
+		setClickOutsideToClose("search-panel", [
+			"search-panel",
+			"search-bar",
+			"search-switch",
+		]);
+		setClickOutsideToClose("wallpaper-mode-panel", [
+			"wallpaper-mode-panel",
+			"wallpaper-mode-switch",
+		]);
+		setClickOutsideToClose("theme-mode-panel", [
+			"theme-mode-panel",
+			"scheme-switch",
+		]);
+	}
+
+	// 初始调用
+	initClickOutsideListeners();
 
 	function initCustomScrollbar() {
 		// 只处理katex元素的滚动条，使用浏览器原生滚动条
@@ -180,6 +201,10 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 					initIconLoader();
 				});
 			}, 50);
+
+			setTimeout(() => {
+				initClickOutsideListeners();
+			}, 75);
 
 			// 重新初始化导航栏JavaScript功能
 			// @ts-expect-error

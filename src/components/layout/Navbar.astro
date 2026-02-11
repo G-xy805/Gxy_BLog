@@ -113,115 +113,122 @@ let links: NavBarLink[] = navBarConfig.links.map(
 <!-- 导航栏脚本 -->
 <script type="module">
 /**
- * 导航栏脚本
- * 处理导航栏的交互逻辑，包括菜单切换、智能显示/隐藏等功能
+ * 导航栏脚本 - 使用事件委托模式，确保Swup页面切换后仍能正常工作
  */
 
-// 菜单切换逻辑
-function initMenuSwitch() {
-    const menuBtn = document.getElementById("nav-menu-switch");
-    const menuPanel = document.getElementById("nav-menu-panel");
+// 菜单状态管理
+let isMenuOpen = false;
 
-    if (menuBtn && menuPanel) {
-        // 切换菜单状态
-        menuBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const isClosed = menuPanel.classList.contains("float-panel-closed");
-            
-            if (isClosed) {
-                openMenu();
-            } else {
-                closeMenu();
-            }
-        });
+// 获取菜单相关元素（每次使用时动态获取，确保获取到最新的DOM元素）
+function getMenuElements() {
+    return {
+        menuBtn: document.getElementById("nav-menu-switch"),
+        menuPanel: document.getElementById("nav-menu-panel"),
+        iconOpen: document.querySelector('#menu-icon-open'),
+        iconClose: document.querySelector('#menu-icon-close')
+    };
+}
 
-        // 获取图标元素
-        const iconOpen = menuBtn.querySelector('#menu-icon-open');
-        const iconClose = menuBtn.querySelector('#menu-icon-close');
-
-        // 切换图标状态
-        function toggleMenuIcon(isOpen) {
-            if (iconOpen && iconClose) {
-                if (isOpen) {
-                    // 展开状态：显示关闭图标（X），隐藏菜单图标
-                    iconOpen.classList.add('opacity-0', 'scale-50');
-                    iconOpen.classList.remove('opacity-100', 'scale-100');
-                    iconClose.classList.remove('opacity-0', 'scale-50');
-                    iconClose.classList.add('opacity-100', 'scale-100');
-                } else {
-                    // 收缩状态：显示菜单图标（三条横杆），隐藏关闭图标
-                    iconOpen.classList.remove('opacity-0', 'scale-50');
-                    iconOpen.classList.add('opacity-100', 'scale-100');
-                    iconClose.classList.add('opacity-0', 'scale-50');
-                    iconClose.classList.remove('opacity-100', 'scale-100');
-                }
-            }
-        }
-
-        // 打开菜单
-        function openMenu() {
-            menuPanel.classList.remove("float-panel-closed");
-            menuBtn.setAttribute("aria-expanded", "true");
-            menuBtn.classList.add("active"); // 添加激活状态样式
-            
-            // 切换图标为关闭状态
-            toggleMenuIcon(true);
-            
-            // 添加菜单打开动画
-            menuPanel.style.opacity = "0";
-            menuPanel.style.transform = "translateY(-10px)";
-            
-            setTimeout(() => {
-                menuPanel.style.opacity = "1";
-                menuPanel.style.transform = "translateY(0)";
-            }, 10);
-            
-            // 延迟添加监听器，等待动画完成后才监听外部点击，防止立即触发
-            setTimeout(() => {
-                document.addEventListener('click', closeMenuOutside);
-                document.addEventListener('keydown', closeMenuEsc);
-            }, 300);
-        }
-
-        // 关闭菜单
-        function closeMenu() {
-            // 添加菜单关闭动画
-            menuPanel.style.opacity = "1";
-            menuPanel.style.transform = "translateY(0)";
-            
-            setTimeout(() => {
-                menuPanel.style.opacity = "0";
-                menuPanel.style.transform = "translateY(-10px)";
-            }, 10);
-            
-            setTimeout(() => {
-                menuPanel.classList.add("float-panel-closed");
-                menuBtn.setAttribute("aria-expanded", "false");
-                menuBtn.classList.remove("active");
-                
-                // 切换图标为菜单状态
-                toggleMenuIcon(false);
-                
-                document.removeEventListener('click', closeMenuOutside);
-                document.removeEventListener('keydown', closeMenuEsc);
-            }, 300);
-        }
-
-        // 点击外部关闭
-        function closeMenuOutside(e) {
-            if (!menuPanel.contains(e.target) && !menuBtn.contains(e.target)) {
-                closeMenu();
-            }
-        }
-
-        // ESC键关闭
-        function closeMenuEsc(e) {
-            if (e.key === 'Escape') {
-                closeMenu();
-            }
-        }
+// 切换图标状态
+function toggleMenuIcon(isOpen, iconOpen, iconClose) {
+    if (!iconOpen || !iconClose) return;
+    
+    if (isOpen) {
+        iconOpen.classList.add('opacity-0', 'scale-50');
+        iconOpen.classList.remove('opacity-100', 'scale-100');
+        iconClose.classList.remove('opacity-0', 'scale-50');
+        iconClose.classList.add('opacity-100', 'scale-100');
+    } else {
+        iconOpen.classList.remove('opacity-0', 'scale-50');
+        iconOpen.classList.add('opacity-100', 'scale-100');
+        iconClose.classList.add('opacity-0', 'scale-50');
+        iconClose.classList.remove('opacity-100', 'scale-100');
     }
 }
+
+// 打开菜单
+function openMenu() {
+    const { menuBtn, menuPanel, iconOpen, iconClose } = getMenuElements();
+    if (!menuBtn || !menuPanel) return;
+    
+    isMenuOpen = true;
+    menuPanel.classList.remove("float-panel-closed");
+    menuBtn.setAttribute("aria-expanded", "true");
+    menuBtn.classList.add("active");
+    
+    toggleMenuIcon(true, iconOpen, iconClose);
+    
+    // 添加菜单打开动画
+    menuPanel.style.opacity = "0";
+    menuPanel.style.transform = "translateY(-10px)";
+    
+    requestAnimationFrame(() => {
+        menuPanel.style.opacity = "1";
+        menuPanel.style.transform = "translateY(0)";
+    });
+}
+
+// 关闭菜单
+function closeMenu() {
+    const { menuBtn, menuPanel, iconOpen, iconClose } = getMenuElements();
+    if (!menuBtn || !menuPanel) return;
+    
+    isMenuOpen = false;
+    
+    // 添加菜单关闭动画
+    menuPanel.style.opacity = "1";
+    menuPanel.style.transform = "translateY(0)";
+    
+    requestAnimationFrame(() => {
+        menuPanel.style.opacity = "0";
+        menuPanel.style.transform = "translateY(-10px)";
+    });
+    
+    setTimeout(() => {
+        menuPanel.classList.add("float-panel-closed");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.classList.remove("active");
+        toggleMenuIcon(false, iconOpen, iconClose);
+    }, 300);
+}
+
+// 使用事件委托处理菜单按钮点击
+document.addEventListener('click', function(e) {
+    const menuBtn = e.target.closest('#nav-menu-switch');
+    if (menuBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (isMenuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+});
+
+// 处理点击外部关闭菜单
+document.addEventListener('click', function(e) {
+    if (!isMenuOpen) return;
+    
+    const { menuBtn, menuPanel } = getMenuElements();
+    if (!menuBtn || !menuPanel) return;
+    
+    // 如果点击的是菜单按钮或其子元素，不处理（由上面的监听器处理）
+    if (e.target.closest('#nav-menu-switch')) return;
+    
+    // 如果点击在菜单面板外部，关闭菜单
+    if (!menuPanel.contains(e.target)) {
+        closeMenu();
+    }
+});
+
+// ESC键关闭菜单
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isMenuOpen) {
+        closeMenu();
+    }
+});
 
 // 导航栏逻辑（始终显示，取消自动隐藏功能）
 function initSmartNavbar() {
@@ -308,6 +315,9 @@ function resetMenuState() {
     const menuBtn = document.getElementById("nav-menu-switch");
     
     if (menuPanel && menuBtn) {
+        // 移除初始化标记，允许重新绑定事件
+        delete menuBtn.dataset.menuInitialized;
+        
         // 强制重置菜单为关闭状态
         menuPanel.classList.add("float-panel-closed");
         menuPanel.style.opacity = "0";
@@ -329,42 +339,42 @@ function resetMenuState() {
 
 // 初始化所有导航栏功能
 function initNavbar() {
-    // 先重置菜单状态
+    // 重置菜单状态
     resetMenuState();
     
-    // 等待DOM加载完成
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            initMenuSwitch();
-            initSmartNavbar();
-            initScrollEvents();
-            // 初始化移动端下拉菜单（如果存在）
-            if (typeof window !== 'undefined' && window.initMobileDropdowns) {
-                window.initMobileDropdowns();
-            }
-        });
-    } else {
-        initMenuSwitch();
-        initSmartNavbar();
-        initScrollEvents();
-        // 初始化移动端下拉菜单（如果存在）
-        if (typeof window !== 'undefined' && window.initMobileDropdowns) {
-            window.initMobileDropdowns();
-        }
+    // 初始化导航栏显示逻辑和滚动事件
+    // 注意：菜单按钮点击事件使用事件委托，在页面加载时已绑定到document，
+    // 不需要在这里初始化，这样可以确保Swup页面切换后仍然有效
+    initSmartNavbar();
+    initScrollEvents();
+    
+    // 初始化移动端下拉菜单（如果存在）
+    if (typeof window !== 'undefined' && window.initMobileDropdowns) {
+        window.initMobileDropdowns();
     }
 }
 
-// 导出默认函数
-initNavbar();
+// 等待DOM加载完成后初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavbar);
+} else {
+    initNavbar();
+}
 
 // 监听 Swup 页面切换事件，重新初始化
 if (typeof window !== 'undefined') {
     document.addEventListener('swup:contentReplaced', () => {
-        initNavbar();
-        // 确保移动端下拉菜单也被重新初始化
-        if (window.initMobileDropdowns) {
-            window.initMobileDropdowns();
-        }
+        // 使用 requestAnimationFrame 确保 DOM 已更新
+        requestAnimationFrame(() => {
+            initNavbar();
+        });
+    });
+    
+    // 同时监听 Astro 的页面加载事件
+    document.addEventListener('astro:page-load', () => {
+        requestAnimationFrame(() => {
+            initNavbar();
+        });
     });
 }
 </script>
