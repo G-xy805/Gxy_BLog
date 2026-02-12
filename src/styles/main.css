@@ -1225,6 +1225,11 @@ a, button, .btn, .btn-regular, .btn-plain, .btn-card, .dropdown label, .dropdown
     .text-base-content\/70 {
         @apply text-[var(--text-secondary)] dark:text-white/70
     }
+    
+    /* Post card meta info - higher contrast for readability */
+    .post-meta-text {
+        @apply text-[var(--text-secondary)] dark:text-white/85
+    }
 
     /* 下拉菜单样式 */
     .dropdown-container {

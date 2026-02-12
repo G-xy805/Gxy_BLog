@@ -17,7 +17,7 @@ const { toggle: toggleTheme, isSwitching } = useSwitchAnimation(() => {
 	const newMode = $theme === LIGHT_MODE ? DARK_MODE : LIGHT_MODE;
 	theme.set(newMode);
 	applyThemeToDocument(newMode);
-	
+
 	// 同时切换 Waline 主题
 	toggleWalineTheme();
 }, 500);
@@ -30,13 +30,13 @@ function handleKeyboardEvent(event: KeyboardEvent) {
 
 onMount(() => {
 	applyThemeToDocument($theme);
-	if (typeof window !== 'undefined') {
+	if (typeof window !== "undefined") {
 		window.addEventListener("keydown", handleKeyboardEvent);
 	}
 });
 
 onDestroy(() => {
-	if (typeof window !== 'undefined') {
+	if (typeof window !== "undefined") {
 		window.removeEventListener("keydown", handleKeyboardEvent);
 	}
 });

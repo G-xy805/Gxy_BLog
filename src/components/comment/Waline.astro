@@ -7,13 +7,13 @@ interface Props {
 
 const props = Astro.props;
 const walineConfig = {
-  serverURL: commentConfig.waline.serverURL,
-  path: props.path,
-  lang: commentConfig.waline.lang,
-  login: commentConfig.waline.login,
-  visitorCount: commentConfig.waline.visitorCount,
-  wordLimit: ["2", "300"],
-  el: "#waline"
+	serverURL: commentConfig.waline.serverURL,
+	path: props.path,
+	lang: commentConfig.waline.lang,
+	login: commentConfig.waline.login,
+	visitorCount: commentConfig.waline.visitorCount,
+	wordLimit: ["2", "300"],
+	el: "#waline",
 };
 ---
 <!-- Waline -->
