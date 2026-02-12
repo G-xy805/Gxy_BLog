@@ -35,11 +35,12 @@ const isLocal = !(
 	src.startsWith("data:")
 );
 const isPublic = src.startsWith("/");
+const isEmpty = !src || src.trim() === "";
 
 // TODO temporary workaround for images dynamic import
 // https://github.com/withastro/astro/issues/3373
 let img: ImageMetadata | null = null;
-if (isLocal) {
+if (isLocal && !isEmpty) {
 	const files = import.meta.glob<ImageMetadata>("../../**", {
 		import: "default",
 	});
