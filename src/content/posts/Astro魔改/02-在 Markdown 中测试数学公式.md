@@ -6,6 +6,7 @@ image: /assets/images/posts/Astro.webp
 published: 2025-12-20
 tags: [博客, Markdown, Astro]
 category: Astro魔改
+draft: true
 ---
 
 本文档用于测试在 Markdown 中使用 `$$` 符号渲染数学公式。

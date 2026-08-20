@@ -187,8 +187,8 @@ const processedLinks = Astro.props.links.map((link: NavBarLink) => ({
         'use strict';
         
         // 存储事件处理器引用，确保可以正确移除
-        let dropdownClickHandler = null;
-        let clickOutsideHandler = null;
+        let dropdownClickHandler: ((e: Event) => void) | null = null;
+        let clickOutsideHandler: ((e: Event) => void) | null = null;
         let isInitialized = false;
         
         // 下拉菜单点击处理函数

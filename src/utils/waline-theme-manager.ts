@@ -33,11 +33,17 @@ interface WalineInstance {
 }
 
 /**
+ * 主题模式类型（含跟随系统）
+ * localStorage 中可能保存 "system"，因此比 LIGHT_DARK_MODE 更宽
+ */
+type ThemeMode = LIGHT_DARK_MODE | typeof SYSTEM_MODE;
+
+/**
  * Waline 主题管理器类
  */
 class WalineThemeManager {
 	private walineInstance: WalineInstance | null = null;
-	private currentTheme: LIGHT_DARK_MODE = LIGHT_MODE;
+	private currentTheme: ThemeMode = LIGHT_MODE;
 	private isInitialized = false;
 	private themeChangeListeners: Array<(theme: string) => void> = [];
 
@@ -77,7 +83,7 @@ class WalineThemeManager {
 	/**
 	 * 解析主题模式（处理 SYSTEM_MODE）
 	 */
-	private resolveTheme(themeMode: LIGHT_DARK_MODE): string {
+	private resolveTheme(themeMode: ThemeMode): string {
 		if (themeMode === SYSTEM_MODE) {
 			return this.getSystemPreference();
 		}
@@ -165,7 +171,7 @@ class WalineThemeManager {
 	/**
 	 * 更新 Waline 主题
 	 */
-	private updateWalineTheme(): void {
+	public updateWalineTheme(): void {
 		if (!this.walineInstance) {
 			console.log("[Waline Theme Manager] No Waline instance to update");
 			return;
@@ -276,7 +282,7 @@ class WalineThemeManager {
 	 * 获取主题状态信息
 	 */
 	public getThemeStatus(): {
-		currentTheme: LIGHT_DARK_MODE;
+		currentTheme: ThemeMode;
 		resolvedTheme: string;
 		isDark: boolean;
 		isSystem: boolean;

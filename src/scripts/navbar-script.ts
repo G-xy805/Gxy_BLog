@@ -20,7 +20,7 @@ export function initMenuSwitch() {
 		});
 
 		// 打开菜单
-		function openMenu() {
+		const openMenu = () => {
 			menuPanel.classList.remove("float-panel-closed");
 			menuBtn.setAttribute("aria-expanded", "true");
 			menuBtn.classList.add("active"); // 添加激活状态样式
@@ -39,10 +39,10 @@ export function initMenuSwitch() {
 				document.addEventListener("click", closeMenuOutside);
 				document.addEventListener("keydown", closeMenuEsc);
 			}, 0);
-		}
+		};
 
 		// 关闭菜单
-		function closeMenu() {
+		const closeMenu = () => {
 			// 添加菜单关闭动画
 			menuPanel.style.opacity = "1";
 			menuPanel.style.transform = "translateY(0)";
@@ -60,21 +60,21 @@ export function initMenuSwitch() {
 				document.removeEventListener("click", closeMenuOutside);
 				document.removeEventListener("keydown", closeMenuEsc);
 			}, 300);
-		}
+		};
 
 		// 点击外部关闭
-		function closeMenuOutside(e) {
-			if (!menuPanel.contains(e.target) && !menuBtn.contains(e.target)) {
+		const closeMenuOutside = (e: MouseEvent) => {
+			if (!menuPanel.contains(e.target as Node) && !menuBtn.contains(e.target as Node)) {
 				closeMenu();
 			}
-		}
+		};
 
 		// ESC键关闭
-		function closeMenuEsc(e) {
+		const closeMenuEsc = (e: KeyboardEvent) => {
 			if (e.key === "Escape") {
 				closeMenu();
 			}
-		}
+		};
 	}
 }
 
@@ -90,7 +90,7 @@ export function initSmartNavbar() {
 	navbar.setAttribute("aria-hidden", "false");
 
 	// 无论是否为移动端，都让导航栏始终显示
-	function showNavbar() {
+	const showNavbar = () => {
 		// 确保导航栏可见
 		navbar.classList.add("navbar-visible");
 		navbar.setAttribute("aria-hidden", "false");
@@ -98,7 +98,7 @@ export function initSmartNavbar() {
 		// 移除任何可能的隐藏动画样式
 		navbar.style.transform = "translateY(0)";
 		navbar.style.opacity = "1";
-	}
+	};
 
 	// 立即显示导航栏
 	showNavbar();

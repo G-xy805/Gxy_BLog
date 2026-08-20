@@ -19,7 +19,13 @@ declare global {
 				}>;
 			}>;
 		};
-		BackToTopManager?: unknown;
+		BackToTopManager: new () => {
+			button: HTMLElement | null;
+			wrapper: HTMLElement | null;
+			init(): void;
+			setupScrollListener(): void;
+		};
+		backToTop?: () => void;
 		initMobileDropdowns?: () => void;
 		walineThemeManager?: {
 			setWalineInstance: (instance: unknown) => void;

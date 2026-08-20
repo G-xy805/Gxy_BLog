@@ -6,6 +6,7 @@ description: 一个简明的 Markdown 博客示例
 image: /assets/images/posts/Astro.webp
 tags: [博客, Markdown, Astro]
 category: Astro魔改
+draft: true
 ---
 以下是一个在 Astro 中编写 Markdown 内容时可以使用的部分基本 Markdown 语法示例。
 

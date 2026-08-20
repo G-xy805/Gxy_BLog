@@ -6,12 +6,19 @@ interface Props {
 }
 
 const props = Astro.props;
+// waline 为可选配置，此处提供兜底值以保证类型安全（实际由 commentConfig.type 决定是否渲染本组件）
+const waline = commentConfig.waline ?? {
+	serverURL: "",
+	lang: "zh-CN",
+	login: "enable" as const,
+	visitorCount: false,
+};
 const walineConfig = {
-	serverURL: commentConfig.waline.serverURL,
+	serverURL: waline.serverURL,
 	path: props.path,
-	lang: commentConfig.waline.lang,
-	login: commentConfig.waline.login,
-	visitorCount: commentConfig.waline.visitorCount,
+	lang: waline.lang,
+	login: waline.login,
+	visitorCount: waline.visitorCount,
 	wordLimit: ["2", "300"],
 	el: "#waline",
 };

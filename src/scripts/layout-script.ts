@@ -169,7 +169,6 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 	}
 
 	const setup = () => {
-		// @ts-expect-error
 		window.swup.hooks.on("link:click", () => {
 			// Remove the delay for the first time page load
 			document.documentElement.style.setProperty("--content-delay", "0ms");
@@ -188,7 +187,6 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 				}
 			}
 		});
-		// @ts-expect-error
 		window.swup.hooks.on("content:replace", () => {
 			// 强制重新初始化图标加载器
 			setTimeout(() => {
@@ -258,7 +256,6 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 				}
 			}, 50);
 		});
-		// @ts-expect-error
 		window.swup.hooks.on("visit:start", (visit: { to: { url: string } }) => {
 			// change banner height immediately when a link is clicked
 			const bodyElement = document.querySelector("body");
@@ -351,7 +348,6 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 				toc.classList.add("toc-not-ready");
 			}
 		});
-		// @ts-expect-error
 		window.swup.hooks.on("page:view", () => {
 			// hide the temp high element when the transition is done
 			const heightExtend = document.getElementById("page-height-extend");
@@ -427,7 +423,6 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 				}, 300);
 			}
 		});
-		// @ts-expect-error
 		window.swup.hooks.on("visit:end", (_visit: { to: { url: string } }) => {
 			setTimeout(() => {
 				const heightExtend = document.getElementById("page-height-extend");
@@ -484,7 +479,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 		}
 	});
 
-	// @ts-expect-error
+	// window.swup 为 any 类型（见 global.d.ts），此处不会再产生类型错误
 	if (window?.swup?.hooks) {
 		setup();
 	} else {

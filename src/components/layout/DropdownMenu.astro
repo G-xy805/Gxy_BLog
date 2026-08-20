@@ -141,22 +141,22 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 			let closeTimeout: ReturnType<typeof setTimeout> | null = null;
 			
 			// 打开下拉菜单
-			function openMenu() {
+			const openMenu = () => {
 				if (closeTimeout) {
 					clearTimeout(closeTimeout);
 					closeTimeout = null;
 				}
 				trigger.setAttribute('aria-expanded', 'true');
 				dropdown.setAttribute('data-expanded', 'true');
-			}
-			
+			};
+
 			// 关闭下拉菜单（带延迟）
-			function closeMenu() {
+			const closeMenu = () => {
 				closeTimeout = setTimeout(() => {
 					trigger.setAttribute('aria-expanded', 'false');
 					dropdown.setAttribute('data-expanded', 'false');
 				}, 150); // 150ms延迟，给用户时间移动到菜单上
-			}
+			};
 			
 			// 鼠标悬浮触发器时打开菜单
 			trigger.addEventListener('mouseenter', openMenu);
@@ -238,7 +238,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		});
 	});
 	
-	function toggleDropdown(_dropdown: Element, trigger: Element, menu: Element) {
+	function toggleDropdown(_dropdown: Element, trigger: HTMLElement, menu: Element) {
 		const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 		if (isOpen) {
 			closeDropdown(_dropdown, trigger, menu);
@@ -246,8 +246,8 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 			openDropdown(_dropdown, trigger, menu);
 		}
 	}
-	
-	function openDropdown(_dropdown: Element, trigger: Element, _menu: Element) {
+
+	function openDropdown(_dropdown: Element, trigger: HTMLElement, _menu: Element) {
 		trigger.setAttribute('aria-expanded', 'true');
 		_dropdown.setAttribute('data-expanded', 'true');
 		
@@ -258,7 +258,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		}
 	}
 	
-	function closeDropdown(_dropdown: Element, trigger: Element, _menu: Element) {
+	function closeDropdown(_dropdown: Element, trigger: HTMLElement, _menu: Element) {
 		trigger.setAttribute('aria-expanded', 'false');
 		_dropdown.setAttribute('data-expanded', 'false');
 		

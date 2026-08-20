@@ -33,7 +33,8 @@ const lqip =
     const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const img = entry.target;
+          // 观察目标为 img[data-src]，断言为 HTMLImageElement 以访问 img 专属属性
+          const img = entry.target as HTMLImageElement;
           
           // 如果有占位符，替换为实际图片
           if (img.dataset.src) {
@@ -45,12 +46,12 @@ const lqip =
               img.src = imgPreloader.src;
               
               // 添加淡入效果
-              img.style.opacity = 0;
+              img.style.opacity = '0';
               img.style.transition = 'opacity 0.3s ease-in-out';
-              
+
               // 短暂延迟后显示图像
               setTimeout(() => {
-                img.style.opacity = 1;
+                img.style.opacity = '1';
                 
                 // 触发自定义事件
                 img.dispatchEvent(new CustomEvent('image-loaded', { bubbles: true }));
