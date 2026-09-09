@@ -207,10 +207,55 @@
 							// 添加响应式支持
 							const svgElement = element.querySelector("svg");
 							if (svgElement) {
+								// 修正 viewBox：mermaid classDiagram 布局计算的
+								// viewBox 可能装不下实际渲染内容（字体测量偏差导致
+								// 内容底部/右侧被裁剪）。将 viewBox 扩展为
+								// 「原 viewBox ∪ 内容实际边界」并留出边距，只扩不缩
+								const rootG = svgElement.querySelector("g");
+								if (rootG) {
+									try {
+										const bbox = rootG.getBBox();
+										const pad = 10;
+										const vb =
+											svgElement.viewBox &&
+											svgElement.viewBox.baseVal;
+										if (vb && vb.width > 0) {
+											const minX = Math.min(
+												vb.x,
+												bbox.x - pad,
+											);
+											const minY = Math.min(
+												vb.y,
+												bbox.y - pad,
+											);
+											const maxX = Math.max(
+												vb.x + vb.width,
+												bbox.x + bbox.width + pad,
+											);
+											const maxY = Math.max(
+												vb.y + vb.height,
+												bbox.y + bbox.height + pad,
+											);
+											svgElement.setAttribute(
+												"viewBox",
+												`${minX} ${minY} ${maxX - minX} ${maxY - minY}`,
+											);
+										} else {
+											svgElement.setAttribute(
+												"viewBox",
+												`${bbox.x - pad} ${bbox.y - pad} ${bbox.width + pad * 2} ${bbox.height + pad * 2}`,
+											);
+										}
+									} catch {
+										// 测量失败时保持 mermaid 原始 viewBox
+									}
+								}
+
 								svgElement.setAttribute("width", "100%");
 								svgElement.removeAttribute("height");
 								svgElement.style.maxWidth = "100%";
 								svgElement.style.height = "auto";
+								svgElement.style.maxHeight = "none";
 
 								// 强制应用样式
 								if (isDark) {
